@@ -6,7 +6,7 @@ description: "Karnak"
 permalink: /
 ---
 
-<img src="/resources/karnak.png" alt="karnak" style="zoom:45%;" />
+![Logo Karnak]("/resources/karnak.png")
 
 # Karnak
 
