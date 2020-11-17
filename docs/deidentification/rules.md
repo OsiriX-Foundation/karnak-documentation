@@ -2,6 +2,7 @@
 layout: default
 title: Rules
 nav_order: 2
+parent: Deidentification
 permalink: /docs/deidentification/rules
 ---
 
