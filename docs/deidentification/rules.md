@@ -1,8 +1,8 @@
 ---
 layout: default
 title: Rules
-nav_order: 2
 parent: Deidentification
+nav_order: 2
 permalink: /docs/deidentification/rules
 ---
 
