@@ -6,7 +6,7 @@ description: "Karnak"
 permalink: /
 ---
 
-<img src="/home/ciccius/Documents/OsiriX-Foundation/karnak-documentation/resources/karnak.png" alt="karnak" style="zoom:45%;" />
+<img src="/resources/karnak.png" alt="karnak" style="zoom:45%;" />
 
 # Karnak
 
