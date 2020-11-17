@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Deidentification
+title: Rules
 nav_order: 2
-permalink: /docs/deidentification
+permalink: /docs/deidentification/rules
 ---
 
 KARNAK is a gateway for sending DICOM files to one or multiple Application Entity Title (AET).KARNAK offers the possibility to configure multiple destination for an AET.
