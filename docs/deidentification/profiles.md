@@ -269,7 +269,7 @@ For example, in the case of the deidentification of PatientName, the variables a
 
  `tag`: Integer value of (0010,0010)
 
-`stringValue` :'Jorge^Cloney'
+`stringValue` :'Jorge'
 
 `vr` : Person Name
 
