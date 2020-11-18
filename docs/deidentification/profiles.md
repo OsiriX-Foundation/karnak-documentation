@@ -234,13 +234,13 @@ This profile element requires the following parameters:
 * name
 * codename
 * arguments
+* tags
 
 This profile can have these optional parameters:
 
-* tags
 * excludedTags
 
-Expression profile needs the `expr`  `arguments`. This argument will contain the expression to execute. If the value returned by the expression is null, it will pass to the next profile `DICOM basic profile`. If the value returned by the expression is an action, it will execute the action. If the `tags` parameter is not defined, the expression will be executed on each tag present in the DICOM. See the profile example below.
+Expression profile needs the `expr`  `arguments`. This argument will contain the expression to execute. If the value returned by the expression is null, it will pass to the next profile `DICOM basic profile`. If the value returned by the expression is an action, it will execute the action. See the profile example below.
 
 ```yaml
 name: "Example"
@@ -252,6 +252,8 @@ profileElements:
     codename: "expression.on.tags"
     arguments:
       expr: "tag == #Tag.PatientName? Keep() : null"
+    tags: 
+      - "(xxxx,xxxx)"
 
   - name: "DICOM basic profile"
     codename: "basic.dicom.profile"
@@ -259,8 +261,8 @@ profileElements:
 
 The following variables are used to retrieve the information of the current attribute to be de-identified.
 
-- `tag` contain the current attribute's tag.
-- `vr` contain the current attribute's VR.
+- `tag` contain the current attribute tag.
+- `vr` contain the current attribute VR.
 - `stringValue` contain the element current value. 
 
 For example, in the case of the deidentification of PatientName, the variables are setted like following values.
@@ -302,6 +304,8 @@ In this example, for each tags value that equal to 'Jorge' and VR that equal to 
     codename: "expression.on.tags"
     arguments:
       expr: "stringValue == 'Jorge' and vr == #VR.PN? Remove() : null"
+    tags: 
+      - "(xxxx,xxxx)"
 ```
 
 In this example, all string value of tag contain 'Jorge' are replaced by the InstitutionName value. Otherwise, the tag is keep. **Warning** the next profiles will not be executed, because an action is always return.
@@ -311,6 +315,8 @@ In this example, all string value of tag contain 'Jorge' are replaced by the Ins
     codename: "expression.on.tags"
     arguments:
       expr: "stringValue == 'Jorge' and tag == #Tag.PatientName? Replace(getString(#Tag.InstitutionName)) : Keep()"
+    tags: 
+      - "(xxxx,xxxx)"
 ```
 
 In this example, the expression will be apply on the two following tags (0010,0010) and (0010,0212). if (0010,0010) or (0010,0212) tags, contain a string value with 'UNDEFINED' it will execute the Keep() action. Otherwise, the tag is removed.
@@ -324,6 +330,21 @@ In this example, the expression will be apply on the two following tags (0010,00
       - "(0010,0010)" #PatientName
       - "(0010,0212)" #StrainDescription
 ```
+
+In this example, the expression will be apply on the following tag (0008,1030) and it will be replace the value of StudyDescriptuon with 'InstitutionName - StationName'.  
+
+```yaml
+- name: "Expression"
+    codename: "expression.on.tags"
+    arguments:
+      expr: "Replace(getString(#Tag.InstitutionName) + '-' + getString(#Tag.StationName))"
+    tags: 
+      - "(0008,1030)" #StudyDescription
+```
+
+
+
+
 
 ---
 
