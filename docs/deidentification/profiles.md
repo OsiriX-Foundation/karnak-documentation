@@ -278,7 +278,9 @@ Here are the functions that can be used in expressions.
 - `Remove()` Applies the action that remove a tag.
 - `Keep()` Applies the action that keep a tag.
 
-In this example, all tags will execute the expression. The following expression get the value of PatientAge 
+For a better comprehension of an expression profile, there are some example below.
+
+In this example, all tag that equal to a PatientName tag and VR that equal to a Person Name are removed. Otherwise, it will pass to the next profile, because it return null value.
 
 ```yaml
   - name: "Expression"
@@ -289,26 +291,27 @@ In this example, all tags will execute the expression. The following expression 
       - "(xxxx,xxxx)"
 ```
 
-In this example, all tags will execute the expression. The following expression get the value of PatientAge 
+In this example, all string value of tag contain 'toto' are replace by the InstitutionName value. Otherwise, the tag are removed.
 
 ```yaml
   - name: "Expression"
     codename: "expression.on.tags"
     arguments:
-      expr: "stringValue == 'CARDIX'? Replace(getString(#Tag.InstitutionName)) : Remove()"
+      expr: "stringValue == 'toto'? Replace(getString(#Tag.InstitutionName)) : Remove()"
     tags: 
       - "(xxxx,xxxx)"
 ```
 
-In this example, all tags will execute the expression. The following expression get the value of PatientAge 
+In this example, if (0010,0010) or (0010,0212) tags, contain a string value with 'UNDEFINED' are keep. Otherwise, the tag are removed.
 
 ```yaml
   - name: "Expression"
     codename: "expression.on.tags"
     arguments:
-      expr: "getString(#Tag.PatientAge) == null? Keep() : null"
+      expr: "getString(tag) == 'UNDEFINED'? Keep() : Remove()"
     tags: 
-      - "(xxxx,xxxx)"
+      - "(0010,0010)" #PatientName
+      - "(0010,0212)" #StrainDescription
 ```
 
 ---
