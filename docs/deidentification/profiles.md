@@ -157,7 +157,7 @@ This profile element can have these optional parameters:
 
 Below, the examples with the different possible options
 
-1.  **shift** option allows to shift a date according to the following arguments:
+1 . **shift** option allows to shift a date according to the following arguments:
 
 * seconds (required)
 * days (required)
@@ -175,7 +175,7 @@ In this example, all the tags starting with 0010 and that are date fields are of
       - "0010,XXXX"
 ```
 
-2. **shift_range** option allows to shift a date according to a date range according to the following arguments:
+2 . **shift_range** option allows to shift a date according to a date range according to the following arguments:
 
 - max_seconds (required)
 - max_days (required)
@@ -194,10 +194,8 @@ In this example, all the tags starting with 0008,002 and that are date fields ar
       max_days: 100
     option: "shift_range"
     tags:
-      - "0008,002X"
+      - "0008,002X"**date_format** option allows you to delete the days or the month and days.
 ```
-
-3. **date_format** option allows you to delete the days or the month and days.
 
 With this example profile element, a tag value contains this entry date for example  `20140504 `  with the argument key  `remove ` and value  `month_day `, will have this output date  `20140101`.
 
@@ -223,7 +221,99 @@ With this example profile element, a tag value contains this entry date for exam
       - "0008,003X"
 ```
 
+
+
 ---
+
+`expression.on.tags` is a profile which applies an expression to the current tag read when it will browse through each tag during deidentification: 
+
+An expression is a programming language that allows you to return a value or an action according to a certain condition.
+
+This profile element requires the following parameters:
+
+* name
+* codename
+* arguments
+
+This profile can have these optional parameters:
+
+* tags
+* excludedTags
+
+Expression profile needs an `arguments` with the key  `expr ` and the value containing the expression. If the value returned by the expression is null, it will pass to the next profile `DICOM basic profile`. If the value returned by the expression is an action, it will execute the action and then pass to the next tag. See the profile example below.
+
+```yaml
+name: "Example"
+version: "1.0"
+minimumKarnakVersion: "1.0"
+defaultIssuerOfPatientID: ""
+profileElements:
+  - name: "Expression"
+    codename: "expression.on.tags"
+    arguments:
+      expr: "tag == #Tag.PatientName? Keep() : null"
+    tags: 
+      - "(xxxx,xxxx)"
+
+  - name: "DICOM basic profile"
+    codename: "basic.dicom.profile"
+```
+
+Here are the variables that can used in expressions.
+
+- `tag` is a current tag value read when it will browse through each tag of a DICOM instance during deidentification.
+- `vr` is a current VR value read when it will browse through each tag of a DICOM instance during deidentification.
+
+Here are the constant that can used in expressions.
+
+- `#Tag` is a constant that permit to access to the all tag integer value in the DICOM standard. Example, `#Tag.PatientBirthDate` allow to access to the integer value of tag (0010,0030).
+- `#VR` is a constant that permit to access tho the all VR value in the DICOM standard. Example, `#VR.LO` is the Long String type.
+
+Here are the functions that can be used in expressions.
+
+- `getString(int tag)` Get the value of a certain tag in the DICOM instance.
+- `tagIsPresent(int tag)` Checks if tag is present in the DICOM instance
+- `ReplaceNull()` Applies the action that replaces by null a tag.
+- `Replace(String dummyValue)` Applies the action that replaces by a value a tag.
+- `Remove()` Applies the action that remove a tag.
+- `Keep()` Applies the action that keep a tag.
+
+In this example, all tags will execute the expression. The following expression get the value of PatientAge 
+
+```yaml
+  - name: "Expression"
+    codename: "expression.on.tags"
+    arguments:
+      expr: "tag == #Tag.PatientName and vr == #VR.PN? Remove() : null"
+    tags: 
+      - "(xxxx,xxxx)"
+```
+
+In this example, all tags will execute the expression. The following expression get the value of PatientAge 
+
+```yaml
+  - name: "Expression"
+    codename: "expression.on.tags"
+    arguments:
+      expr: "stringValue == 'CARDIX'? Replace(getString(#Tag.InstitutionName)) : Remove()"
+    tags: 
+      - "(xxxx,xxxx)"
+```
+
+In this example, all tags will execute the expression. The following expression get the value of PatientAge 
+
+```yaml
+  - name: "Expression"
+    codename: "expression.on.tags"
+    arguments:
+      expr: "getString(#Tag.PatientAge) == null? Keep() : null"
+    tags: 
+      - "(xxxx,xxxx)"
+```
+
+---
+
+
 
 ## A full example of profile
 
