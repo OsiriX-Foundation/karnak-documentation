@@ -194,8 +194,10 @@ In this example, all the tags starting with 0008,002 and that are date fields ar
       max_days: 100
     option: "shift_range"
     tags:
-      - "0008,002X"**date_format** option allows you to delete the days or the month and days.
+      - "0008,002X"
 ```
+
+3 .**date_format** option allows you to delete the days or the month and days.
 
 With this example profile element, a tag value contains this entry date for example  `20140504 `  with the argument key  `remove ` and value  `month_day `, will have this output date  `20140101`.
 
@@ -225,9 +227,7 @@ With this example profile element, a tag value contains this entry date for exam
 
 ---
 
-`expression.on.tags` is a profile which applies an expression to the current tag read when it will browse through each tag during deidentification: 
-
-An expression is a programming language that allows you to return a value or an action according to a certain condition.
+`expression.on.tags` is a profile which applies an expression to the given tag. An expression is a programming language that allows you to return a value or an action according to a certain condition.
 
 This profile element requires the following parameters:
 
@@ -240,7 +240,7 @@ This profile can have these optional parameters:
 * tags
 * excludedTags
 
-Expression profile needs an `arguments` with the key  `expr ` and the value containing the expression. If the value returned by the expression is null, it will pass to the next profile `DICOM basic profile`. If the value returned by the expression is an action, it will execute the action and then pass to the next tag. See the profile example below.
+Expression profile needs the `expr`  `arguments`. This argument will contain the expression to execute. If the value returned by the expression is null, it will pass to the next profile `DICOM basic profile`. If the value returned by the expression is an action, it will execute the action. If the `tags` parameter is not defined, the expression will be executed on each tag present in the DICOM. See the profile example below.
 
 ```yaml
 name: "Example"
@@ -252,63 +252,74 @@ profileElements:
     codename: "expression.on.tags"
     arguments:
       expr: "tag == #Tag.PatientName? Keep() : null"
-    tags: 
-      - "(xxxx,xxxx)"
 
   - name: "DICOM basic profile"
     codename: "basic.dicom.profile"
 ```
 
-Here are the variables that can used in expressions.
+The following variables are used to retrieve the information of the current attribute to be de-identified.
 
-- `tag` is a current tag value read when it will browse through each tag of a DICOM instance during deidentification.
-- `vr` is a current VR value read when it will browse through each tag of a DICOM instance during deidentification.
+- `tag` contain the current attribute's tag.
+- `vr` contain the current attribute's VR.
+- `stringValue` contain the element current value. 
 
-Here are the constant that can used in expressions.
+For example, in the case of the deidentification of PatientName, the variables are setted like following values.
+
+ `tag`: Integer value of (0010,0010)
+
+`stringValue` :'Jorge^Cloney'
+
+`vr` : Person Name
+
+Here are the constant that can be used in expressions.
 
 - `#Tag` is a constant that permit to access to the all tag integer value in the DICOM standard. Example, `#Tag.PatientBirthDate` allow to access to the integer value of tag (0010,0030).
 - `#VR` is a constant that permit to access tho the all VR value in the DICOM standard. Example, `#VR.LO` is the Long String type.
 
 Here are the functions that can be used in expressions.
 
-- `getString(int tag)` Get the value of a certain tag in the DICOM instance.
-- `tagIsPresent(int tag)` Checks if tag is present in the DICOM instance
-- `ReplaceNull()` Applies the action that replaces by null a tag.
-- `Replace(String dummyValue)` Applies the action that replaces by a value a tag.
-- `Remove()` Applies the action that remove a tag.
-- `Keep()` Applies the action that keep a tag.
+Available functions for get a value:
+
+- `getString(int tag)` Get the value of the given tag in the DICOM instance. In the case of the tag is not present in the DICOM instance, the method return null. 
+
+- `tagIsPresent(int tag)` Checks if tag is present in the DICOM instance.
+
+  
+
+Available actions:
+
+- `ReplaceNull()` Set to empty the tag value. 
+- `Replace(String dummyValue)` Replace tag value.
+- `Remove()` Remove the tag.
+- `Keep()` Keep the tag.
 
 For a better comprehension of an expression profile, there are some example below.
 
-In this example, all tag that equal to a PatientName tag and VR that equal to a Person Name are removed. Otherwise, it will pass to the next profile, because it return null value.
+In this example, for each tags value that equal to 'Jorge' and VR that equal to a Person Name are removed. Otherwise, it will pass to the next profile, because it return null value.
 
 ```yaml
   - name: "Expression"
     codename: "expression.on.tags"
     arguments:
-      expr: "tag == #Tag.PatientName and vr == #VR.PN? Remove() : null"
-    tags: 
-      - "(xxxx,xxxx)"
+      expr: "stringValue == 'Jorge' and vr == #VR.PN? Remove() : null"
 ```
 
-In this example, all string value of tag contain 'toto' are replaced by the InstitutionName value. Otherwise, the tag is removed.
+In this example, all string value of tag contain 'Jorge' are replaced by the InstitutionName value. Otherwise, the tag is keep. **Warning** the next profiles will not be executed, because an action is always return.
 
 ```yaml
   - name: "Expression"
     codename: "expression.on.tags"
     arguments:
-      expr: "stringValue == 'toto'? Replace(getString(#Tag.InstitutionName)) : Remove()"
-    tags: 
-      - "(xxxx,xxxx)"
+      expr: "stringValue == 'Jorge' and tag == #Tag.PatientName? Replace(getString(#Tag.InstitutionName)) : Keep()"
 ```
 
-In this example, if (0010,0010) or (0010,0212) tags, contain a string value with 'UNDEFINED' it will execute the Keep() action. Otherwise, the tag is removed.
+In this example, the expression will be apply on the two following tags (0010,0010) and (0010,0212). if (0010,0010) or (0010,0212) tags, contain a string value with 'UNDEFINED' it will execute the Keep() action. Otherwise, the tag is removed.
 
 ```yaml
   - name: "Expression"
     codename: "expression.on.tags"
     arguments:
-      expr: "getString(tag) == 'UNDEFINED'? Keep() : Remove()"
+      expr: "stringValue == 'UNDEFINED'? Keep() : Remove()"
     tags: 
       - "(0010,0010)" #PatientName
       - "(0010,0212)" #StrainDescription
