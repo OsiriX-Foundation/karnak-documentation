@@ -291,7 +291,7 @@ In this example, all tag that equal to a PatientName tag and VR that equal to a 
       - "(xxxx,xxxx)"
 ```
 
-In this example, all string value of tag contain 'toto' are replace by the InstitutionName value. Otherwise, the tag are removed.
+In this example, all string value of tag contain 'toto' are replaced by the InstitutionName value. Otherwise, the tag is removed.
 
 ```yaml
   - name: "Expression"
@@ -302,7 +302,7 @@ In this example, all string value of tag contain 'toto' are replace by the Insti
       - "(xxxx,xxxx)"
 ```
 
-In this example, if (0010,0010) or (0010,0212) tags, contain a string value with 'UNDEFINED' are keep. Otherwise, the tag are removed.
+In this example, if (0010,0010) or (0010,0212) tags, contain a string value with 'UNDEFINED' it will execute the Keep() action. Otherwise, the tag is removed.
 
 ```yaml
   - name: "Expression"
