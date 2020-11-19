@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Deidentification
+title: De-identification
 nav_order: 2
 has_children: true
 permalink: /docs/deidentification
 ---
 
-# Deidentification
+# De-identification
