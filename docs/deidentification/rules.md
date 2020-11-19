@@ -1,7 +1,7 @@
 ---
 layout: default
 title: How KARNAK does ?
-parent: Deidentification
+parent: De-identification
 nav_order: 2
 permalink: /docs/deidentification/rules
 ---

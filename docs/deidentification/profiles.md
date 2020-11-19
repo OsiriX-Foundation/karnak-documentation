@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Profiles
-parent: Deidentification
+parent: De-identification
 nav_order: 1
 permalink: /docs/deidentification/profiles
 ---
