@@ -26,7 +26,7 @@ This page allows the creation of a forward node and its edition. All the forward
 
 Once clicked on the button "New forward node", a form will appear, as below, instead of the "New forward node" button (It will replace it).
 
-![New Forward Node](resources/gateway_new_forwardnode.png)
+![New Forward Node](resources/gateway_new_forwardnode.gif)
 
 To create a new forward node, you have to complete the "Forward AETitle" input and click on the "Add" button. Once added, it will appear in the list of forward nodes and will be selected. A Forward AETitle must be unique.
 
