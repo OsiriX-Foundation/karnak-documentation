@@ -10,12 +10,12 @@ permalink: /docs/userguide/profiles
 
 The profile page allows you to manage your profiles. On this page, you can perform the following actions:
 
-* [Upload a profile](#profile-drag-and-drop-area)
-* [View the profiles available](#profile-list)
-* [View profile details](#profile-details)
-* [Download a profile](#profile-details)
-* [Remove a profile](#profile-details)
-* [Edit a profile](#profile-details)
+* [Upload a profile](#1-profile-drag-and-drop-area)
+* [View the profiles available](#2-profile-list)
+* [View profile details](#3-profile-details)
+* [Download a profile](#3-profile-details)
+* [Remove a profile](#3-profile-details)
+* [Edit a profile](#3-profile-details)
 
 KARNAK has the "Dicom Basic Profile" profile by default, the details about this profile is explained in the section [How KARNAK does ?](../deidentification/rules). This profile cannot be deleted or edited, except for the value of default issuer of patient ID. 
 
