@@ -13,6 +13,8 @@ Besides different configurations of the destination like the DICOM endpoint or t
 
 A project defined the de-idenfication method and a secret that will be used for generate random values as UID or the shift date.
 
+## Basic Profile
+
 The reference profile of de-identification is given by the [DICOM standard](http://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html). This profile offer an exhaustive list of DICOM tags to manage to allow the de-identification of the instance.
 
 To manage the tags defined, the Basic Prof. offer 5 actions to be carried out.
