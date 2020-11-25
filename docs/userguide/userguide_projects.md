@@ -12,10 +12,11 @@ When you want to use KARNAK's de-identification methods, you need to associate a
 
 The project page allows you to manage your projects. On this page, you can perform the following actions:
 
-* Create a new project
-* View the projects created
-* Remove a project
-* Edit a project
+* [Create a new project](#1-create-a-project)
+* [View the projects created](#2-project-list)
+* [Edit a project](#3-project-metadata)
+* [Edit project secret](#4-project-secret)
+* [Remove a project](#5-action-buttons)
 
 ![project page](resources/project_main.png)
 
