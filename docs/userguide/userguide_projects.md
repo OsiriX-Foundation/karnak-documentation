@@ -24,7 +24,7 @@ The project page allows you to manage your projects. On this page, you can perfo
 
 To create a new project, you must give a project name and choose a profile that will be used for de-identification. To validate your choose, you can click on the button "Add". 
 
-The list of profiles that you can associated with a project are the profiles that you have uploaded, see [Profile drag and drop area](../profiles#1-profile-drag-and-drop-area).
+The list of profiles that you can associated with a project are the profiles that you have uploaded, see [Profile drag and drop area](profiles#1-profile-drag-and-drop-area).
 
 ### 2. Project list
 
