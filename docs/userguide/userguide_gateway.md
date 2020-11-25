@@ -64,13 +64,13 @@ You can click on a destination or source present in this list to view details or
 
 The action buttons will change depending the navigation selected.
 
-For a destination, these buttons defined the protocol you can use to create a destination. The protocol can be DICOM or DICOM WEB. The details for the destination creation will be explained below in the section [Destinations](#Destinations).
+For a destination, these buttons defined the protocol you can use to create a destination. The protocol can be DICOM or DICOM WEB. The details for the destination creation will be explained below in the section [Destinations](#destinations).
 
 If you click on the DICOM button, the DICOM destination creation page will appear.
 
 If you click on the STOW button, the DICOM WEB destination creation page will appear.
 
-For a source, the illustration below show the button. The details for the source creation will be explained below in the section [Sources](#Sources).
+For a source, the illustration below show the button. The details for the source creation will be explained below in the section [Sources](#sources).
 
 ![Sources button](resources/gateway_sourcesbutton.png)
 
@@ -85,5 +85,7 @@ You have three action buttons available.
 * "Cancel" will cancel the changes applied on the forward node inputs.
 
 ## Destinations
+
+
 
 ## Sources
