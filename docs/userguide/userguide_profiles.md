@@ -26,7 +26,7 @@ KARNAK has the "Dicom Basic Profile" profile by default, the details about this 
 
 As presented below, you can drag and drop your yaml profile configuration.
 
-![upload profile](resources/profile_upload.gif)
+<img src="resources/profile_upload.gif" alt="upload profile" style="zoom:75%;" />
 
 ### 2. Profile list
 
@@ -40,7 +40,7 @@ Once you have clicked on a profile, this panel will display the details about th
 
 If you have drag and drop your profile, the details about the profile uploaded will be presented. In case your profile contains any errors, it will show where and what the error are, as the illustration below.
 
-<img src="resources/profile_error.png" alt="error profile" style="zoom:70%;" />
+<img src="resources/profile_error.png" alt="error profile" style="zoom:50%;" />
 
 The following table shows you the different action of icons present in the profile details.
 
