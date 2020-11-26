@@ -21,5 +21,5 @@ The second one, is to keep your pseudonym temporary (7 days) in KARNAK.
 
 ### 2. Action buttons
 
-### 3. Pseudonym keeped temporarily
+### 3. Pseudonym kept temporarily
 
