@@ -86,9 +86,19 @@ You have three action buttons available.
 
 ## Destinations
 
+**Beware**, to activate the de-identification in a destination, you must first [create a new project](/projects#1-create-a-project).
+
+You can create a destination that sends your studies using the [DICOM](#dicom-destination) or [STOW](#stow-destination) protocol.
+
 ### DICOM destination
 
+![Creation source](resources/destination_DICOM.png)
 
+
+
+### STOW destination
+
+### Activate the de-identification
 
 ## Sources
 
