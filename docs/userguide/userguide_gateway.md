@@ -98,13 +98,13 @@ In the case that no source is defined, the verification does not take place and 
 
 ![Creation source](resources/source_main.png)
 
-#### 1. Form input
+### 1. Form input
 
 All the fields are optional, excepted the AETitle, which is mandatory.
 
 If the "Check the hostname" box is checked, KARNAK also checks the hostname.
 
-#### 2. Action buttons
+### 2. Action buttons
 
 You have three action buttons available.
 
