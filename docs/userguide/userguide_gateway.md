@@ -86,6 +86,28 @@ You have three action buttons available.
 
 ## Destinations
 
+### DICOM destination
+
 
 
 ## Sources
+
+A source is used to perform control over the sending entity to the associated forward node. It will check if the received DICOM is provided from an AET known.
+
+In the case that no source is defined, the verification does not take place and the forward node can receive data from any AET.
+
+![Creation source](resources/source_main.png)
+
+#### 1. Form input
+
+All the fields are optional, excepted the AETitle, which is mandatory.
+
+If the "Check the hostname" box is checked, KARNAK also checks the hostname.
+
+#### 2. Action buttons
+
+You have three action buttons available.
+
+* "Save" will create a new source or update your modifications on the selected source.
+* "Delete" will delete the selected source.
+* "Cancel" will cancel the changes applied on the selected source. You will be redirect to the forward node.
