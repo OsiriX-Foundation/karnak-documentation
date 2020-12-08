@@ -4,7 +4,7 @@ title: Gateway
 parent: User guide
 nav_order: 1
 permalink: /docs/userguide/gateway
-
+baselevel: 2
 ---
 
 # Gateway
@@ -240,6 +240,38 @@ Here you can select the project to use for de-identification.
 A message below shows you which profile is associated with the selected project.
 
 #### 2. Pseudonym Type
+
+You can chose three different type of pseudonym, illustrated below.
+
+![Pseudonym Type](resources/pseudonym_type.png)
+
+**Pseudonym are generate automatically** will generate the pseudonym and store it by using Mainzelliste.
+
+**Pseudonym is already store in KARNAK** will use the pseudonym that an user has added by using the [pseudonym page](extpseudo). Pseudonym added alive in the KARNAK cache. **Beware** if the patient to be de-identified is not present in the KARNAK cache, it will not be sent.
+
+**Pseudonym is in a DICOM tag**, will look for the pseudonym in a DICOM tag. The illustration below shows the different elements to configure.
+
+![Pseudonym is in a DICOM tag](resources/pseudonym_dicomtag.png)
+
+**1 Use as Patient Name**
+
+Instead to use the [generated patient name by KARNAK](../deidentification/rules#patientid-generation), it will contains the pseudonym find in the DICOM tag.
+
+**2 Fields to find the pseudonym**
+
+This fields are used to define the configuration to find the pseudonym.
+
+Tag - will contain the tag where KARNAK should look for the pseudonym.
+
+Delimiter - will contain the delimiter to use for split the value of the tag. (Optionnal)
+
+Position - will contain the position where the pseudonym is after the split. (Optionnal)
+
+In case the delimiter and the position fields are not defined, KARNAK will directly use the value present in the given tag.
+
+**3 Save the pseudonym**
+
+If "Save pseudonym" is checked, KARNAK will save the patient and his pseudonym in Mainzelliste.
 
 ## Sources
 
