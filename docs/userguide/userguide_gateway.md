@@ -129,6 +129,10 @@ If "Authorized SOPs" **is checked**, you can define one or more SOPs.
 
 If "Authorized SOPs" **is not checked**, KARNAK will not apply a SOP filter and will let all SOPs pass.
 
+The following illustration shows the list of SOPs with two SOPs selected.
+
+<img src="resources/destination_SOPfilter.png" alt="Creation source" style="zoom:50%;" />
+
 #### 5. Actions buttons
 
 You have three action buttons available.
