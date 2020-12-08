@@ -22,7 +22,7 @@ This page allows the creation of a forward node and its edition. All the forward
 
 ![gateway_page](resources/gateway_forwardnode.png)
 
-### 1. Creation of a forward node
+**1. Creation of a forward node**
 
 Once clicked on the button "New forward node", a form will appear, as below, instead of the "New forward node" button (It will replace it).
 
@@ -30,37 +30,37 @@ Once clicked on the button "New forward node", a form will appear, as below, ins
 
 To create a new forward node, you have to complete the "Forward AETitle" input and click on the "Add" button. Once added, it will appear in the list of forward nodes and will be selected. A Forward AETitle must be unique.
 
-### 2. Forward node list
+**2. Forward node list**
 
 This list displays all the forward nodes created in your KARNAK instance. You can select a forward node to view and manage its details on the right panel.
 
-### 3. Forward node inputs
+**3. Forward node inputs**
 
 You can directly modify the value of the forward AETitle and its description. To save your changes, you have to click on the "Save" action button.
 
-### 4. Forward node sources or destinations
+**4. Forward node sources or destinations**
 
 In an Application Entity, you can add source control, which checks if the received DICOM is provided from a known source. You can also create one or more destinations to distribute received DICOM instance. These destinations can communicate with the DICOM or DICOM WEB protocol.
 
 ![gateway destinations](resources/gateway_destinationspage.png)
 
-#### 4.1 Sources or destinations navigation
+**4.1 Sources or destinations navigation**
 
 Depending on the navigation selected, between sources and destinations, the list and the action buttons will change.
 
-#### 4.2 Filter in destinations or sources list
+**4.2 Filter in destinations or sources list**
 
 The destination filter will use the destination description.
 
 The source filter will use the AE title, hostname and description source.
 
-#### 4.3 Destination or sources list
+**4.3 Destination or sources list**
 
 All the destinations or sources, depending on the navigation selected, associated to the forward node is listed here.
 
 You can click on a destination or source present in this list to view details or to modify it.
 
-#### 4.4 Action buttons
+**4.4 Action buttons**
 
 The action buttons will change depending the navigation selected.
 
@@ -76,7 +76,7 @@ For a source, the illustration below show the button. The details for the source
 
  If you click on the the Sources button, the source creation page will appear.
 
-### 5. Action buttons
+**5. Action buttons**
 
 You have three action buttons available.
 
@@ -100,7 +100,7 @@ For a DICOM destination the following is mandatory:
 
 ![Creation source](resources/destination_DICOM.png)
 
-#### 1. Destination field
+**1. Destination field**
 
 These fields define the destination to which KARNAK should send.
 
@@ -108,7 +108,7 @@ The hostname and the port will be used to define the host in case the "Use AETit
 
 If "Use AETitle destination" is checked, the AETitle defined will be used as host.
 
-#### 2. Notifications
+**2. Notifications**
 
 These fields will allow you to define the emails to be notified during various events that take place during the sending.
 
@@ -117,11 +117,11 @@ These fields will allow you to define the emails to be notified during various e
 * Subject values: Values injected in the pattern [PatientID StudyDescription StudyDate StudyInstanceUID]. Default value: PatientID,StudyDescription
 * Interval: Interval in seconds for sending a notification (when no new image is arrived in the archive folder). Default value: 45
 
-#### 3. De-identification
+**3. De-identification**
 
 The de-identification in the DICOM destination will be explained below, in the section [Activate the de-identification](#activate-the-de-identification)
 
-#### 4. Authorized SOPs
+**4. Authorized SOPs**
 
 This field allows you to define a filter on a list of SOPs. The chosen SOPs will serve as a filter for KARNAK when sending. This allow you to define a destination which is applied only for SOPs of your choice. The [SOPs present](http://dicom.nema.org/medical/Dicom/current/output/chtml/part04/sect_B.5.html) in the list are defined by DICOM.
 
@@ -133,7 +133,7 @@ The following illustration shows the list of SOPs with two SOPs selected.
 
 <img src="resources/destination_SOPfilter.png" alt="Creation source" style="zoom:50%;" />
 
-#### 5. Actions buttons
+**5. Actions buttons**
 
 You have three action buttons available.
 
@@ -149,13 +149,13 @@ For a STOW destination the following is mandatory:
 
 ![Creation source](resources/destination_stow.png)
 
-#### 1. Destination field
+**1. Destination field**
 
 The URL is the DICOM endpoint of your final destination.
 
 The URL credentials is the STOW-RS service (format is \"user:password\")
 
-#### 2. Destination headers
+**2. Destination headers**
 
 This field will contains the headers for HTTP request.
 
@@ -166,7 +166,7 @@ To add the header *Authorization: Bearer 123456790* you must write following the
 <value>Bearer 1234567890</value>
 ```
 
-#### 3. Notifications
+**3. Notifications**
 
 These fields will allow you to define the emails to be notified during various events that take place during the sending.
 
@@ -175,11 +175,11 @@ These fields will allow you to define the emails to be notified during various e
 * Subject values: Values injected in the pattern [PatientID StudyDescription StudyDate StudyInstanceUID]. Default value: PatientID,StudyDescription
 * Interval: Interval in seconds for sending a notification (when no new image is arrived in the archive folder). Default value: 45
 
-#### 4. De-identification
+**4. De-identification**
 
 The de-identification in the STOW destination will be explained below, in the section [Activate the de-identification](#activate-the-de-identification)
 
-#### 5. Authorized SOPs
+**5. Authorized SOPs**
 
 This field allows you to define a filter on a list of SOPs. The chosen SOPs will serve as a filter for KARNAK when sending. This allow you to define a destination which is applied only for SOPs of your choice. The [SOPs present](http://dicom.nema.org/medical/Dicom/current/output/chtml/part04/sect_B.5.html) in the list are defined by DICOM.
 
@@ -191,7 +191,7 @@ The following illustration shows the list of SOPs with two SOPs selected.
 
 <img src="resources/destination_SOPfilter.png" alt="Creation source" style="zoom:50%;" />
 
-#### 6. Switching in different KHEOPS albums
+**6. Switching in different KHEOPS albums**
 
 You have the possibility of sharing your data in different KHEOPS album. For this you must use a DICOM endpoint from KHEOPS.
 
@@ -207,7 +207,7 @@ The following illustration show a scenario of this functionality. The illustrate
 
 Details for configuring this feature are explained in the [KHEOPS](kheops) chapter.
 
-#### 7. Actions buttons
+**7. Actions buttons**
 
 You have three action buttons available.
 
@@ -233,13 +233,13 @@ If you have already create the project, you can configure the de-identifcation.
 
 ![Configure de-identification](resources/deidentification_activate.png)
 
-#### 1. Project
+**1. Project**
 
 Here you can select the project to use for de-identification.
 
 A message below shows you which profile is associated with the selected project.
 
-#### 2. Pseudonym Type
+**2. Pseudonym Type**
 
 You can chose three different type of pseudonym, illustrated below.
 
@@ -281,13 +281,13 @@ In the case that no source is defined, the verification does not take place and 
 
 ![Creation source](resources/source_main.png)
 
-### 1. Form input
+**1. Form input**
 
 All the fields are optional, excepted the AETitle, which is mandatory.
 
 If the "Check the hostname" box is checked, KARNAK also checks the hostname.
 
-### 2. Action buttons
+**2. Action buttons**
 
 You have three action buttons available.
 
