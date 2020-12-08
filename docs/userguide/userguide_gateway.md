@@ -92,9 +92,50 @@ You can create a destination that sends your studies using the [DICOM](#dicom-de
 
 ### DICOM destination
 
+For a DICOM destination the following is mandatory:
+
+* AETitle
+* Hostname
+* Port ( Should be between 1 and 65535)
+
 ![Creation source](resources/destination_DICOM.png)
 
+#### 1. Destination field
 
+These fields define the destination to which KARNAK should send.
+
+The hostname and the port will be used to define the host in case the "Use AETitle destination" is not checked.
+
+If "Use AETitle destination" is checked, the AETitle defined will be used as host.
+
+#### 2. Notifications - Will be updated
+
+These fields will allow you to define the emails to be notified during various events that take place during the sending.
+
+* Error subject prefix: Defines a prefix to the subject of the mail sent.
+* Subject pattern: Defines the subject pattern in the mail sent.
+* Subject values: 
+* Interval: Defines the email sending interval in seconds
+
+#### 3. De-identification
+
+The de-identification in the DICOM destination will be explained below, in the section [Activate the de-identification](#activate-the-de-identification)
+
+#### 4. Authorized SOPs
+
+This field allows you to define a filter on a list of SOPs. The chosen SOPs will serve as a filter for KARNAK when sending. This allow you to define a destination which is applied only for SOPs of your choice. The [SOPs present](http://dicom.nema.org/medical/Dicom/current/output/chtml/part04/sect_B.5.html) in the list are defined by DICOM.
+
+If "Authorized SOPs" **is checked**, you can define one or more SOPs.
+
+If "Authorized SOPs" **is not checked**, KARNAK will not apply a SOP filter and will let all SOPs pass.
+
+#### 5. Actions buttons
+
+You have three action buttons available.
+
+* "Save" will create a new DICOM destination or update your modifications on the selected DICOM destination.
+* "Delete" will delete the selected DICOM destination.
+* "Cancel" will cancel the changes applied on the selected source. You will be redirect to the forward node.
 
 ### STOW destination
 
