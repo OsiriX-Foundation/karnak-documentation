@@ -217,6 +217,30 @@ You have three action buttons available.
 
 ### Activate the de-identification
 
+To use de-identification, a project must be present. See [create a new project](projects#1-create-a-project) if you haven't already created a project.
+
+When you created a new destination, "Activate the de-identification" is not checked. When you check the box, KARNAK will react in two different ways depending on whether you have a project or not.
+
+If you have not yet created a project a pop up will appear asking you to create a project, as illustrated below. 
+
+![Popup deidentificatio](resources/popup_deidentification.png)
+
+* **Create a project** will redirect you to the page project. **Beware**, if you click on this button your configuration already made will be lost, save it first.
+
+* **Continue** will close the pop-up and the de-identification will be unchecked.
+
+If you have already create the project, you can configure the de-identifcation.
+
+![Configure de-identification](resources/deidentification_activate.png)
+
+#### 1. Project
+
+Here you can select the project to use for de-identification.
+
+A message below shows you which profile is associated with the selected project.
+
+#### 2. Pseudonym Type
+
 ## Sources
 
 A source is used to perform control over the sending entity to the associated forward node. It will check if the received DICOM is provided from an AET known.
