@@ -86,7 +86,7 @@ You have three action buttons available.
 
 ## Destinations
 
-**Beware**, to activate the de-identification in a destination, you must first [create a new project](/projects#1-create-a-project).
+**Beware**, to activate the de-identification in a destination, you must first [create a new project](projects#1-create-a-project).
 
 You can create a destination that sends your studies using the [DICOM](#dicom-destination) or [STOW](#stow-destination) protocol.
 
@@ -190,6 +190,22 @@ If "Authorized SOPs" **is not checked**, KARNAK will not apply a SOP filter and 
 The following illustration shows the list of SOPs with two SOPs selected.
 
 <img src="resources/destination_SOPfilter.png" alt="Creation source" style="zoom:50%;" />
+
+#### 6. Switching in different KHEOPS albums
+
+You have the possibility of sharing your data in different KHEOPS album. For this you must use a DICOM endpoint from KHEOPS.
+
+The purpose of this functionality is to allow sending your data to a single destination and to use the KHEOPS API to propagate your data to different places without having to create a new destination.
+
+The following illustration show a scenario of this functionality. The illustrated scenario allows you to send a DICOM data to KARNAK. KARNAK has a destination defined to send the data to a KHEOPS album (Album main). This means that this album will regroup all the data sent by KANRAK. To prevent researchers or end users from having access to all the data, the data will be shared in other albums according to defined conditions.
+
+1. The DICOM data is send to KARNAK
+2. KARNAK send the data to the album main in KHEOPS
+3. The data will be shared in the album X and in the album Y
+
+![Switching KHEOPS example](resources/switching_kheops_scenario.png)
+
+Details for configuring this feature are explained in the [KHEOPS](kheops) chapter.
 
 #### 7. Actions buttons
 
