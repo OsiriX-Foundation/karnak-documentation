@@ -112,10 +112,10 @@ If "Use AETitle destination" is checked, the AETitle defined will be used as hos
 
 These fields will allow you to define the emails to be notified during various events that take place during the sending.
 
-* Error subject prefix: Defines a prefix to the subject of the mail sent.
-* Subject pattern: Defines the subject pattern in the mail sent.
-* Subject values: 
-* Interval: Defines the email sending interval in seconds
+* Error subject prefix: Prefix of the email object when containing an issue. Default value: ERROR.
+* Subject pattern: Pattern of the email object, see this [link](https://dzone.com/articles/java-string-format-examples). Default value: [Karnak Notification] %s %.30s.
+* Subject values: Values injected in the pattern [PatientID StudyDescription StudyDate StudyInstanceUID]. Default value: PatientID,StudyDescription
+* Interval: Interval in seconds for sending a notification (when no new image is arrived in the archive folder). Default value: 45
 
 #### 3. De-identification
 
@@ -142,6 +142,62 @@ You have three action buttons available.
 * "Cancel" will cancel the changes applied on the selected source. You will be redirect to the forward node.
 
 ### STOW destination
+
+For a STOW destination the following is mandatory:
+
+* URL
+
+![Creation source](resources/destination_stow.png)
+
+#### 1. Destination field
+
+The URL is the DICOM endpoint of your final destination.
+
+The URL credentials is the STOW-RS service (format is \"user:password\")
+
+#### 2. Destination headers
+
+This field will contains the headers for HTTP request.
+
+To add the header *Authorization: Bearer 123456790* you must write following the format below:
+
+```
+<key>Authorization</key>
+<value>Bearer 1234567890</value>
+```
+
+#### 3. Notifications - Will be updated
+
+These fields will allow you to define the emails to be notified during various events that take place during the sending.
+
+* Error subject prefix: Prefix of the email object when containing an issue. Default value: ERROR.
+* Subject pattern: Pattern of the email object, see this [link](https://dzone.com/articles/java-string-format-examples). Default value: [Karnak Notification] %s %.30s.
+* Subject values: Values injected in the pattern [PatientID StudyDescription StudyDate StudyInstanceUID]. Default value: PatientID,StudyDescription
+* Interval: Interval in seconds for sending a notification (when no new image is arrived in the archive folder). Default value: 45
+
+#### 4. De-identification
+
+The de-identification in the STOW destination will be explained below, in the section [Activate the de-identification](#activate-the-de-identification)
+
+#### 5. Authorized SOPs
+
+This field allows you to define a filter on a list of SOPs. The chosen SOPs will serve as a filter for KARNAK when sending. This allow you to define a destination which is applied only for SOPs of your choice. The [SOPs present](http://dicom.nema.org/medical/Dicom/current/output/chtml/part04/sect_B.5.html) in the list are defined by DICOM.
+
+If "Authorized SOPs" **is checked**, you can define one or more SOPs.
+
+If "Authorized SOPs" **is not checked**, KARNAK will not apply a SOP filter and will let all SOPs pass.
+
+The following illustration shows the list of SOPs with two SOPs selected.
+
+<img src="resources/destination_SOPfilter.png" alt="Creation source" style="zoom:50%;" />
+
+#### 7. Actions buttons
+
+You have three action buttons available.
+
+* "Save" will create a new STOW destination or update your modifications on the selected STOW destination.
+* "Delete" will delete the selected STOW destination.
+* "Cancel" will cancel the changes applied on the selected source. You will be redirect to the forward node.
 
 ### Activate the de-identification
 
