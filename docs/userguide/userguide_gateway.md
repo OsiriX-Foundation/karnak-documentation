@@ -108,7 +108,7 @@ The hostname and the port will be used to define the host in case the "Use AETit
 
 If "Use AETitle destination" is checked, the AETitle defined will be used as host.
 
-#### 2. Notifications - Will be updated
+#### 2. Notifications
 
 These fields will allow you to define the emails to be notified during various events that take place during the sending.
 
@@ -166,7 +166,7 @@ To add the header *Authorization: Bearer 123456790* you must write following the
 <value>Bearer 1234567890</value>
 ```
 
-#### 3. Notifications - Will be updated
+#### 3. Notifications
 
 These fields will allow you to define the emails to be notified during various events that take place during the sending.
 
