@@ -247,7 +247,7 @@ You can chose three different type of pseudonym, illustrated below.
 
 **Pseudonym are generate automatically** will generate the pseudonym and store it by using Mainzelliste.
 
-**Pseudonym is already store in KARNAK** will use the pseudonym that an user has added by using the [pseudonym page](extpseudo). Pseudonym added alive in the KARNAK cache. **Beware** if the patient to be de-identified is not present in the KARNAK cache, it will not be sent.
+**Pseudonym is already store in KARNAK** will use the pseudonym that an user has added by using the [pseudonym page](extpseudo). Pseudonym added alive in the KARNAK cache. **Beware** if the patient to be de-identified is not present in the KARNAK cache, it will be generated automatically with Mainzelliste.
 
 **Pseudonym is in a DICOM tag**, will look for the pseudonym in a DICOM tag. The illustration below shows the different elements to configure.
 
