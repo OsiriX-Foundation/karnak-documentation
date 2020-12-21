@@ -81,7 +81,7 @@ You can use some constants defined in an expression.
 - `#Tag` is a constant that permit to access to the all tag integer value in the DICOM standard. Example, `#Tag.StudyDescription` allow to access to the integer value of tag (0008,1030).
 - `#VR` is a constant that permit to access tho the all VR value in the DICOM standard. Example, `#VR.LO` is the Long String type.
 
-The list of functions available to create your conditions are listed below.**Beware** all these functions are case sensitive.
+The list of functions available to create your conditions are listed below. **Beware** all these functions are case sensitive.
 
 ---
 
