@@ -205,7 +205,7 @@ The following illustration show a scenario of this functionality. The illustrate
 
 ![Switching KHEOPS example](resources/switching_kheops_scenario.png)
 
-Details for configuring this feature are explained in the [KHEOPS](kheops) chapter.
+Details for configuring this feature are explained in the [KHEOPS](kheops#create-a-switching-kheops-album) chapter.
 
 **7. Actions buttons**
 
