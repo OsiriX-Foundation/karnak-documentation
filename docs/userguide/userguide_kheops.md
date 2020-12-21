@@ -78,10 +78,10 @@ A condition is an expression to apply to a given tag. An expression is a program
 
 You can use some constants defined in an expression.
 
-- `#Tag` is a constant that permit to access to the all tag integer value in the DICOM standard. Example, `#Tag.PatientBirthDate` allow to access to the integer value of tag (0010,0030).
+- `#Tag` is a constant that permit to access to the all tag integer value in the DICOM standard. Example, `#Tag.StudyDescription` allow to access to the integer value of tag (0008,1030).
 - `#VR` is a constant that permit to access tho the all VR value in the DICOM standard. Example, `#VR.LO` is the Long String type.
 
-You can use the following provided function to create your conditions. **Beware** all these functions are case sensitive.
+The list of functions available to create your conditions are listed below.**Beware** all these functions are case sensitive.
 
 ---
 
@@ -89,11 +89,11 @@ You can use the following provided function to create your conditions. **Beware*
 
 This function will retrieve the `tag` value of the DICOM and compare it with the `value` given.
 
-The following example will checks if the patient's name is "jose".
+The following example will checks if the study description is "755523-st222-GE".
 
 ```
-tagValueIsPresent(#Tag.PatientName, "jose");
-tagValueIsPresent("0010,0010", "jose");
+tagValueIsPresent(#Tag.StudyDescription, "755523-st222-GE");
+tagValueIsPresent("0008,1030", "755523-st222-GE");
 ```
 
 ---
@@ -102,37 +102,37 @@ tagValueIsPresent("0010,0010", "jose");
 
 This function will retrieve the `tag` value of the DICOM and checks if the `value` given appear in the tag value.
 
-The following example will checks if the patient's name contains "os".
+The following example will checks if the study description contains "st222".
 
 ```
-tagValueContains(#Tag.PatientName, "os");
-tagValueContains("0010,0010", "os");
+tagValueContains(#Tag.StudyDescription, "st222");
+tagValueContains("0008,1030", "st222");
 ```
 
 ---
 
-`tagValueBeginWith(int tag, String value)` or `tagValueBeginWith(String tag, String value)`
+`tagValueBeginsWith(int tag, String value)` or `tagValueBeginsWith(String tag, String value)`
 
 This function will retrieve the `tag`value of the DICOM and checks if the `tag` value begins with the `value`
 
-The following example will checks if the patient's name begins with "jo".
+The following example will checks if the study description begins with "755523".
 
 ```
-tagValueContains(#Tag.PatientName, "jo");
-tagValueContains("0010,0010", "jo");
+tagValueBeginsWith(#Tag.StudyDescription, "755523");
+tagValueBeginsWith("0008,1030", "755523");
 ```
 
 ---
 
-`tagValueEndWith(int tag, String value)` or `tagValueEndWith(String tag, String value)`
+`tagValueEndsWith(int tag, String value)` or `tagValueEndsWith(String tag, String value)`
 
 This function will retrieve the `tag`value of the DICOM and checks if the `tag` value ends with the `value`
 
-The following example will checks if the patient's name ends with "se".
+The following example will checks if the study description ends with "GE".
 
 ```
-tagValueContains(#Tag.PatientName, "se");
-tagValueContains("0010,0010", "se");
+tagValueEndsWith(#Tag.StudyDescription, "GE");
+tagValueEndsWith("0008,1030", "GE");
 ```
 
 ---
