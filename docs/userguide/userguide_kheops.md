@@ -74,3 +74,66 @@ The source is the album main, where all studies are sent.
 
 The condition field will allow you to assign a condition to enable sharing to the destination.
 
+A condition is an expression to apply to a given tag. An expression is a programming language that allows you to return a value or an object according to a certain condition. In this case, the value returned is always a Boolean (True/False).
+
+You can use some constants defined in an expression.
+
+- `#Tag` is a constant that permit to access to the all tag integer value in the DICOM standard. Example, `#Tag.PatientBirthDate` allow to access to the integer value of tag (0010,0030).
+- `#VR` is a constant that permit to access tho the all VR value in the DICOM standard. Example, `#VR.LO` is the Long String type.
+
+You can use the following provided function to create your conditions. **Beware** all these functions are case sensitive.
+
+---
+
+`tagValueIsPresent(int tag, String value)` or `tagValueIsPresent(String tag, String value)`
+
+This function will retrieve the `tag` value of the DICOM and compare it with the `value` given.
+
+The following example will checks if the patient's name is "jose".
+
+```
+tagValueIsPresent(#Tag.PatientName, "jose");
+tagValueIsPresent("0010,0010", "jose");
+```
+
+---
+
+`tagValueContains(int tag, String value)` or `tagValueContains(String tag, String value)`
+
+This function will retrieve the `tag` value of the DICOM and checks if the `value` given appear in the tag value.
+
+The following example will checks if the patient's name contains "os".
+
+```
+tagValueContains(#Tag.PatientName, "os");
+tagValueContains("0010,0010", "os");
+```
+
+---
+
+`tagValueBeginWith(int tag, String value)` or `tagValueBeginWith(String tag, String value)`
+
+This function will retrieve the `tag`value of the DICOM and checks if the `tag` value begins with the `value`
+
+The following example will checks if the patient's name begins with "jo".
+
+```
+tagValueContains(#Tag.PatientName, "jo");
+tagValueContains("0010,0010", "jo");
+```
+
+---
+
+`tagValueEndWith(int tag, String value)` or `tagValueEndWith(String tag, String value)`
+
+This function will retrieve the `tag`value of the DICOM and checks if the `tag` value ends with the `value`
+
+The following example will checks if the patient's name ends with "se".
+
+```
+tagValueContains(#Tag.PatientName, "se");
+tagValueContains("0010,0010", "se");
+```
+
+---
+
