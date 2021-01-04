@@ -342,13 +342,73 @@ In this example, the expression will be apply on the following tag (0008,1030) a
       - "(0008,1030)" #StudyDescription
 ```
 
+---
 
+`clean.pixel.data` is a profile that apply the masks defined on the instance image. To defined the masks, please refer [Masks](#masks)
 
+This profile is applied only on the following SOP:
 
+* 1.2.840.10008.5.1.4.1.1.6.1 - Ultrasound Image Storage
+* 1.2.840.10008.5.1.4.1.1.7.1 - Multiframe Single Bit Secondary Capture Image Storage
+* 1.2.840.10008.5.1.4.1.1.7.2 - Multiframe Grayscale Byte Secondary Capture Image Storage
+* 1.2.840.10008.5.1.4.1.1.7.3 - Multiframe Grayscale Word Secondary Capture Image Storage
+* 1.2.840.10008.5.1.4.1.1.7.4 - Multiframe True Color Secondary Capture Image Storage
+* 1.2.840.10008.5.1.4.1.1.3.1 - Ultrasound Multiframe Image Storage
+* 1.2.840.10008.5.1.4.1.1.77.1.1 - VL endoscopic Image Storage
+
+**Or** if the tag value Burned In Annotation (0028,0301) is "YES"
+
+This profile element requires the following parameters:
+
+* name
+* codename
+
+```yaml
+profileElements:
+  - name: "Clean pixel data"
+    codename: "clean.pixel.data"
+```
 
 ---
 
+## Masks
 
+The masks requires the following parameters:
+
+* stationName
+* color
+* rectangles
+
+`stationName` is the station name source.
+
+This is used to provide the possibility to apply a different mask per station. If the station is set to `*`, the mask will be applied to all except the one where the station name matches.
+
+You can find the station name of your DICOM instance in the tag (0008, 1010), this value in this tag will be used for matching.
+
+`color` defines the color of the mask. It's in Hex Color.
+
+`rectangles` defines the list of the rectangle to apply.
+
+A rectangle take 4 parameters as follow (x, y, width, height). The upper left corner of the image corresponds to the coordinates (0,0).
+
+The illustration below shows you how a rectangle of (25, 75, 150, 50) is created.
+
+![Rectangles example](resources/CleanPixel_rectangle.png)
+
+The following example shows how to define a default mask ("*") and a mask that will be applied only to instances coming from the R2D2 station.
+
+```yaml
+masks:
+  - stationName: "*"
+    color: "ffff00"
+    rectangles:
+      - "25 75 150 50"
+  - stationName: "R2D2"
+    color: "00ff00"
+    rectangles:
+      - "25 25 150 50"
+      - "350 15 150 50"
+```
 
 ## A full example of profile
 
