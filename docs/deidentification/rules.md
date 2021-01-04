@@ -176,6 +176,15 @@ The attribute *ClinicalTrialSubjectID* comes from the module [*Clinical Trial Su
 
 This chapter explains which attributes are added by KARNAK during de-identification.
 
+### SOP Common
+
+This section will explain how KARNAK defined the attributes in the [*SOP Common module*](http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.12.html#sect_C.12.1).
+
+The following list, is the attribute added by KARNAK:
+
+* **Instance Creation Time (0008,0013)**, this attribute will contain the time the SOP instance was created. The value representation used is TM (HHMMSS.FFFFFF).
+* **Instance Creation Date (0008,0012)**, this attribute will contain the date the SOP instance was created. The value representation used is DA (YYYYMMDD).
+
 ### Patient Module
 
 This section lists the attributes changed or added by KARNAK in the [Patient Module](http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.7.html#sect_C.7.1.1). The way the Patient ID is generated is explained above in the *Pseudonym* chapter.
