@@ -37,7 +37,7 @@ This input field allows you to indicate from which line you want to start readin
 
 Fill in the correct fields with the corresponding columns. All the fields are mandatory, excepted the Issuer of patient ID.
 
-![External pseudonym CSV Dialog](resources/external_pseudonym_csvdialog3.gif)
+![External pseudonym CSV Dialog 3](resources/external_pseudonym_csvdialog3.gif)
 
 ### 1.3 Upload CSV
 
@@ -45,7 +45,10 @@ Click to the "Upload CSV" button to validate the fields with the correct columns
 
 ### 2. Add a new patient
 
-All the fields are mandatory, excepted the Issuer of patient ID.
+It's also possible to add the external pseudonym manually. All the fields are mandatory, excepted the Issuer of patient ID.
 
 ### 3. Pseudonym kept temporarily
 
+As explained in the introduction, the pseudonyms are stored for a short period of time in KARNAK. It's possible to edit the patient fields by clicking "Edit"button  or delete a patient by clicking "Delete" button.
+
+![External pseudonym CSV Dialog 2](resources/external_pseudonym_csvdialog4.gif)
