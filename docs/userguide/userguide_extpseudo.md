@@ -31,15 +31,17 @@ After click "Open CSV" button, a grid will be appear with the CSV file content.
 
 This input field allows you to indicate from which line you want to start reading the CSV file. Your CSV file may contain headers. If these headers are in line 1 like the above example (EXTERNALID, PATIENTID, LASTNAME, FIRSTNAME, ISSUER_OF_PATIENTID), you can specify the entry "From line" to the value 2. 
 
-![External pseudonym CSV Dialog](resources/external_pseudonym_csvdialog2.gif)
+![External pseudonym CSV Dialog 2](resources/external_pseudonym_csvdialog2.gif)
 
-### 1.2 Select 
+### 1.2 Columns assignements 
 
-All the fields are mandatory, excepted the Issuer of patient ID.
+Fill in the correct fields with the corresponding columns. All the fields are mandatory, excepted the Issuer of patient ID.
 
-### 1.3 Grid
+![External pseudonym CSV Dialog](resources/external_pseudonym_csvdialog3.gif)
 
-### 1.4 Upload CSV
+### 1.3 Upload CSV
+
+Click to the "Upload CSV" button to validate the fields with the correct columns to store the externals pseudonyms in KARNAK.
 
 ### 2. Add a new patient
 
