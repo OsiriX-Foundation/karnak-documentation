@@ -58,7 +58,7 @@ The following illustration show a scenario of this functionality. The illustrate
 
 ### Create a switching KHEOPS album
 
-To share your DICOM in different KHEOPS album, you must complete the following fields.
+To share your DICOM in different KHEOPS album, you must complete the following fields and **validate them by clicking on Add button**.
 
 The destination is the album where the studies will be shared.
 
@@ -70,7 +70,7 @@ The source is the album main, where all studies are sent.
 | -------------------------- | ------------------------------------------------------------ |
 | Url API                    | The url of the KHEOPS API                                    |
 | Valid token of destination | The token to write to the album destination. Need **WRITE** permission |
-| Valid token of source      | The token to shared from the album source. Need **READ, SEND** permission |
+| Valid token of source      | The token to shared from the album source. Need **READ, SEND** (Sharing in the KHEOPS UI) permission |
 
 The condition field will allow you to assign a condition to enable sharing to the destination.
 
@@ -92,8 +92,8 @@ This function will retrieve the `tag` value of the DICOM and compare it with the
 The following example will checks if the study description is "755523-st222-GE".
 
 ```
-tagValueIsPresent(#Tag.StudyDescription, "755523-st222-GE");
-tagValueIsPresent("0008,1030", "755523-st222-GE");
+tagValueIsPresent(#Tag.StudyDescription, "755523-st222-GE")
+tagValueIsPresent("0008,1030", "755523-st222-GE")
 ```
 
 ---
@@ -105,8 +105,8 @@ This function will retrieve the `tag` value of the DICOM and checks if the `valu
 The following example will checks if the study description contains "st222".
 
 ```
-tagValueContains(#Tag.StudyDescription, "st222");
-tagValueContains("0008,1030", "st222");
+tagValueContains(#Tag.StudyDescription, "st222")
+tagValueContains("0008,1030", "st222")
 ```
 
 ---
@@ -118,8 +118,8 @@ This function will retrieve the `tag`value of the DICOM and checks if the `tag` 
 The following example will checks if the study description begins with "755523".
 
 ```
-tagValueBeginsWith(#Tag.StudyDescription, "755523");
-tagValueBeginsWith("0008,1030", "755523");
+tagValueBeginsWith(#Tag.StudyDescription, "755523")
+tagValueBeginsWith("0008,1030", "755523")
 ```
 
 ---
@@ -131,8 +131,8 @@ This function will retrieve the `tag`value of the DICOM and checks if the `tag` 
 The following example will checks if the study description ends with "GE".
 
 ```
-tagValueEndsWith(#Tag.StudyDescription, "GE");
-tagValueEndsWith("0008,1030", "GE");
+tagValueEndsWith(#Tag.StudyDescription, "GE")
+tagValueEndsWith("0008,1030", "GE")
 ```
 
 ---
