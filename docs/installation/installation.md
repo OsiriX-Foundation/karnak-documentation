@@ -9,9 +9,10 @@ permalink: /docs/installation
 
 Karnak has been tested with [docker](https://docs.docker.com/install/) **19.03** and [docker-compose](https://docs.docker.com/compose/install/) **1.22**.
 
-1. Execute `generateSecrets.sh` to generate the secrets required by Karnak
-2. Adapt all the *.env files if necessary
-3. Start docker-compose with commands (or [create docker-compose service](#create-docker-compose-service)) 
+1. Download [karnak](https://github.com/OsiriX-Foundation/karnak-docker) repository
+2. Execute `generateSecrets.sh` to generate the secrets required by Karnak
+3. Adapt all the *.env files if necessary
+4. Start docker-compose with commands (or [create docker-compose service](#create-docker-compose-service)) 
 
 ## Docker commands
 
