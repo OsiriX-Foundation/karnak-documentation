@@ -36,6 +36,8 @@ A profile element is defined as below in the yaml file.
 
 `codename` - The ID of the profile element. It must related to the list profile elements defined below.
 
+`condition` - Apply a profile element if the condition is met
+
 `action` - The action to apply to the profile element. For example K (keep), X (remove)
 
 `option` - Some profiles contain option.
@@ -412,7 +414,7 @@ masks:
 
 ## A full example of profile
 
-This example remove two tags not defined in the basic DICOM profile, keep the Philips PET private group and apply the basic DICOM profile.
+This example remove a tag that as contain 'R2D2' value and VR is equal 'SH' in SationName tag, keep the Philips PET private group and apply the basic DICOM profile.
 
 The tag 0008,0012 is Instance Creation Date and the tag 0008,0013 is Instance Creation Time.
 
@@ -425,10 +427,10 @@ minimumKarnakVersion: "0.9.2"
 profileElements:
   - name: "Remove tags 0008,0012; 0008,0013"
     codename: "action.on.specific.tags"
+    condition: "stringValue == 'R2D2' and vr == #VR.SH"
     action: "X"
     tags:
-      - "0008,0012"
-      - "0008,0013"
+      - "(0008,1010)"
 
   - name: "Keep Philips PET Private Group"
     codename: "action.on.privatetags"
