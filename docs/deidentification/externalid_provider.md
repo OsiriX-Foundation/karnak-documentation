@@ -9,7 +9,7 @@ permalink: /docs/deidentification/externalid_provider
 
 # ExternalID Provider 
 
-WARNING: Available from KARNAK v0.9.6
+WARNING: Surely available in the KARNAK v0.9.6
 
 In Karnak, it is possible to implement external id providers. This feature is interesting if you have your own external id provider (pseudonym). When starting KARNAK, you can inject your implementation which contains the code to query your external id provider.
 
@@ -24,7 +24,7 @@ In Karnak, it is possible to implement external id providers. This feature is in
    ```
 
 
-## Create your externalid provider implementation
+## Create your class externalid provider implementation
 
 To create an implementation of your external id provider, you need to create a new maven project.
 
@@ -104,17 +104,33 @@ They are 3 methods (getExternalID, getDescription and getInformation) :
 
 3. `getInformation` This methode are not yet used, but will be useful to provide further data to KARNAK in the near future.
 
+## Generate your externalid provider implementation jar
+
 Once you have finished creating your class, you need to create the jar for your project. It is important that the name of your jar is unique for each externalid provider you want to implement. KARNAK uses the jar name to load implementations, so that there is no conflict it is important that this name is unique. To create your jar, just run the following command in your externalid provider implementation project.
 
 ```
 mvn clean install
 ```
 
-## Add your implementation into KARNAK
+The generated jar is in the `target` directory.
 
-.......
+## Add your implementation jar into KARNAK
 
+In developpement environnement:
 
+1. Create `externalid-providers` directory to KARNAK root directory. 
+2. Add the generated jar file to the `externalid-providers` directory.
 
+In docker environnement:
 
+1. In the karnak docker, add the generated jar to the following path `app/externalid-providers`.
 
+## A jar was loaded and the deleted from the folder
+
+If you have already loaded a jar in KARNAK and you delete it from the externalid-provider directory, you will no longer be able to launch KARNAK. You will get an error like this: `Cannot not load correctly the externalID provider implementationthe with jar`. 
+
+To relaunch KARNAK 2 solutions are available: 
+
+1. The first is to delete or modify all the destinations containing this externalid provider. Then, in the KARNAK database, delete in the externalid_provider table the row containing the provider that you no longer use.
+2. The second, put the same jar back in the directory.
+3. The third, create a jar containing the same file name as the one that was no longer present
