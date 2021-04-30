@@ -97,10 +97,18 @@ Prerequisites:
 They are 3 methods (getExternalID, getDescription and getInformation) :
 
 1. `getExternalID` Is the method that provides the external id (pseudonym) to KARNAK.
-2. `getDescription` Is the method that provides the visible text in the user interface for select the corect external id provider type. 
+
+2. `getDescription` Is the method that provides the visible text in the user interface for select the corect external id provider type. See the following picture. 
+
+   ![ExtidListBox Exemple](resources/externalid-provider_deident_extidlist.png)
+
 3. `getInformation` This methode are not yet used, but will be useful to provide further data to KARNAK in the near future.
 
-Create JAR and rename jar ....
+Once you have finished creating your class, you need to create the jar for your project. It is important that the name of your jar is unique for each externalid provider you want to implement. KARNAK uses the jar name to load implementations, so that there is no conflict it is important that this name is unique. To create your jar, just run the following command in your externalid provider implementation project.
+
+```
+mvn clean install
+```
 
 ## Add your implementation into KARNAK
 
