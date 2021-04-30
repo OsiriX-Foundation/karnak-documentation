@@ -17,7 +17,7 @@ In Karnak, it is possible to implement external id providers. This feature is in
 
 1. Download [karnak](https://github.com/OsiriX-Foundation/karnak-docker) repository.
 
-2. Into the `externalid-provider-interface` directory, execute the following command for use as a dependency in other projects locally: 
+2. Into the `externalid-provider-interface` directory, execute the following command for use externalid-provider-interface as a dependency in other projects locally: 
 
    ```bash
    mvn clean install
