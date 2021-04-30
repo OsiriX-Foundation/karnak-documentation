@@ -127,7 +127,9 @@ In docker environnement:
 
 ## A jar was loaded and the deleted from the folder
 
-If you have already loaded a jar in KARNAK and you delete it from the externalid-provider directory, you will no longer be able to launch KARNAK. You will get an error like this: `File not found in /PATH/externalid-providers/JARNAME.jar` 
+If you have already loaded a jar in KARNAK and you delete it from the externalid-provider directory, you will no longer be able to launch KARNAK. In the log, you will get an error like this:
+
+ `ERROR [restartedMain] org.karnak.backend.config.ExternalIDProviderConfig:  File not found in /PATH/externalid-providers/JARNAME.jar` 
 
 To relaunch KARNAK 2 solutions are available: 
 
