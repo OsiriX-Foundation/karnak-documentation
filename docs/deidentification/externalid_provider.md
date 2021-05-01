@@ -47,7 +47,7 @@ Prerequisites:
 
 3. The classname should be `ExternalIDProviderImpl`.
 
-4. The `ExternalIDProviderImpl` must be implement `ExternalIDProvider` interface like a following line.
+4. The `ExternalIDProviderImpl` must be implemented `ExternalIDProvider` interface like a following line.
 
    ```java
    public class ExternalIDProviderImpl implements ExternalIDProvider{
@@ -55,7 +55,7 @@ Prerequisites:
    }
    ```
 
-5. Here is a simple code example of external ID provider provider which should be contained in `org.karnak` package
+5. Here is a basic code example of external ID provider which should be contained in `org.karnak` package
 
    ```java
    package org.karnak; // <== package org.karnak
@@ -98,15 +98,15 @@ They are 3 methods (getExternalID, getDescription and getInformation) :
 
 1. `getExternalID` Is the method that provides the external id (pseudonym) to KARNAK.
 
-2. `getDescription` Is the method that provides the visible text in the user interface for select the corect external id provider type. See the following picture. 
+2. `getDescription` Is the method that provides the visible text in the user interface for select the correct external id provider type. See the following picture. 
 
    ![ExtidListBox Exemple](resources/externalid-provider_deident_extidlist.png)
 
-3. `getInformation` This methode are not yet used, but will be useful to provide further data to KARNAK in the near future.
+3. `getInformation` This method is not used yet, but will be useful to provide further data to KARNAK in the near future.
 
 ## Generate your externalid provider implementation jar
 
-Once you have finished creating your class, you need to create the jar for your project. It is important that the name of your jar is unique for each externalid provider you want to implement. KARNAK uses the jar name to load implementations, so that there is no conflict it is important that this name is unique. To create your jar, just run the following command in your externalid provider implementation project.
+Once you have finished creating your class, you need to create the jar for your project. It is important that the name of your jar is unique for each externalid provider you want to implement. KARNAK uses the jar name to load implementations; so that no conflict occurs, it is essential that this name is unique. To create your jar, just run the following command in your externalid provider implementation project.
 
 ```
 mvn clean install
@@ -125,14 +125,14 @@ In docker environnement:
 
 1. In the karnak docker, add the generated jar to the following path `app/externalid-providers`.
 
-## A jar was loaded and the deleted from the folder
+## A jar was loaded and deleted from the folder
 
-If you have already loaded a jar in KARNAK and you delete it from the externalid-provider directory, you will no longer be able to launch KARNAK. In the log, you will get an error like this:
+If you have already loaded a jar in KARNAK and you delete it from the externalid-provider directory, you will no longer be able to launch KARNAK. In the log, yyou will be displayed this message of error:
 
  `ERROR [restartedMain] org.karnak.backend.config.ExternalIDProviderConfig:  File not found in /PATH/externalid-providers/JARNAME.jar` 
 
-To relaunch KARNAK 2 solutions are available: 
+To relaunch KARNAK 3 solutions are available: 
 
-1. The first is to delete or modify all the destinations containing this externalid provider. Then, in the KARNAK database, delete in the externalid_provider table the row containing the provider that you no longer use.
-2. The second, put the same jar back in the directory.
-3. The third, create a jar containing the same file name as the one that was no longer present
+1. The first consists of in deleting or modifying all the destinations containing this externalid provider. Then, in the KARNAK database, delete in the externalid_provider table the row containing the provider that you no longer use.
+2. The second consists in putting the same jar back in the directory.
+3. The third consists in creating a jar containing the same file name as the one that was no longer available.
