@@ -241,9 +241,9 @@ A message below shows you which profile is associated with the selected project.
 
 **2. Pseudonym Type**
 
-By default, you can choose four different type of pseudonym, illustrated below to the letter a.
+2.1 By default, you can choose four different type of pseudonym.
 
-The b letter is an exemple of external id provider injected in KARNAK (for more details, see [ExternalID provider](../deidentification/externalid_provider.md)). 
+2.2 Is an exemple of external id provider injected in KARNAK (for more details, see [ExternalID provider](../deidentification/externalid_provider.md)). 
 
 ![Pseudonym Type](resources/pseudonym_type.png)
 
