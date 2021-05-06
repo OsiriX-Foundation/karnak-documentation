@@ -30,7 +30,7 @@ To create an implementation of your external id provider, you need to create a n
 
 Prerequisites:
 
-- JDK 14
+- JDK 11
 - Maven 3
 
 1. Add externalid-provider-interface dependency in pom.yml
