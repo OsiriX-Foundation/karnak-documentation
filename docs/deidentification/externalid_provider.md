@@ -9,7 +9,7 @@ permalink: /docs/deidentification/externalid_provider
 
 # ExternalID Provider 
 
-WARNING: Surely available in the KARNAK v0.9.6
+WARNING: This version will be available soon
 
 In Karnak, it is possible to implement external id providers. This feature is interesting if you have your own external id provider (pseudonym). When starting KARNAK, you can inject your implementation which contains the code to query your external id provider.
 
