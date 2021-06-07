@@ -337,11 +337,33 @@ In this example, the expression will be apply on the following tag (0008,1030) a
 
 ```yaml
 - name: "Expression"
-    codename: "expression.on.tags"
-    arguments:
-      expr: "Replace(getString(#Tag.InstitutionName) + '-' + getString(#Tag.StationName))"
-    tags: 
-      - "(0008,1030)" #StudyDescription
+  codename: "expression.on.tags"
+  arguments:
+    expr: "Replace(getString(#Tag.InstitutionName) + '-' + getString(#Tag.StationName))"
+  tags: 
+    - "(0008,1030)" #StudyDescription
+```
+
+___
+
+`clean.recognizable.visual.features`is a profile that apply defacing.
+
+This profile is applied only on the following SOP:
+
+* 1.2.840.10008.5.1.4.1.1.2 - CT Image Storage
+* 1.2.840.10008.5.1.4.1.1.2 - Enhanced CT Image Storage
+
+This profile is applied only on Axial Image Orientation.
+
+This profile element requires the following parameters:
+
+* name
+* codename
+* condition (optional)
+
+```yaml
+- name: "Clean Recognizable Visual Features Option"
+  codename: "clean.recognizable.visual.features"
 ```
 
 ---
