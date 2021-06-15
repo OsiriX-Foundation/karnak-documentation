@@ -436,23 +436,21 @@ masks:
 
 ## A full example of profile
 
-This example remove a tag that as contain 'R2D2' value and VR is equal 'SH' in SationName tag, keep the Philips PET private group and apply the basic DICOM profile.
-
-The tag 0008,0012 is Instance Creation Date and the tag 0008,0013 is Instance Creation Time.
+This example keep a Study Description tag if that as contain 'R2D2' value, keep the Philips PET private group and apply the basic DICOM profile.
 
 The tag pattern (0073,xx00) and (7053,xx09) are defined in [Philips PET Private Group by DICOM](http://dicom.nema.org/medical/dicom/current/output/chtml/part15/sect_E.3.10.html).
 
 ```yaml
 name: "Profile Example"
 version: "1.0"
-minimumKarnakVersion: "0.9.2"
+minimumKarnakVersion: "0.9.7"
 profileElements:
-  - name: "Remove tags 0008,0012; 0008,0013"
+  - name: "Keep StudyDescription tag according to a condition"
     codename: "action.on.specific.tags"
-    condition: "stringValue == 'R2D2' and vr == #VR.SH"
-    action: "X"
+    condition: "tagValueContains(#Tag.StudyDescription, 'R2D2')"
+    action: "K"
     tags:
-      - "(0008,1010)"
+      - "(0008,1030)"
 
   - name: "Keep Philips PET Private Group"
     codename: "action.on.privatetags"
