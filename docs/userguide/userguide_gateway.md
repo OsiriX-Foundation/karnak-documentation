@@ -104,7 +104,7 @@ For a DICOM destination the following is mandatory:
 
 These fields define the destination to which KARNAK should send.
 
-The Condition, is a field to define a condition for the destination. If the condition is met, the destination will be activated.  See [Destination Conditions](conditions) for more details.
+The Condition is a field to define a condition for the destination. If the condition is met, the destination will be activated.  See [Destination Conditions](conditions) for more details.
 
 The hostname and the port will be used to define the host in case the "Use AETitle destination" is not checked.
 
@@ -171,7 +171,7 @@ For a STOW destination the following is mandatory:
 
 The URL is the DICOM endpoint of your final destination.
 
-The Condition, is a field to define a condition for the destination. If the condition is met, the destination will be activated.  See [Destination Conditions](conditions) for more details.
+The Condition is a field to define a condition for the destination. If the condition is met, the destination will be activated.  See [Destination Conditions](conditions) for more details.
 
 The URL credentials is the STOW-RS service (format is \"user:password\")
 
