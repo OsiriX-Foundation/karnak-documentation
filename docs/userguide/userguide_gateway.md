@@ -153,6 +153,8 @@ For a STOW destination the following is mandatory:
 
 The URL is the DICOM endpoint of your final destination.
 
+The Condition, is a field to define a condition for the destination. If the condition is met, the destination will be activated.  See [Destination Conditions](conditions) for more details.
+
 The URL credentials is the STOW-RS service (format is \"user:password\")
 
 **2. Destination headers**
@@ -166,7 +168,11 @@ To add the header *Authorization: Bearer 123456790* you must write following the
 <value>Bearer 1234567890</value>
 ```
 
-**3. Notifications**
+**3. Transfer Syntax**
+
+This field will define the transfer syntax used.
+
+**4. Notifications**
 
 These fields will allow you to define the emails to be notified during various events that take place during the sending.
 
@@ -175,11 +181,13 @@ These fields will allow you to define the emails to be notified during various e
 * Subject values: Values injected in the pattern [PatientID StudyDescription StudyDate StudyInstanceUID]. Default value: PatientID,StudyDescription
 * Interval: Interval in seconds for sending a notification (when no new image is arrived in the archive folder). Default value: 45
 
-**4. De-identification**
+<img src="resources/destination_notifications.png" alt="Creation source" style="zoom:50%;" />
+
+**5. De-identification**
 
 The de-identification in the STOW destination will be explained below, in the section [Activate the de-identification](#activate-the-de-identification)
 
-**5. Authorized SOPs**
+**6. Authorized SOPs**
 
 This field allows you to define a filter on a list of SOPs. The chosen SOPs will serve as a filter for KARNAK when sending. This allow you to define a destination which is applied only for SOPs of your choice. The [SOPs present](http://dicom.nema.org/medical/Dicom/current/output/chtml/part04/sect_B.5.html) in the list are defined by DICOM.
 
@@ -191,7 +199,7 @@ The following illustration shows the list of SOPs with two SOPs selected.
 
 <img src="resources/destination_SOPfilter.png" alt="Creation source" style="zoom:50%;" />
 
-**6. Switching in different KHEOPS albums**
+**7. Switching in different KHEOPS albums**
 
 You have the possibility of sharing your data in different KHEOPS album. For this you must use a DICOM endpoint from KHEOPS.
 
@@ -207,7 +215,15 @@ The following illustration show a scenario of this functionality. The illustrate
 
 Details for configuring this feature are explained in the [KHEOPS](kheops#create-a-switching-kheops-album) chapter.
 
-**7. Actions buttons**
+**8. Enable the destination**
+
+This field allows you to enable or disable a destination.
+
+If "Enable destination" **is checked**, the destination is enable.
+
+If "Enable destination" **is not checked**, the destination is disable.
+
+**9. Actions buttons**
 
 You have three action buttons available.
 
