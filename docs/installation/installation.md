@@ -12,7 +12,7 @@ Karnak has been tested with [docker](https://docs.docker.com/install/) **19.03**
 1. Download [karnak](https://github.com/OsiriX-Foundation/karnak-docker) repository
 2. Execute `generateSecrets.sh` to generate the secrets required by Karnak
 3. Adapt all the *.env files if necessary
-4. Start docker-compose with commands (or [create docker-compose service](#create-docker-compose-service)) 
+4. Start docker-compose with [Docker commands](#docker-commands) (or [create docker-compose service](installation/service)) 
 
 ## Docker commands
 
@@ -26,56 +26,11 @@ Commands from the root of this repository.
 * Karnak's logs: `sudo docker exec -it CONTAINERID bash`     
 `cd logs`
 
-## Create docker-compose service
-
-Example of systemd service configuration with a docker-compose.yml file in the folder /opt/karnak (If it's another directory you have to adapt the script).
-
-Instructions:
-* Go to /etc/systemd/system
-* Create the file ( eg: $ sudo touch karnak.service )
-* Copy and paste the config below (eg: $ sudo nano karnak.service):
-
-~~~
-# /etc/systemd/system/karnak.service 
-
-#########################
-#    KARNAK             #
-#    SERVICE            #	
-##########################
-
-[Unit]
-Description=Docker Compose KARNAK Service
-Requires=docker.service
-After=docker.service network.target
-
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-WorkingDirectory=/opt/karnak
-ExecStart=/usr/local/bin/docker-compose up -d
-ExecStop=/usr/local/bin/docker-compose down
-TimeoutStartSec=0
-
-[Install]
-WantedBy=multi-user.target
-~~~
-
-Test the service:
-* $ systemctl start karnak.service
-* $ systemctl status karnak.service
-* $ systemctl enable karnak.service
-
 ## Secrets
 
-You can generate the secrets with the `generateSecrets.sh` script available at the root of this repository (adapt the script to your system if necessary).
+You can generate the secrets with the `generateSecrets.sh` script available at the root of the [karnak-docker repository](https://github.com/OsiriX-Foundation/karnak-docker) (adapt the script to your system if necessary).
 
 Note: *These following secrets are stored in files and use the environment variables ending with _FILE (see 'Environment variables' below)*
 
-Before starting docker-compose make sure that the secrets folder and the following secrets exist:
-* `karnak_login_password`
-* `karnak_postgres_password`
-* `mainzelliste_api_key`
-* `mainzelliste_postgres_password`
-* `mainzelliste_pid_k1`
-* `mainzelliste_pid_k2`
-* `mainzelliste_pid_k3`
+Before starting docker-compose make sure that the `secrets` folder and the secrets defined in the [karnak-docker repository](https://github.com/OsiriX-Foundation/karnak-docker#secrets) exist
+
