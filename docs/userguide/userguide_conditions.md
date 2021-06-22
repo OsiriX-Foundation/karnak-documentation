@@ -1,6 +1,6 @@
 ---
 layout: default
-title: KHEOPS
+title: Destination Conditions
 parent: User guide
 nav_order: 7
 permalink: /docs/userguide/conditions
