@@ -19,4 +19,5 @@ The objective of this user guide is to present each of the pages, listed below, 
 * [External Pseudonym](userguide/extpseudo) - Manage your cached pseudonym or pseudonym Mainzelliste
 * [DICOM Tools](userguide/dicomtools) - Test your DICOM node, worklist
 * [KHEOPS](userguide/kheops) - Short presentation of KHEOPS and its use in KARNAK
+* [Destination Conditions](userguide/conditions) - All conditions available in the destination configuration
 
