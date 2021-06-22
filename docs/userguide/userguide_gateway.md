@@ -104,11 +104,19 @@ For a DICOM destination the following is mandatory:
 
 These fields define the destination to which KARNAK should send.
 
+The Condition, is a field to define a condition for the destination. If the condition is met, the destination will be activated.  See [Destination Conditions](conditions) for more details.
+
 The hostname and the port will be used to define the host in case the "Use AETitle destination" is not checked.
+
+**2. Transfer Syntax**
+
+This field will define the transfer syntax used.
+
+**3. Use AETitle destination**
 
 If "Use AETitle destination" is checked, the AETitle defined will be used as host.
 
-**2. Notifications**
+**4. Notifications**
 
 These fields will allow you to define the emails to be notified during various events that take place during the sending.
 
@@ -117,11 +125,13 @@ These fields will allow you to define the emails to be notified during various e
 * Subject values: Values injected in the pattern [PatientID StudyDescription StudyDate StudyInstanceUID]. Default value: PatientID,StudyDescription
 * Interval: Interval in seconds for sending a notification (when no new image is arrived in the archive folder). Default value: 45
 
-**3. De-identification**
+<img src="resources/destination_notifications.png" alt="Creation source" style="zoom:75%;" />
+
+**5. De-identification**
 
 The de-identification in the DICOM destination will be explained below, in the section [Activate the de-identification](#activate-the-de-identification)
 
-**4. Authorized SOPs**
+**6. Authorized SOPs**
 
 This field allows you to define a filter on a list of SOPs. The chosen SOPs will serve as a filter for KARNAK when sending. This allow you to define a destination which is applied only for SOPs of your choice. The [SOPs present](http://dicom.nema.org/medical/Dicom/current/output/chtml/part04/sect_B.5.html) in the list are defined by DICOM.
 
@@ -133,7 +143,15 @@ The following illustration shows the list of SOPs with two SOPs selected.
 
 <img src="resources/destination_SOPfilter.png" alt="Creation source" style="zoom:50%;" />
 
-**5. Actions buttons**
+**7. Enable the destination**
+
+This field allows you to enable or disable a destination.
+
+If "Enable destination" **is checked**, the destination is enable.
+
+If "Enable destination" **is not checked**, the destination is disable.
+
+**8. Actions buttons**
 
 You have three action buttons available.
 
@@ -181,7 +199,7 @@ These fields will allow you to define the emails to be notified during various e
 * Subject values: Values injected in the pattern [PatientID StudyDescription StudyDate StudyInstanceUID]. Default value: PatientID,StudyDescription
 * Interval: Interval in seconds for sending a notification (when no new image is arrived in the archive folder). Default value: 45
 
-<img src="resources/destination_notifications.png" alt="Creation source" style="zoom:50%;" />
+<img src="resources/destination_notifications.png" alt="Creation source" style="zoom:75%;" />
 
 **5. De-identification**
 
