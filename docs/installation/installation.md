@@ -7,7 +7,7 @@ permalink: /docs/installation
 has_toc: false
 ---
 
-# Launch Karnak
+# Launch KARNAK
 
 Karnak has been tested with [docker](https://docs.docker.com/install/) **19.03** and [docker-compose](https://docs.docker.com/compose/install/) **1.22**.
 
@@ -36,3 +36,6 @@ Note: *These following secrets are stored in files and use the environment varia
 
 Before starting docker-compose make sure that the `secrets` folder and the secrets defined in the [karnak-docker repository](https://github.com/OsiriX-Foundation/karnak-docker#secrets) exist
 
+## KARNAK logs
+
+If you want to inject your own log configuration, you will find more details in the KARNAK logs section.
