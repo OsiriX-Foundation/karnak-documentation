@@ -13,6 +13,20 @@ KARNAK offers the possibility of injecting your own log configuration.
 
 The logging system used by KARNAK is [logback](http://logback.qos.ch/). For more details on logback, it provides a [manual](http://logback.qos.ch/manual/index.html)
 
+## Variables
+
+Some variables are available and can be used in the logback file.
+
+* `issuerOfPatientID` are the issuer of patient ID **before** the deidentification
+* `PatientID` are the patient ID **before** the deidentification
+* `SOPInstanceUID` are the SOPInstanceUID **before** the deidentification
+* `DeidentifySOPInstanceUID` are the SOPInstanceUID **after** the deidentification
+* `SeriesInstanceUID` are the SeriesInstanceUID **before** the deidentification
+* `DeidentifySeriesInstanceUID` are the SeriesInstanceUID **after** the deidentification
+* `ProjectName` are the project name used for the deidentification
+* `ProfileName` are the profile name used for the deidentification
+* `ProfileCodenames` are a list of concatenated profile items that has been used for the deidentification
+
 ## Inject the logback configuration file
 
 ### By using docker
@@ -43,18 +57,6 @@ If you use directly the KARNAK jar, you must add the following parameter at the 
 ## Default logback file
 
 The default [logback file](https://github.com/OsiriX-Foundation/karnak/blob/master/src/main/resources/logback.xml) (see below) has two modes.
-
-Some variables are availables.
-
-* `issuerOfPatientID` are the issuer of patient ID **before** the deidentification
-* `PatientID` are the patient ID **before** the deidentification
-* `SOPInstanceUID` are the SOPInstanceUID **before** the deidentification
-* `DeidentifySOPInstanceUID` are the SOPInstanceUID **after** the deidentification
-* `SeriesInstanceUID` are the SeriesInstanceUID **before** the deidentification
-* `DeidentifySeriesInstanceUID` are the SeriesInstanceUID **after** the deidentification
-* `ProjectName` are the project name used for the deidentification
-* `ProfileName` are the profile name used for the deidentification
-* `ProfileCodenames` are a list of concatenated profile items that has been used for the deidentification
 
 ### Dev Mode
 
