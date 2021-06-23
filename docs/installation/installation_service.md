@@ -5,12 +5,51 @@ parent: Installation
 nav_order: 1
 permalink: /docs/installation/service
 baselevel: 2
-
 ---
 
 ## Create docker-compose service
 
 Example of systemd service configuration with a docker-compose.yml file in the folder /opt/karnak (If it's another directory you have to adapt the script).
+
+By default, Docker needs **root privileges** to be executed.
+
+**Manage Docker as a non-root user**
+
+For more details, the following commands are inspired by the [official Docker documentation](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
+
+1. Create the `docker` group.
+
+   ```bash
+    sudo groupadd docker
+   ```
+
+2. Add your user to the `docker`group.
+
+   ```bash
+   sudo usermod -aG docker $USER
+   ```
+
+3. Activate the changes to groups.
+
+   ```bash
+   newgrp docker
+   ```
+
+4. Verify that you can run `docker` commands without `sudo`.
+
+   ```bash
+   docker run hello-world
+   ```
+
+**Specify User in the service**
+
+In the [Service] section of the karnak.service (see below), it's possible to specify the user that will run the service.
+
+```bash
+User=root
+```
+
+### Create the service
 
 Instructions:
 
