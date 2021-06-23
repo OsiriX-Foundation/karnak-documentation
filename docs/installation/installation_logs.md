@@ -1,13 +1,13 @@
 ---
 layout: default
-title: KARNAK logs
+title: Configuring Logs
 parent: Installation
 nav_order: 2
 permalink: /docs/installation/logs
 baselevel: 2
 ---
 
-# KARNAK logs
+# Configuration KARNAK logs
 
 KARNAK offers the possibility of injecting your own log configuration.
 
