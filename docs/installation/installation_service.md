@@ -43,7 +43,7 @@ For more details, the following commands are inspired by the [official Docker do
 
 **Specify User in the service**
 
-In the [Service] section of the karnak.service (see below), it's possible to specify the user that will run the service.
+In the `[Service]` section of the karnak.service (see below), it's possible to specify the user who will run the service.
 
 ```bash
 User=root
