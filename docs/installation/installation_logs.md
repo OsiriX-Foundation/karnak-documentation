@@ -46,15 +46,15 @@ The default [logback file](https://github.com/OsiriX-Foundation/karnak/blob/mast
 
 Some variables are availables.
 
-* issuerOfPatientID are the issuer of patient ID **before** the deidentification
-* PatientID are the patient ID **before** the deidentification
-* SOPInstanceUID are the SOPInstanceUID **before** the deidentification
-* DeidentifySOPInstanceUID are the SOPInstanceUID **after** the deidentification
-* SeriesInstanceUID are the SeriesInstanceUID **before** the deidentification
-* DeidentifySeriesInstanceUID are the SeriesInstanceUID **after** the deidentification
-* ProjectName are the project name used for the deidentification
-* ProfileName are the profile name used for the deidentification
-* ProfileCodenames are a list of concatenated profile items that has been used for the deidentification
+* `issuerOfPatientID` are the issuer of patient ID **before** the deidentification
+* `PatientID` are the patient ID **before** the deidentification
+* `SOPInstanceUID` are the SOPInstanceUID **before** the deidentification
+* `DeidentifySOPInstanceUID` are the SOPInstanceUID **after** the deidentification
+* `SeriesInstanceUID` are the SeriesInstanceUID **before** the deidentification
+* `DeidentifySeriesInstanceUID` are the SeriesInstanceUID **after** the deidentification
+* `ProjectName` are the project name used for the deidentification
+* `ProfileName` are the profile name used for the deidentification
+* `ProfileCodenames` are a list of concatenated profile items that has been used for the deidentification
 
 ### Dev Mode
 
@@ -84,17 +84,17 @@ Some variables are availables.
     <if condition='property("ENVIRONMENT").contains("DEV")'>
         <then>
             <!--
-			How the logs will be displayed in the standard output (console)
-     		SOPInstanceUID, issuerOfPatientID and PatientID are variables to associate the current DICOM with the log
-			-->
+            How the logs will be displayed in the standard output (console)
+            SOPInstanceUID, issuerOfPatientID and PatientID are variables to associate the current DICOM with the log
+            -->
             <appender name="DEV_OUT" class="ch.qos.logback.core.ConsoleAppender">
                 <encoder>
-                    <Pattern>%black(%d{ISO8601})  %highlight(%-5level) %marker %highlight(%X{SOPInstanceUID}) %highlight(%X{issuerOfPatientID}) %highlight(%X{PatientID}) [%yellow(%t)] %yellow(%C{1.}): %msg%n%throwable 						</Pattern>
+                    <Pattern>%black(%d{ISO8601})  %highlight(%-5level) %marker %highlight(%X{SOPInstanceUID}) %highlight(%X{issuerOfPatientID}) %highlight(%X{PatientID}) [%yellow(%t)] %yellow(%C{1.}): %msg%n%throwable</Pattern>
                 </encoder>
             </appender>
             <!--
             Log everything at the INFO level except for the package org.karnak and org.weasis, they are at the DEBUG level.
-			-->
+            -->
             <root level="info">
                 <appender-ref ref="DEV_OUT" />
             </root>
@@ -106,13 +106,13 @@ Some variables are availables.
         -->
         <else>
             <!--
-			How the warning logs will be displayed in the standard output (console)
-			SOPInstanceUID, issuerOfPatientID and PatientID are variables to associate the current DICOM with the log
-			-->
+            How the warning logs will be displayed in the standard output (console)
+            SOPInstanceUID, issuerOfPatientID and PatientID are variables to associate the current DICOM with the log
+            -->
             <appender name="WARNING_OUT" class="ch.qos.logback.core.ConsoleAppender">
                 <!--
-				Log only at WARN level
-				-->
+                Log only at WARN level
+                -->
                 <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
                     <level>WARN</level>
                 </filter>
@@ -121,8 +121,8 @@ Some variables are availables.
                 </encoder>
             </appender>
             <!--
-			Write all.log file in the file system.
-			-->
+            Write all.log file in the file system.
+            -->
             <appender name="ALL_LOGS" class="ch.qos.logback.core.rolling.RollingFileAppender">
                 <file>${LOGS}/all/all.log</file>
                 <!--
@@ -156,16 +156,10 @@ Some variables are availables.
                 </encoder>
             </appender>
             <!--
-			Write clinical.log file in the file system.
-			Will contains only the logs with the CLINICAL marker. The logs with CLINICAL marker concerns the information about the deidentification.
+            Write clinical.log file in the file system.
+            Will contains only the logs with the CLINICAL marker. The logs with CLINICAL marker concerns the information about the deidentification.
             Variables used for the CLINICAL log:
-			SOPInstanceUID are the SOPInstanceUID before the deidentification
-			DeidentifySOPInstanceUID are the SOPInstanceUID after the deidentification
-			SeriesInstanceUID are the SeriesInstanceUID before the deidentification
-			DeidentifySeriesInstanceUID are the SeriesInstanceUID after the deidentification
-			ProjectName are the project name used for the deidentification
-			ProfileName are the profile name used for the deidentification
-			ProfileCodenames are a list of concatenated profile items that has been used for the deidentification
+            SOPInstanceUID, DeidentifySOPInstanceUID, SeriesInstanceUID, DeidentifySeriesInstanceUID, ProjectName, ProfileName, ProfileCodenames
 			-->
             <appender name="CLINICAL_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
                 <file>${LOGS}/Clinical/clinical.log</file>
@@ -193,8 +187,8 @@ Some variables are availables.
 
             <!--
             Log everything at the WARN level except for the package org.karnak and org.weasis, they are at the INFO level.
-			The INFO logs won't appear in the standard output, because they will be filtered by the WARNING_OUT appender
-			-->
+            The INFO logs won't appear in the standard output, because they will be filtered by the WARNING_OUT appender
+            -->
             <root level="warn">
                 <appender-ref ref="ALL_LOGS" />
                 <appender-ref ref="CLINICAL_FILE" />
