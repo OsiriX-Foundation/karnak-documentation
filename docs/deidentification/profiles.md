@@ -10,7 +10,7 @@ permalink: /docs/deidentification/profiles
 
 In the Karnak user interface, you can click on the Profile button on the left. This allows you to see the list of profiles and to import new profiles.
 
-A profile file is one or a list of profile elements that are defined for a group of DICOM attributes and with a particular action. During de-identification, Karnak will apply the profile elements to all applicable DICOM attributes. The principle is that it is not possible to apply multiple profile elements to a DICOM attribute. The profile elements are applied in the order defined in the yaml file and, therefore, it is the first applicable profile element that will modify the value of a DICOM attribute and the following profile elements will not be applied.
+A profile file is one or a list of profile elements that are defined for a group of DICOM attributes and with a particular action. During de-identification, Karnak will apply the profile elements to all applicable DICOM attributes. The principle is that it is not possible to apply multiple profile elements to a DICOM attribute. **The profile elements are applied in the order defined in the yaml file** and, therefore, it is the first applicable profile element that will modify the value of a DICOM attribute and the following profile elements will not be applied.
 
 Currently, the profile must be a yaml file (MIME-TYPE: **application/x-yaml**) and respect the definition as below.
 
