@@ -36,9 +36,15 @@ You can change the project name and the de-identification profile using these in
 
 ### 4. Project secret
 
-The secret is generated automatically at the creation of a project. You can generate a new secret by using the "Regenerate Secret" button or by adding your own in the input.
+The secret is generated automatically at the creation of a project. You can generate a new secret by using the "Generate Secret" button.
 
-To add your own secret you must respect the following format:
+If new secrets are generated, previous secrets are saved in database in order to be able to use them again if needed.
+
+The history of secrets is listed in the secret combobox with the creation date.
+
+![project secret history](resources/project_secret_history.png)
+
+In order to take into account the new generated secret, project has to be saved by clicking on the update button.
 
 * A secret is a hexadecimal value
 
