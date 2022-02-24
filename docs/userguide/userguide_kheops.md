@@ -2,7 +2,7 @@
 layout: default
 title: KHEOPS
 parent: User guide
-nav_order: 6
+nav_order: 9
 permalink: /docs/userguide/kheops
 ---
 
