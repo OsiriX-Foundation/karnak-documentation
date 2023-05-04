@@ -225,7 +225,23 @@ With this example profile element, a tag value contains this entry date for exam
       - "0008,003X"
 ```
 
+4 .**shift_by_tag** option to allows you to shift a date according to increment stored in a DICOM tag according to the following arguments:
 
+- seconds_tag (optional)
+- days_tag (optional)
+
+In this example, all the tags starting with 0010 and that are date fields are offset by the number of days stored in the private tag `(0015,0011)`.
+
+```yaml
+- name: "Shift Date By Tag"
+  codename: "action.on.dates"
+  arguments:
+    seconds_tag: null
+    days_tag: "(0015,0011)"
+  option: "shift_by_tag"
+  tags:
+    - "0010,XXXX"
+```
 
 ---
 
