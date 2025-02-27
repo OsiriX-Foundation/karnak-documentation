@@ -8,7 +8,7 @@ permalink: /docs/userguide/projects
 
 # Projects
 
-When you want to use KARNAK's de-identification methods, you need to associate a project with your destination. This project defines the profile to be used as weel as the integrity of the data using a secret. The secret makes it possible to maintain consistency between the data to be de-identified, see [Action U, Generate a new UID](../deidentification/rules#action-u-generate-a-new-uid) for more details.
+When you want to use KARNAK's de-identification methods, you need to associate a project with your destination. This project defines the profile to be used as weel as the integrity of the data using a secret. The secret makes it possible to maintain consistency between the data to be de-identified, see [Action U, Generate a new UID](../profiles/rules#action-u-generate-a-new-uid) for more details.
 
 The project page allows you to manage your projects. On this page, you can perform the following actions:
 

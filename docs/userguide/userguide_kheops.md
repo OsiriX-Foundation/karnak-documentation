@@ -74,4 +74,4 @@ The source is the album main, where all studies are sent.
 
 The condition field will allow you to assign a condition to enable sharing to the destination.
 
-All conditions available are presented in the chapter [Destination Conditions](conditions)
+The conditions syntax and usage is detailed in the [Conditions](profiles/conditions) page.

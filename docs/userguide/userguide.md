@@ -11,13 +11,15 @@ has_toc: false
 
 **The user guide is under construct**
 
-The objective of this user guide is to present each of the pages, listed below, in order to allow the user to learn about the KARNAK gateway.
+This user guide aims to present every page of the application, listed below in order to help the user navigate through KARNAK.
 
-* [Gateway](userguide/gateway) - Manage the Forward Nodes and your Sources and Destinations
-* [Profiles](userguide/profiles) - Manage your de-identification profiles
-* [Projects](userguide/projects) - Manage your de-identification projects   
-* [External Pseudonym](userguide/extpseudo) - Manage your cached pseudonym or pseudonym Mainzelliste
-* [DICOM Tools](userguide/dicomtools) - Test your DICOM node, worklist
-* [KHEOPS](userguide/kheops) - Short presentation of KHEOPS and its use in KARNAK
-* [Destination Conditions](userguide/conditions) - All conditions available in the destination configuration
+* [Gateway](userguide/gateway) - Manage the Forward Nodes, Sources and Destinations
+* [Profiles](userguide/profiles) - Manage the profiles
+* [Projects](userguide/projects) - Manage the projects   
+* [External Pseudonym](userguide/extpseudo) - Manage the cached pseudonyms
+* [Pseudonym mapping](userguide/pseudonym_mapping) - Query the cached pseudonyms to retrieve the original data
+* [Monitoring](userguide/monitoring) - Log of the completed or ongoing transfers
+* [DICOM Tools](userguide/dicomtools) - DICOM network utilities to test the nodes and worklist
+* [KHEOPS](userguide/kheops) - Basic use of KHEOPS and its use in KARNAK
+* [Destination Conditions](userguide/conditions) - Conditions definition in the destination configuration
 

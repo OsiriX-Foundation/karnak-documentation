@@ -17,7 +17,7 @@ The profile page allows you to manage your profiles. On this page, you can perfo
 * [Remove a profile](#3-profile-details)
 * [Edit a profile](#3-profile-details)
 
-KARNAK has the "Dicom Basic Profile" profile by default, the details about this profile is explained in the section [How KARNAK does ?](../deidentification/rules). This profile cannot be deleted or edited, except for the value of default issuer of patient ID. 
+KARNAK has the "Dicom Basic Profile" profile by default, the details about this profile is explained in the section [How KARNAK does ?](../profiles/rules). This profile cannot be deleted or edited, except for the value of default issuer of patient ID. 
 
 ![profile page](resources/profile_main.png)
 

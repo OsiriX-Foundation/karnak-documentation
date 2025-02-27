@@ -277,7 +277,7 @@ A message below shows you which profile is associated with the selected project.
 
 2.1 By default, you can choose four different type of pseudonym.
 
-2.2 Is an exemple of external id provider injected in KARNAK (for more details, see [ExternalID provider](../deidentification/externalid_provider.md)). 
+2.2 Is an exemple of external id provider injected in KARNAK (for more details, see [ExternalID provider](../profiles/externalid_provider.md)). 
 
 ![Pseudonym Type](resources/pseudonym_type.png)
 
@@ -295,7 +295,7 @@ A message below shows you which profile is associated with the selected project.
 
 **1 Use as Patient Name**
 
-Instead to use the [generated patient name by KARNAK](../deidentification/rules#patientid-generation), it will contains the pseudonym find in the DICOM tag.
+Instead to use the [generated patient name by KARNAK](../profiles/rules#patientid-generation), it will contains the pseudonym find in the DICOM tag.
 
 **2 Fields to find the pseudonym**
 
