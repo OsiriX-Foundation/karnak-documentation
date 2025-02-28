@@ -1,0 +1,127 @@
+# this is a required setting for this theme to appear on https://themes.gohugo.io/
+# change this to a value appropriate for you
+baseurl = "https://osirix-foundation.github.io/karnak-documentation/"
+# as the official Hugo documentation recommends, we turn this off for this
+# showcase; this allows the published site to be served by both http and https
+canonifyURLs = true
+# required for official documentation served from subfolder
+relativeURLs = false
+
+disableHugoGeneratorInject = true
+
+# the directory where Hugo reads the themes from; this is specific to your
+# installation and most certainly needs be deleted or changed
+#themesdir = "../.."
+# yeah, well, obviously a mandatory setting for your site, if you want to
+# use this theme ;-)
+theme = "hugo-theme-relearn"
+
+# the main language of this site; also an automatic pirrrate translation is
+# available in this showcase
+languageCode = "en"
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir= true
+
+# the site's title of this showcase; you should change this ;-)
+title = "Karnak Documentation"
+
+# Robots.txt for web crawlers
+enableRobotsTXT = true
+
+[minify]
+disableCSS = false
+disableHTML = true
+disableJS = false
+disableJSON = false
+disableSVG = false
+disableXML = false
+minifyOutput = false
+[minify.tdewolff]
+[minify.tdewolff.css]
+keepCSS2 = true
+precision = 0
+[minify.tdewolff.html]
+keepComments = false
+keepConditionalComments = true
+keepDefaultAttrVals = true
+keepDocumentTags = true
+keepEndTags = true
+keepQuotes = false
+keepWhitespace = true
+[minify.tdewolff.js]
+keepVarNames = false
+noNullishOperator = false
+precision = 0
+version = 0
+[minify.tdewolff.json]
+keepNumbers = false
+precision = 0
+[minify.tdewolff.svg]
+keepComments = false
+precision = 0
+[minify.tdewolff.xml]
+keepWhitespace = false
+
+# settings specific to this theme's features; choose to your likings and
+# consult this documentation for explanation
+[params]
+  editURL = "https://osirix-foundation.github.io/karnak-documentation/edit/main/content/"
+  logo = "images/karnak.png"
+  # Author of the site, will be used in meta information
+  author.name = "Karnak Team"
+  # Description of the site, will be used in meta information
+  showVisitedLinks = true
+  disableBreadcrumb = false
+  disableTOC = false
+  disableGeneratorVersion = true
+  disableNextPrev = false
+  disableLandingPageButton = true
+  titleSeparator = "::"
+  themeVariant = [ "relearn-dark", "relearn-light" ]
+  themeVariantAuto = [ "relearn-light", "relearn-dark" ]
+  disableSeoHiddenPages = true
+  # this is for the stylesheet genertor to allow for interactivity in mermaid
+  # graphs; you usually will not need it and you should remove this for
+  # security reasons
+  mermaidInitialize = "{ \"securityLevel\": \"loose\" }"
+
+[outputs]
+  # add JSON to the home page to support lunr search; This is a mandatory setting
+  # for the search functionality
+  home = ['html', 'rss', 'print']
+  section = ['html', 'rss', 'print']
+  page = ['html', 'rss', 'print']
+
+[markup]
+  [markup.highlight]
+    # if `guessSyntax = true`, there will be no unstyled code even if no language
+    # was given BUT mermaid code fences will not work anymore! So this is a mandatory
+    # setting for your site
+    guessSyntax = false
+
+    # here in this showcase we use our own modified chroma syntax highlightning style
+    # which is imported in theme-relearn-light.css / theme-relearn-dark.css;
+    # if you want to use a predefined style instead:
+    # - remove the following `noClasses`
+    # - set the following `style` to a predefined style name
+    # - remove the `@import` of the self-defined chroma stylesheet from your CSS files
+    #   (here eg.: theme-relearn-light.css / theme-relearn-dark.css)
+    noClasses = false
+    # style = "tango"
+
+    [markup.goldmark.renderer]
+    # activated for this showcase to use HTML and JavaScript; decide on your own needs;
+    # if in doubt, remove this line
+    unsafe = true
+
+
+[Languages]
+[Languages.en]
+title = "Karnak Documentation"
+weight = 1
+languageName = "English"
+
+[Languages.fr]
+title = "Documentation"
+weight = 2
+languageName = "Français"
