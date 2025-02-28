@@ -60,9 +60,16 @@ profileElements:
 
 The mask definition requires the following parameters:
 
-* `stationName`: source station name that is matched against the attribute Station Name in the DICOM instance. It allows the mask to be specific depending on the station that generated the image. The value can also be set to `*` to match any station. 
+* `stationName`: source station name that is matched against the attribute Station Name in the DICOM instance. It allows the mask to be specific depending on the station that generated the image. The value can also be set to `*` to match any station.
 * `color`: color of the mask in hexadecimal
 * `rectangles`: defines the list of rectangles to apply to mask identifying information
+
+The mask definition can have these optional parameters:
+
+* `imageWidth`: mask specific to an image of a given width in pixels, this value will be matched against the value of the Columns attribute in the DICOM instance
+* `imageHeight`: mask specific to an image of a given height in pixels, this value will be matched against the value of the Rows attribute in the DICOM instance.
+
+The selection of the mask based on the image size requires both attributes to be set, height and width. The definition of the width or height solely is not supported.
 
 A rectangle is defined by the following required parameters:
 
@@ -77,7 +84,14 @@ The schema below illustrate the definition of a rectangle having the following p
 
 ![Rectangles example](resources/CleanPixel_rectangle.png)
 
-The example below shows how to define a default mask (`stationName: *`) and a mask that will be applied only to instances coming from the R2D2 station.
+The example below shows how to define a default mask (`stationName: *`), a mask specific to the R2D2 station and a more specific mask applied only depending on the image size.
+
+Depending on the instance image size and station name, the following actions will be performed:
+
+- The instance Rows, Columns and Station Name attributes are retrieved.
+- These values are matched against the masks defined in the masks list. If an exact match is found using the imageWidth, imageHeight and stationName values, this mask is used for the cleaning pixel action. In this example, if the instance contains the value 1024 in the Rows and Columns attribute and "R2D2" in the station name attribute, the third mask will be selected.
+- If no match is found, the image size attributes are removed and a match is performed only on the station name attribute. In this example, if the instance contains "R2D2" in the Station Name attribute, the second mask will be selected without any regards for the image size of the instance.
+- If no match is found, the default mask will be selected, here the first one.
 
 ```yaml
 masks:
@@ -90,6 +104,12 @@ masks:
     rectangles:
       - "25 25 150 50"
       - "350 15 150 50"
+  - stationName: "R2D2"
+    imageWidth: 1024
+    imageHeight: 1024
+    color: "00ffff"
+    rectangles:
+      - "50 25 100 100"
 ```
 
 ## Pixel Data Cleaning Exceptions
