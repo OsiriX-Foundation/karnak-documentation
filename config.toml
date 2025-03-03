@@ -84,6 +84,7 @@ keepWhitespace = false
   # graphs; you usually will not need it and you should remove this for
   # security reasons
   mermaidInitialize = "{ \"securityLevel\": \"loose\" }"
+  disableInlineCopyToClipBoard = true
 
 [outputs]
   # add JSON to the home page to support lunr search; This is a mandatory setting

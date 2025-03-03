@@ -55,20 +55,20 @@ The pattern `(XXXX,XXXX)` targets all the DICOM attributes.
 
 A condition can be added to any type of profile element. It contains an expression that will be evaluated for each tag the profile element is applied to.
 
-The syntax and usage of these conditions is detailed in the [Conditions](profiles/conditions) page.
+The syntax and usage of these conditions is detailed in the [Conditions](../conditions) page.
 
 ## Validation
 
 The content of the yaml file is validated upon import. If the structure or parameters are not defined correctly, detailed errors will be displayed to the user. 
 
-Please refer to the [Profiles](/content/userguide/profiles#3-profile-details) page for more information.
+Please refer to the [Profiles](../../userguide/profiles#3-profile-details) page for more information.
 
 ## Basic Dicom Profile
 
 The [Basic DICOM Profile](http://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html) is defined by DICOM to remove all the attributes that could contain Individually Identifying Information (III) about the patient or other individuals or organizations associated with the data.
 The details of this profile element can be found in the DICOM Standard. 
 
-Further details on this profile element and its implementation in Karnak can be found in the [How Karnak does ?](profiles/rules) page. 
+Further details on this profile element and its implementation in Karnak can be found in the [How does de-identification work?](../rules) page. 
 
 **We strongly recommend including this profile as basis for de-identification.**
 

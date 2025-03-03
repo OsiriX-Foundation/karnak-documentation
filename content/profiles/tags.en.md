@@ -96,7 +96,7 @@ This profile can have these optional parameters:
 Regarding the application of profile elements, if the tag is not initially present in the instance, then it will be added by this action. Further actions that match this tag won't be applied.
 If the tag was already present in the instance, then the add action is ignored and a further action can be applied to that tag.
 
-This feature is especially useful when applying masks to non-compliant SOPs by using the attribute Burned In Annotation. Please refer to the [Cleaning Data Pixel Exceptions](/content/profiles/masks#pixel-data-cleaning-exceptions) page for an exhaustive example.
+This feature is especially useful when applying masks to non-compliant SOPs by using the attribute Burned In Annotation. Please refer to the [Cleaning Data Pixel Exceptions](../masks#pixel-data-cleaning-exceptions) page for an exhaustive example.
 
 In this example, we add the optional tag Recognizable Visual Features (0028,0302).
 
