@@ -12,31 +12,31 @@ Currently limited to 150000 transfers, it is possible to browse the different pa
 
 An automatic cleaning occurs on the monitoring tables, if the limit is exceeded.
 
-The view display the most recent transfers and is ordered with most recent first.
+The view displays the most recent transfers and is ordered with most recent first.
 
-Filters allow to limit the results and makes it easier to find a transfer.
+Filters are available to easily browse or find a transfer.
 
 It is possible to export the list of transfers via the export functionality in csv format depending on the filters selected.
 
-By clicking on a transfer, it opens details of the information original and deidentified.
+By clicking on a transfer, its details are displayed containing the de-identified and original information.
 
 ### 1. Filters
 
 ![monitoring filters](/userguide/monitoring_filters.png)
 
-Filters allow to ease the search of transfers.
+Filters allow to easily search and browse transfers.
 It is possible to filter by:
 * Date/Time of transfers
-* Study UID (original or deidentified) 
-* Serie UID (original or deidentified)
-* Sop Instance UID (original or deidentified)
+* Study UID (original or de-identified) 
+* Serie UID (original or de-identified)
+* Sop Instance UID (original or de-identified)
 * Status of the transfer (not sent, sent, all) 
 
 ### 2. Browsing
 
 ![monitoring browsing](/userguide/monitoring_browsing.png)
 
-It is possible to go throw the different pages of the list of transfers by using the navigation bar.
+It is possible to go through the different pages of the list of transfers by using the navigation bar.
 
 ### 3. Refresh
 
@@ -52,8 +52,8 @@ Export settings allow to customize the csv before exporting it. It is possible t
 
 ![monitoring export button](/userguide/monitoring_export_button.png)
 
-Once customize, the export is launched by clicking on the export button.
+Once customized, the export is launched by clicking on the export button.
 
 ![monitoring export csv](/userguide/monitoring_export_csv.png)
 
-Export will use the filters selected in the monitoring view and export only transfers corresponding to the filters. 
+Export will use the filters selected in the monitoring view and export only transfers matching the filters' criteria. 

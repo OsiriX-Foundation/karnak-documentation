@@ -6,59 +6,55 @@ description: Send DICOM data to a Kheops album
 
 ## Create a destination album
 
-To create a Kheops album as a destination you must use:
+To create a Kheops album as a destination, the following values must be set:
 
 * Protocol: STOW
 * DICOM endpoint: /api/studies
 
-First create the album destination, please refer to the official documentation of Kheops to [create a new album](https://docs.kheops.online/docs/albums/new_album).
+To create the album destination, please refer to the [official documentation](https://docs.kheops.online/docs/albums/new_album). of Kheops.
 
+Once the album is created, please follow these steps to configure the album as a destination in Karnak.
+
+1. Create a new token
 ![New token](/userguide/kheops_newtoken.png)
 
+2. Give **WRITE** permission to the token and set the expiration date
 ![New token](/userguide/kheops_newtoken_1.png)
 
+3. Copy the authentication token value to be used in the header of your Karnak destination
 ![New token](/userguide/kheops_newtoken_2.png)
 
-1 Create a new token
-
-2 Give **WRITE** permission to the token
-
-3 Set a token expiration date
-
-4 Copy the token value to be used in the header of your Karnak destination
-
-Below is an example of creating headers with the token value:
-
-```
-<key>Authorization</key>
-<value>Bearer y8KlxLhhq8yeEPpOHkhbHg</value>
-```
+The creation and configuration of a STOW Destination in Karnak is detailed [here](../gateway/destinations/#stow-destination).
 
 ## Switching in different Kheops albums
 
-When you create a destination that points to a Kheops album, you can propagate your data to underlying albums.
+When a destination points to a Kheops album, the data can be propagated to underlying albums.
 
-This is useful when you want to send a cohort of studies to a research group for example, without sharing all of the album studies.
+This is useful when a cohort of studies is sent to a research group for example, without sharing all the album studies.
 
-**Beware**, the study sharing between album, must be done only within the same Kheops. Studies cannot be shared between different Kheops instances, you should create one destination per Kheops instance.
+Studies cannot be shared between different Kheops instances, one destination must be configured in Karnak per Kheops instance.
 
-The purpose of this functionality is to allow sending your data to a single destination and to use the Kheops API to propagate your data to different places without having to create a new destination.
+The purpose of this functionality is to take advantage of the Kheops API to propagate the data to different places without having to create new destinations in Karnak. At the same time, the data is split according to rules defined in Kheops to prevent data leakage and allow the authorized persons to access only the relevant data and not all the main album.
 
-The following illustration show a scenario of this functionality. The illustrated scenario allows you to send a DICOM data to Karnak. Karnak has a destination defined to send the data to a Kheops album (Album main). This means that this album will regroup all the data sent by KANRAK. To prevent researchers or end users from having access to all the data, the data will be shared in other albums according to defined conditions.
+The following diagram illustrates the behavior of data being processed through Karnak and sent to multiple Kheops albums.
 
-1. The DICOM data is send to Karnak
-2. Karnak send the data to the album main in Kheops
-3. The data will be shared in the album X and in the album Y
+```mermaid {align="center" zoom="true"}
+graph LR;
+  A(DICOM Data) --> B[Karnak]
+  
+  subgraph Kheops
+    D[Main Album] --> E[Album X]
+    D --> F[Album Y]
+  end
+  
+  B --> D
+```
 
-![Switching Kheops example](/userguide/switching_kheops_scenario.png)
+First, a DICOM instance is received by Karnak. After processing it, it sends the instance to the main Kheops album. Depending on existing rules and conditions, the instance will also be shared to the album X and Y.
 
 ### Create a switching Kheops album
 
-To share your DICOM in different Kheops album, you must complete the following fields and **validate them by clicking on Add button**.
-
-The destination is the album where the studies will be shared.
-
-The source is the album main, where all studies are sent.
+To share a DICOM instance in different Kheops albums, the following fields must be filled and **validated by clicking on Add button**.
 
 ![Switching](/userguide/kheops_switching.png)
 
@@ -68,6 +64,6 @@ The source is the album main, where all studies are sent.
 | Valid token of destination   | The token to write to the album destination. Need **WRITE** permission                               |
 | Valid token of source        | The token to shared from the album source. Need **READ, SEND** (Sharing in the Kheops UI) permission |
 
-The condition field will allow you to assign a condition to enable sharing to the destination.
+The condition field defines a condition to enable sharing an instance to a specific album if it is evaluated to true.
 
 The conditions syntax and usage is detailed in the [Conditions](../../profiles/conditions) page.
