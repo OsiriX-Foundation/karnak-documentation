@@ -39,7 +39,8 @@ If the notifications are activated, automatic emails are generated and sent by K
 ![Notifications](/userguide/destination_notifications.png)
 
 * List of emails: comma separated list of emails that the email notification will be sent to
-* Error subject prefix: prefix of the email object an issue occurred. Default value: ERROR
+* Error subject prefix: prefix of the email object an issue occurred. Default value: \*\*ERROR\*\*
+* Rejection subject prefix: prefix of the email object an instance is not sent because of some defined filter or criteria. Default value: \*\*REJECTED\*\*
 * Subject pattern: pattern of the email object in [Java String Format](https://dzone.com/articles/java-string-format-examples). Default value: [Karnak Notification] %s %.30s
 * Subject values: attribute values that can be injected in the subject pattern. The attributes that can be injected are: PatientID, StudyDescription, StudyDate, StudyInstanceUID. Default value: PatientID,StudyDescription
 * Interval: interval in seconds for the notification generation. Once an instance is received, it will wait for the number of seconds defined and aggregate the information so that only one email is sent in that period of time. Default value: 45

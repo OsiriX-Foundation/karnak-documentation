@@ -30,7 +30,14 @@ It is possible to filter by:
 * Study UID (original or de-identified) 
 * Serie UID (original or de-identified)
 * Sop Instance UID (original or de-identified)
-* Status of the transfer (not sent, sent, all) 
+* Status of the transfer (not sent, sent, all, excluded and error) 
+
+The status of a transfer is defined as follows :
+* if the instance was successfully sent, it appears with the label "Sent" in green
+* if the instance was not sent because of the SOP filter, the destination condition or the use of ExcludeInstance() in the profile, it appears in white with a label corresponding to the reason why it was excluded
+* if the instance was not sent because an unexpected error occurred, it will appear in red with a label corresponding to the error that occurred
+
+![Transfer statuses](/userguide/monitoring_statuses.png)
 
 ### 2. Browsing
 
