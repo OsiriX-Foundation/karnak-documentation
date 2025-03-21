@@ -1,12 +1,10 @@
 ---
 title: User guide
 weight: 5
-description: User guide for the Karnak application
+description: User guide for the Karnak web interface
 ---
 
-**The user guide is under construct**
-
-This user guide aims to present every page of the application, listed below in order to help the user navigate through Karnak.
+This user guide provides a detailed overview of each page available in the Karnak web interface, focusing on the sections listed in the left-hand menu.
 
 {{% children description="true" %}}
 

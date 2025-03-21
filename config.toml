@@ -65,7 +65,7 @@ keepWhitespace = false
 # settings specific to this theme's features; choose to your likings and
 # consult this documentation for explanation
 [params]
-  editURL = "https://osirix-foundation.github.io/karnak-documentation/edit/main/content/"
+  editURL = "https://github.com/OsiriX-Foundation/karnak-documentation/edit/main/content/"
   logo = "images/karnak.png"
   # Author of the site, will be used in meta information
   author.name = "Karnak Team"

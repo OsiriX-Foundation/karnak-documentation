@@ -71,8 +71,8 @@ After=docker.service network.target
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=/opt/karnak
-ExecStart=/usr/local/bin/docker-compose up -d
-ExecStop=/usr/local/bin/docker-compose down
+ExecStart=/usr/local/bin/docker compose up -d
+ExecStop=/usr/local/bin/docker compose down
 TimeoutStartSec=0
 
 [Install]
