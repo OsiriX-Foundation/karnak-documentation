@@ -86,7 +86,6 @@ This profile element requires the following parameters:
 * `codename`: `action.add.tag`
 * `arguments`:
   * `value`: required value to set the tag's value to
-  * `vr`: VR of the tag, if not specified, its VR will be retrieved from DICOM Standard
 * `tags`: must contain exactly one tag, the one to add
 
 This profile can have these optional parameters:
@@ -94,7 +93,9 @@ This profile can have these optional parameters:
 * `condition`: optional, defines a condition to evaluate if this profile element should be applied to this DICOM instance
 
 Regarding the application of profile elements, if the tag is not initially present in the instance, then it will be added by this action. Further actions that match this tag won't be applied.
-If the tag was already present in the instance, then the add action is ignored and a further action can be applied to that tag.
+If the tag was already present in the instance, then the add action is ignored and a further action can be applied to that tag. It is only possible to add tags at the root level of the DICOM instance. Adding elements in a sequence is not supported.
+
+The attribute must exist in the DICOM Standard, otherwise the profile validation will fail and cannot be added. The VR is retrieved from the Standard as well. If this profile element is applied on a SOP class that does not contain this tag, it won't be added to prevent corrupting the DICOM instance, and a warning will be generated in the logs 
 
 This feature is especially useful when applying masks to non-compliant SOPs by using the attribute Burned In Annotation. Please refer to the [Cleaning Data Pixel Exceptions](../masks#pixel-data-cleaning-exceptions) page for an exhaustive example.
 
@@ -108,6 +109,55 @@ In this example, we add the optional tag Recognizable Visual Features (0028,0302
     vr: "CS"
   tags:
     - "(0028,0302)"
+```
+
+---
+
+## Add new private tags
+
+This profile element adds a private tag if it is not already present in the instance. This action will be ignored if the tag is already present in the instance or if there is a collision with a different Private Creator ID.
+
+Its codename is `action.add.private.tag`.
+
+This profile element requires the following parameters:
+
+* `name`: description of the action applied
+* `codename`: `action.add.private.tag`
+* `arguments`:
+  * `value`: required value to set the tag's value to
+  * `vr`: VR of the tag
+  * `privateCreator`: optional value of the PrivateCreatorID, see below
+* `tags`: must contain exactly one tag, the one to add
+
+This profile can have these optional parameters:
+
+* `condition`: optional, defines a condition to evaluate if this profile element should be applied to this DICOM instance
+
+##### PrivateCreator value
+
+The privateCreator argument is optional. It is recommended to specify it for coherence purposes. 
+
+In case the PrivateCreatorID tag does not exist for the private tag to be added, the privateCreator argument must be specified, and it will be created at the same time.
+
+In case the PrivateCreatorID tag exists, if the privateCreator argument is not specified, the tag will be added as a part of it. It the privateCreator argument is specified, the existing PrivateCreatorID tag value will be matched against the privateCreator argument. If it matches, the new tag is added. If it doesn't, there is a PrivateCreatorID collision and the tag won't be added to prevent incoherent data in the DICOM instance. A warning will be generated in the logs.
+
+The other specificities of the Add action are the same as above, for non-private tags.
+
+The details about the management of tags and element numbers in private tags are detailed in the [DICOM Standard](https://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_7.8.html).
+
+In this example, we add a private tag containing the value "sample-project" linked to the PrivateCreatorID "KARNAK-PRIVATE". The PrivateCreatorID tag (0057,0010) is created with the value "KARNAK-PRIVATE" if it is not present in the DICOM instance. If it exists already and contains the value "KARNAK-PRIVATE", the (0057,1000) tag will be created.
+
+If the PrivateCreatorID tag (0057,0010) exists already but contains a value different from "KARNAK-PRIVATE", the tag (0057,1000) won't be added since it would result in linking it to the wrong PrivateCreatorID.
+
+```yaml
+- name: "Add Private Tag"
+  codename: "action.add.private.tag"
+  arguments:
+    value: "sample-project"
+    vr: "LO"
+    privateCreator: "KARNAK-PRIVATE"
+  tags:
+    - "(0057,1000)"
 ```
 
 ---
