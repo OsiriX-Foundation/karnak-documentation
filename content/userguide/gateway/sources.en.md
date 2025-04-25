@@ -19,4 +19,4 @@ If no sources are defined, the forward node will receive DICOM instances from an
 
 The field AETitle is mandatory. 
 
-The fields Description and Hostname are optional. If "Check the hostname" option is selected, the Hostname's field value will be also be used to filter DICOM instances based on the sending AET. 
+The fields Description and Hostname are optional. If the "Check the hostname" option is selected, the Hostname's field value will also be used to filter DICOM instances based on the sending AET. 

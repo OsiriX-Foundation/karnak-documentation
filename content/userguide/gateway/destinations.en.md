@@ -63,7 +63,7 @@ If a project does not exist, a popup will be displayed.
 
 * **Create a project** redirects to the page project. If this option is chosen, all previously made changes in the destination form will be lost
 
-* **Continue** will close the pop-up and the de-identification will not be activated
+* **Continue** will close the pop-up, and the de-identification will not be activated
 
 If a project exists, de-identification can be configured as detailed below.
 

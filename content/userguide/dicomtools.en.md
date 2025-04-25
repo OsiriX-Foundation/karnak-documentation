@@ -4,10 +4,10 @@ weight: 70
 description: DICOM tools for checking the connection to a DICOM server
 ---
 
-This page offers utility tools related to DICOM:
-* test the availability of a DICOM node through DICOM Echo
-* visualize worklists
-* test standard and proprietary PACS services
+This page provides an overview of the utility tools available in the DICOM Tools module, designed to assist with connectivity, query, and status checks for DICOM servers. These tools enable users to:
+- Test the availability of a DICOM node using _DICOM Echo_
+- Query a _DICOM Worklist_ and display the DICOM result
+- Group and _monitor_ DICOM nodes using DICOM Echo and WADO protocols
 
 The different modules are accessed through the tabs at the top of the page.
 
