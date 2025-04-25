@@ -28,7 +28,7 @@ Some custom variables are defined in the context of the expression, they contain
 
 - `tag` contains the current attribute tag, for example (0010,0010)
 - `vr` contains the current attribute VR, for example PN
-- `stringValue` contains the current element value, for example 'John^Doe' //TOCHECK
+- `stringValue` contains the current element value, for example 'John^Doe'
 
 Some constants are also defined to improve readability and reduce errors. 
 
@@ -52,8 +52,6 @@ The possible actions are:
 - `UID()`: Replaces the current tag value with a newly generated UID and sets the tag's VR to UI
 - `Add(int tagToAdd, int vr, String value)`: Adds a tag to the DICOM instance
 - `ComputePatientAge()`: Replaces the current tag value with a computed value of the patient's age at the time of the exam
-
-//TOCHECK calls api + add ?
 
 ## Examples
 
