@@ -52,6 +52,7 @@ The possible actions are:
 - `UID()`: Replaces the current tag value with a newly generated UID and sets the tag's VR to UI
 - `Add(int tagToAdd, int vr, String value)`: Adds a tag to the DICOM instance
 - `ComputePatientAge()`: Replaces the current tag value with a computed value of the patient's age at the time of the exam
+- `ExcludeInstance()`: Interrupts the process of transferring this instance, it will appear in the monitoring view as *Rejected*, with the message *Instance excluded by profile*
 
 ## Examples
 
@@ -98,4 +99,15 @@ Computation of the patient's age at the time of the exam.
     expr: "ComputePatientAge()"
   tags: 
     - "(0010,1010)" #PatientAge
+```
+
+Exclude all instances that contain a name in the image, where the tag Specimen Label in Image is set to YES, otherwise do nothing.
+
+```yaml
+  - name: "Expression"
+    codename: "expression.on.tags"
+    arguments:
+      expr: "getString(#Tag.SpecimenLabelInImage) == 'YES' ? ExcludeInstance() : null"
+    tags: 
+      - "(xxxx,xxxx)"
 ```
