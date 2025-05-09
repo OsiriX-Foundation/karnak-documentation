@@ -82,6 +82,11 @@ The pseudonym types are detailed below:
 
 ![Pseudonym is in a DICOM tag](/userguide/pseudonym_dicomtag.png)
 
+* **Pseudonym from external API**: makes an API call to the specified URL using the specified method to retrieve the pseudonym. The detailed usage of those fields are explained in the [API Actions page](../../../profiles/api). The behavior is identical between those functionalities.
+
+![Pseudonym from API](/userguide/pseudonym_api.png)
+
+
 **Issuer of Patient ID by default**
 
 The value contained in this field is used when retrieving the pseudonym using the [External Pseudonym](../extpseudo). The pseudonym is queried based on the Patient ID and the Issuer of the Patient ID value.
