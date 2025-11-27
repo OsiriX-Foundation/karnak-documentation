@@ -66,4 +66,4 @@ To share a DICOM instance in different Kheops albums, the following fields must 
 
 The condition field defines a condition to enable sharing an instance to a specific album if it is evaluated to true.
 
-The conditions syntax and usage is detailed in the [Conditions](../../profiles/conditions) page.
+The condition syntax and usage are detailed in the [Conditions](../../profiles/conditions) page.

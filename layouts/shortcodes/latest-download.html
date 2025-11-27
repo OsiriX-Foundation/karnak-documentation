@@ -1,0 +1,58 @@
+{{ $token := getenv "HUGO_GH_TOKEN" }}
+{{ if not $token }}
+    <p style="color: red;">Error: The environment variable <code>HUGO_GH_TOKEN</code> is not set. Please configure it to retrieve the latest release data.</p>
+{{ else }}
+    {{$type := .Get 0}}
+    {{ $url := "https://api.github.com/repos/OsiriX-Foundation/karnak/releases" }}
+    {{ $headers := dict "Authorization" (printf "Bearer %s" $token) }}
+    {{ $options := dict "headers" $headers }}
+    {{ $releases := resources.GetRemote $url $options | transform.Unmarshal }}
+
+    {{ $jfile := "" }}
+    {{ range $releases }}
+        {{ if and (eq $jfile "") (gt (len .assets) 0) }}
+            {{ $jfile = . }}
+        {{ end }}
+    {{ end }}
+
+    {{ if $jfile }}
+    <table style="font-size: 0.8em;">
+        <thead>
+        <tr>
+            <th style="text-align: center; width: 11%;" scope="col">System</th>
+            <th style="text-align: center; width: 7%;" scope="col">Arch.</th>
+            <th style="text-align: center; width: 11%;" scope="col">Size</th>
+            <th style="text-align: center; width: 27%;" scope="col">Portable package</th>
+            <th style="text-align: center;" scope="col">Comments</th>
+        </tr>
+        </thead>
+        <tbody>
+            {{ range $index, $val := $jfile.assets }}
+                {{ $package := path.Ext $val.name }}
+                {{ if and (eq $package ".zip") (strings.HasPrefix $val.name "karnak-") }}
+                    {{ $arch := printf "%s-%s" (cond (or (in $val.name "aarch") (in $val.name "arm")) "arm" "x86") (cond (or (in $val.name "64") ) "64" "32") }}
+                    {{ $system := cond (in $val.name "windows") "Windows" (cond (in $val.name "macosx") "macOS" "Linux") }}
+                    {{ $icon := cond (in $val.name "windows") "microsoft" (cond (in $val.name "macosx") "apple" "linux") }}
+                    <tr>
+                        <td style="text-align: left;"><i class='fab fa-{{ $icon }}' style='font-size: 1.5em;'></i>&#160{{ $system }}</td>
+                        <td style="text-align: left;">{{ $arch }}</td>
+                        <td style="text-align: left;">{{ printf "%.1f MB"  (div $val.size 1000000.0) }}</td>
+                        <td style="text-align: left;">
+                                                                  <span class="btn cstyle transparent">
+                                                                  <a href="{{ $val.browser_download_url }}" target="_blank" rel="noopener noreferrer" >{{ $val.name }} <i class="fa-fw fas fa-download"></i></a>
+                                                                  </span>
+                        </td>
+                        <td style="text-align: left;">{{ cond (eq $system "Windows") "Requires Windows 10 or higher"
+                            (cond (eq $system "macOS") (cond (eq $arch "arm-64") "Requires macOS 12 or higher (Apple Silicon)" "Requires macOS 11 or higher (Intel)")
+                            (cond (eq $arch "arm-64") "Requires GLIBC_2.27" "Requires GLIBC_2.17"))
+                            }}
+                        </td>
+                    </tr>
+                    {{ end }}
+                {{ end }}
+        </tbody>
+    </table>
+        {{ else }}
+    <p>No releases found with downloadable assets.</p>
+    {{ end }}
+{{ end }}

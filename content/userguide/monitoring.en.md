@@ -6,36 +6,28 @@ description: Log of the completed or ongoing transfers
 
 ![monitoring view](/userguide/monitoring_main.png)
 
-Monitoring view is used to follow transfers in progress or recent transfers.
+The **Monitoring** view allows you to track transfers in progress or view the history of recent transfers. The list is ordered chronologically, with the most recent transfers displayed first.
 
-Currently limited to 150000 transfers, it is possible to browse the different pages via the navigation bar at the bottom center of the view
+By default, the log retains the last 150,000 transfers. An automatic cleaning process runs to remove older entries when this limit is exceeded.
 
-An automatic cleaning occurs on the monitoring tables, if the limit is exceeded.
-
-The view displays the most recent transfers and is ordered with most recent first.
-
-Filters are available to easily browse or find a transfer.
-
-It is possible to export the list of transfers via the export functionality in csv format depending on the filters selected.
-
-By clicking on a transfer, its details are displayed containing the de-identified and original information.
+Detailed information for each transfer, including both original and de-identified attributes, can be viewed by clicking on a transfer row.
 
 ### 1. Filters
 
 ![monitoring filters](/userguide/monitoring_filters.png)
 
-Filters allow to easily search and browse transfers.
-It is possible to filter by:
-* Date/Time of transfers
-* Study UID (original or de-identified) 
-* Serie UID (original or de-identified)
-* Sop Instance UID (original or de-identified)
-* Status of the transfer (not sent, sent, all, excluded and error) 
+Filters allow you to search and narrow down the list of transfers. You can filter by:
+*   **Date/Time**: Range of the transfer.
+*   **UIDs**: Study, Series, or SOP Instance UID (matches original or de-identified values).
+*   **Status**: The outcome of the transfer (Not sent, Sent, All, Excluded, Error).
 
-The status of a transfer is defined as follows :
-* if the instance was successfully sent, it appears with the label "Sent" in green
-* if the instance was not sent because of the SOP filter, the destination condition or the use of ExcludeInstance() in the profile, it appears in orange with a label corresponding to the reason why it was excluded
-* if the instance was not sent because an unexpected error occurred, it will appear in red with a label corresponding to the error that occurred
+#### Transfer Statuses
+
+The status of a transfer is color-coded:
+
+*   **Sent** (Green): The instance was successfully sent.
+*   **Excluded** (Orange): The instance was not sent due to configuration rules. This includes the [SOP Class filter](../gateway/destinations), destination conditions, or the use of `ExcludeInstance()` in the profile. The label indicates the specific reason for exclusion.
+*   **Error** (Red): The instance was not sent because an unexpected error occurred. The label indicates the error type.
 
 ![Transfer statuses](/userguide/monitoring_statuses.png)
 
@@ -43,24 +35,26 @@ The status of a transfer is defined as follows :
 
 ![monitoring browsing](/userguide/monitoring_browsing.png)
 
-It is possible to go through the different pages of the list of transfers by using the navigation bar.
+Use the navigation bar at the bottom of the view to browse through the pages of the transfer log.
 
 ### 3. Refresh
 
 ![monitoring refresh](/userguide/monitoring_refresh.png)
 
-By clicking on the refresh button, the list of transfers is updated with last transfers.
+Click the refresh button to update the list with the most recent transfers.
 
 ### 4. Export
 
 ![monitoring export settings](/userguide/monitoring_export_settings.png)
 
-Export settings allow to customize the csv before exporting it. It is possible to change the csv delimiter and the quote character of the file.
+You can export the transfer log to a CSV file. The export function respects the currently active filters, so only the transfers displayed (or matching the criteria) will be included in the file.
+
+Before exporting, you can customize the CSV format:
+*   **Delimiter**: Select the character used to separate fields.
+*   **Quote character**: Select the character used to enclose fields.
 
 ![monitoring export button](/userguide/monitoring_export_button.png)
 
-Once customized, the export is launched by clicking on the export button.
+Once customized, click the export button to generate and download the CSV file.
 
 ![monitoring export csv](/userguide/monitoring_export_csv.png)
-
-Export will use the filters selected in the monitoring view and export only transfers matching the filters' criteria. 

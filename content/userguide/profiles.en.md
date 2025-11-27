@@ -4,44 +4,44 @@ weight: 20
 description: Manage the profiles
 ---
 
-This page lists all the profiles configured in Karnak and allows to edit, create and delete them. A profile contains a definition of actions that should be applied to a DICOM instance before being sent.
+This page lists all profiles configured in Karnak and allows you to create, edit, and delete them. A profile defines the actions to apply to a DICOM instance before it is sent
 
-The "Dicom Basic Profile" is present by default and cannot be deleted. This profile is detailed in the section [How does de-identification work?](../../profiles/rules). This profile cannot be deleted or edited, except for the value of default issuer of patient ID. 
+The `Dicom Basic Profile` is available by default and cannot be deleted. It is described in the section [How does de-identification work?](../../profiles/rules). This profile cannot be modified except for the default `defaultIssuerOfPatientID` [value](../../profiles/profilestructure/#profile-metadata).
 
 ![profile page](/userguide/profile_main.png)
 
 ##### 1. Profile drag and drop area
 
-A profile can only be created by importing a YAML file using the top right component of the Profiles view. The file can be selected by clicking the "Upload File" button or drag and dropped there. It will be loaded and analyzed. If there are no errors, a new profile will automatically be created with the content of the file, and added to the list of profiles.
+Profiles can only be created by importing a YAML file using the top\-right component of the `Profiles` view. You can select a file by clicking the `Upload file...` button or by dragging and dropping it into the area. The file is then loaded and analyzed. If no errors are found, a new profile is automatically created from the file and added to the profile list.
 
 ##### 2. Profile list
 
-All the profiles available are listed here. A profile can evolve and be present in the list under the same name but with a different version.
+All available profiles are listed here. A profile can evolve over time and appear multiple times in the list under the same name but with different versions.
 
-By selecting a profile in the list, its details are displayed on the right.
+When you select a profile in the list, its details are displayed on the right.
 
 ##### 3. Profile details
 
-This area contains the details of a profile.
+This area shows the details of the selected profile.
 
-If the profile is selected in the list, its details will appear on the right panel. 
+If a profile is selected in the list, its details appear in the right panel.
 
-Some information can be edited such as the name, version and minimum required version of Karnak, by clicking on the pen icon. 
+Some fields, such as the name, version, and minimum required Karnak version, can be edited by clicking the pen icon.
 
 ![profile edit](/userguide/profile_editbtn.png) 
 
-The field's value can be edited, the changes are saved by clicking on the check mark button and reverted by clicking on the cross button.
+Edit the field value, then click the checkmark button to save the changes or the cross button to discard them.
 
 ![profile edit](/userguide/profile_editconfirm.png)
 
 The rest of the profile cannot be modified.
 
-The entire profile can be downloaded as a YAML file by clicking on the button on the right or deleted by clicking on the button on the left.
+You can download the entire profile as a YAML file by clicking the button on the right, or delete it by clicking the button on the left.
 
 ![Profile actions](/userguide/profile_actions.png)
 
-If a YAML file was imported, this view will display the details of the newly created profile, if no errors occurred during the import and the creation was successful. 
+When a YAML file is imported successfully, this view shows the details of the newly created profile.
 
-If some errors occurred during the profile creation, the profile won't be created and added to the profiles' list. The errors will be displayed in the right panel with details about the source of the error(s). An example is shown below.
+If errors occur during profile creation, the profile is not added to the list. The errors are shown in the right panel with details about their cause, as illustrated below.
 
 ![profile page](/userguide/profile_error.png)
