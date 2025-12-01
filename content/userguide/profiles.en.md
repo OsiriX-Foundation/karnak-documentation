@@ -4,15 +4,18 @@ weight: 20
 description: Manage the profiles
 ---
 
-This page lists all profiles configured in Karnak and allows you to create, edit, and delete them. A profile defines the actions to apply to a DICOM instance before it is sent
+This page lists all profiles configured in Karnak and allows you to create, edit, and delete them. A profile defines the actions to apply to a DICOM instance before it is sent.
 
-The `Dicom Basic Profile` is available by default and cannot be deleted. It is described in the section [How does de-identification work?](../../profiles/rules). This profile cannot be modified except for the default `defaultIssuerOfPatientID` [value](../../profiles/profilestructure/#profile-metadata).
+The `Dicom Basic Profile` is available by default and cannot be deleted. It is the reference de-identification profile based on the [DICOM standard](http://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html). For more details, see [How does de-identification work?](../../profiles/rules)
 
 ![profile page](/userguide/profile_main.png)
 
 ##### 1. Profile drag and drop area
 
-Profiles can only be created by importing a YAML file using the top\-right component of the `Profiles` view. You can select a file by clicking the `Upload file...` button or by dragging and dropping it into the area. The file is then loaded and analyzed. If no errors are found, a new profile is automatically created from the file and added to the profile list.
+Profiles can only be created by importing a YAML file using the top-right component of the `Profiles` view. You can select a file by clicking the `Upload file...` button or by dragging and dropping it into the area. The file is then loaded and analyzed. If no errors are found, a new profile is automatically created from the file and added to the profile list.
+
+> [!INFO]
+> For details on the profile structure and how to create a valid YAML file, see the [Profile Structure](../../profiles/profilestructure) documentation.
 
 ##### 2. Profile list
 
@@ -24,8 +27,6 @@ When you select a profile in the list, its details are displayed on the right.
 
 This area shows the details of the selected profile.
 
-If a profile is selected in the list, its details appear in the right panel.
-
 Some fields, such as the name, version, and minimum required Karnak version, can be edited by clicking the pen icon.
 
 ![profile edit](/userguide/profile_editbtn.png) 
@@ -34,11 +35,20 @@ Edit the field value, then click the checkmark button to save the changes or the
 
 ![profile edit](/userguide/profile_editconfirm.png)
 
-The rest of the profile cannot be modified.
+> [!INFO]
+> The rest of the profile cannot be modified. To make changes to the profile rules or structure, you must delete the profile and upload a new version.
 
-You can download the entire profile as a YAML file by clicking the button on the right, or delete it by clicking the button on the left.
+##### 4. Profile actions
+
+You can download the entire profile as a YAML file by clicking the button on the right or delete it by clicking the trash icon.
 
 ![Profile actions](/userguide/profile_actions.png)
+
+**Download**: Export the profile configuration as a YAML file for backup or sharing with other Karnak instances.
+
+**Delete**: Remove the profile from Karnak. If the profile is in use by one or more projects, a warning message appears to prevent accidental deletion.
+
+##### 5. Profile upload feedback
 
 When a YAML file is imported successfully, this view shows the details of the newly created profile.
 

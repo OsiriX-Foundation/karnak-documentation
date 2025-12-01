@@ -1,65 +1,88 @@
 ---
 title: External Pseudonym
 weight: 40
-description: Imports pseudonyms from a CSV file or manually
+description: Import and manage pseudonyms from CSV files or manual entry
 ---
 
-In this page, pseudonyms can be created or imported, and will then be used during de-identification by Karnak. The de-identification process and how the pseudonym is used is detailed in the [Pseudonym chapter](../../profiles/rules/#pseudonym).
+This page allows you to create or import pseudonyms that Karnak will use during de-identification. The de-identification process and how pseudonyms are used is detailed in the [Pseudonym chapter](../../profiles/rules/#pseudonym).
 
-The activation of de-identification is done in the [Destination configuration](../gateway/destinations/#6-de-identification).
+De-identification is activated in the [Destination configuration](../gateway/destinations/#6-de-identification).
 
-The created or imported pseudonyms in this page are stored in a cache that will be cleared after a maximum of 7 days. The pseudonyms saved will also be lost in case Karnak is restarted.
+> [!INFO]
+> Pseudonyms created or imported on this page are stored in a cache with a maximum lifetime of **7 days**.
+> 
+> With the [portable version of Karnak](../portable), the cache is persistent only the time the application is running. Restarting the application will clear the cache.
 
 ![External pseudonym cache](/userguide/external_pseudonym_cache.png)
 
 ##### 1. Choose a project
 
-External pseudonyms are linked to a project. It allows Karnak to handle properly the case where a patient is participating in multiple clinical studies, as well as potential collisions.
+External pseudonyms are linked to a specific project. This allows Karnak to properly handle cases where:
+- A patient participates in multiple clinical studies with different pseudonyms
+- Potential pseudonym collisions occur between projects
 
 ##### 2. Upload a CSV file
 
-A CSV file containing external pseudonyms can be uploaded by clicking the "Upload File" button or drag and dropped there. It launches the import process.
+You can upload a CSV file containing external pseudonyms by:
+- Clicking the **Upload File** button
+- Dragging and dropping a file onto the upload area
 
-A pop-up is displayed asking for the separator of the CSV file. By default, the value is set to ",". 
+###### 2.1 CSV separator configuration
 
-![External pseudonym pop-up](/userguide/external_pseudonym_popup.png)
+After selecting a file, a dialog appears asking for the CSV separator character. The default value is a comma (`,`).
 
-After clicking on the "Open CSV" button, a grid is displayed containing the CSV file data.  
+![External pseudonym separator dialog](/userguide/external_pseudonym_popup.png)
 
-![External pseudonym CSV Dialog](/userguide/external_pseudonym_csvdialog.png)
+Click **Open CSV** to proceed to the import configuration.
 
-###### 2.1 From line
+###### 2.2 Preview and configuration
 
-This field defines the index of the first line of the CSV file to import. It allows to skip a number of lines at the beginning of the file, especially if it contains headers. 
+The CSV data is displayed in a grid for review and configuration.
 
-![External pseudonym CSV Dialog 2](/userguide/external_pseudonym_csvdialog2.gif)
+![External pseudonym CSV dialog](/userguide/external_pseudonym_csvdialog.png)
 
-###### 2.2 Columns assignments 
+**From line:** This field defines the starting row for the import. Use this to skip header rows or other non-data lines at the beginning of the file.
 
-In this view, the CSV columns are associated with the corresponding pseudonym attributes. All the fields are mandatory, except the Issuer of patient ID.
+![External pseudonym from line configuration](/userguide/external_pseudonym_csvdialog2.gif)
 
-![External pseudonym CSV Dialog 3](/userguide/external_pseudonym_csvdialog3.gif)
+**Column assignments:** Map each CSV column to the corresponding pseudonym attribute. Only the **Patient ID** and **External Pseudonym** fields are required. Other fields are optional.
 
-###### 2.3 Upload CSV
+![External pseudonym column mapping](/userguide/external_pseudonym_csvdialog3.gif)
 
-The "Upload CSV" button will start importing the CSV data. It performs data validation on the data, such as Patient ID or Pseudonym duplication.
+###### 2.3 Import validation
 
-##### 3. Add a new patient
+Click **Upload CSV** to import the data. Karnak performs validation checks including:
+- Duplicate Patient IDs
+- Duplicate Pseudonyms
+- Required field validation
 
-It's also possible to add an external pseudonym manually. All the fields are mandatory, except the Issuer of patient ID.
+If validation errors occur, they will be displayed and the import will be rejected.
 
-Clicking on "Add patient" will add the entered data into the external pseudonyms table.
+##### 3. Add a new patient manually
 
-##### 4. Delete all patients
+You can also add external pseudonyms manually by filling in the form fields:
+- **External Pseudonym** (required)
+- **Patient ID** (required)
+- **Patient First Name** (optional)
+- **Patient Last Name** (optional)
+- **Issuer of Patient ID** (optional)
 
-This button will delete all the external pseudonyms stored in the cache but linked to the selected project. The other pseudonyms linked to other projects won't be impacted.
+Click **Add patient** to add the entry to the external pseudonyms table.
 
-A popup will be displayed before the deletion is effectively done, asking for the confirmation of the user.
+##### 4. Pseudonym management
 
-##### 5. Pseudonym edition
+###### 4.1 Edit or delete individual entries
 
-Once stored in the cache, it is possible to edit the patient fields by clicking on the "Edit" button on the external pseudonym row that should be modified. The external pseudonym can also be deleted by clicking in the "Delete" button on the external pseudonym row that should be removed.
+Each pseudonym row has action buttons:
+- **Edit**: Modify the patient fields
+- **Delete**: Remove the pseudonym from the cache
 
-Multiple rows can be selected by checking the boxes on the left of each row. These rows can be deleted by clicking on the "Delete selected patients" at the top of the external pseudonyms table. Again, a confirmation is asked before the deletion is performed. 
+![External pseudonym bulk operations](/userguide/external_pseudonym_csvdialog4.gif)
 
-![External pseudonym CSV Dialog 2](/userguide/external_pseudonym_csvdialog4.gif)
+###### 4.2 Bulk operations
+
+Select multiple rows using the checkboxes on the left side of each row. Click **Delete selected patients** to remove all selected entries and confirm the action in the dialog.
+
+###### 4.3 Delete all patients
+
+The **Delete all patients** button removes all external pseudonyms for the selected project only. Pseudonyms linked to other projects are not affected.

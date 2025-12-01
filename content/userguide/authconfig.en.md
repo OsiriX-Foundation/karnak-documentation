@@ -4,42 +4,69 @@ weight: 80
 description: Authentication Configuration for API calls
 ---
 
-In this page, the Configuration for Authenticating API calls are defined. This information being sensitive, it is stored in a specific table where the columns are encrypted. 
+This page allows you to configure authentication credentials for API calls. Since this information is sensitive, it is stored in an encrypted database table.
 
 ![authconfig page](/userguide/authconfig_main.png)
 
-##### 1. Create a Authentication Config
+##### 1. Create an Authentication Configuration
 
-After clicking on the Create Authentication Config button, a field asking for the identifier of the new Authentication Configuration will be displayed. This identifier must be unique, otherwise an error will appear if a duplicate exists. We recommend that it does not contain spaces for an easier reference in profiles.
+Click the **Create Authentication Config** button to begin. You'll be prompted to enter a unique identifier for the new configuration.
 
 ![authconfig create](/userguide/authconfig_create.png)
 
-Clicking on the button Create will display the form. The Authentication Configuration will be added to the list on the left and its details displayed in the right panel.
+**Requirements:**
 
-Currently, the only Authentication Configuration type implemented is OAuth 2.0.
+- The identifier must be unique (an error will appear if a duplicate exists)
+- We recommend avoiding spaces in the identifier for easier reference in profiles
+
+Click **Create** to proceed. The configuration will be added to the list on the left and its details will appear in the right panel.
 
 ###### OAuth 2.0
 
-For the OAuth 2.0 Configuration, the required fields are the access token URL, the scope (separated by a whitespace if there are multiple scopes), the client secret and the client ID.
+Currently, OAuth 2.0 is the only supported authentication type.
+
+**Required fields:**
+
+| Field | Description |
+|-------|-------------|
+| **Access Token URL** | The OAuth 2.0 token endpoint |
+| **Scope** | Required scopes (separate multiple scopes with whitespace) |
+| **Client ID** | OAuth 2.0 client identifier |
+| **Client Secret** | OAuth 2.0 client secret |
 
 ![authconfig create form](/userguide/authconfig_createform.png)
 
-This information will be used when an API call is made with a reference to the identifier as the authConfig parameter. The API call will be intercepted, if a valid token is available, it will be added to the request for authentication. Otherwise, a new token will be requested using the Authentication Configuration details to obtain a token and authenticate the API call.  
+**How it works:**
 
-{{% notice note %}} The Authentication Configuration cannot be modified once created.{{% /notice %}}
+When an API call references this configuration (via the `authConfig` parameter):
 
-##### 2. Authentication Config list
+1. Karnak checks if a valid access token is available
+2. If yes, the token is added to the request for authentication
+3. If no, a new token is requested using the configuration details
+4. The API call proceeds with the authenticated token
 
-All the Authentication Configurations available are listed here. By selecting an element in the list, its details are displayed on the right.
+> [!WARNING]
+> Authentication configurations cannot be modified after creation. To make changes, you must delete and recreate the configuration.
 
-##### 3. Authentication Config details
+##### 2. Authentication Configuration List
 
-In the details view, the Authentication Configuration details are displayed. They cannot be modified. In case a modification is required, the element must be deleted and recreated.
+All available authentication configurations are displayed in the left panel. Select a configuration to view its details on the right.
 
-##### 4. Delete Button
+##### 3. Configuration Details
 
-The selected configuration can be deleted by clicking on the red bin button next to its identifier. A confirmation message is displayed before the deletion.
+The details view displays all configuration information in read-only mode. 
+
+To modify a configuration, you must delete it and create a new one.
+
+##### 4. Delete Configuration
+
+To delete a configuration:
+
+1. Select it from the list
+2. Click the red trash bin icon next to its identifier
+3. Confirm the deletion in the popup
 
 ![authconfig delete](/userguide/authconfig_delete.png)
 
-This operation may lead to errors in the behavior of the application. There are no checks that are executed to ensure that a configuration is not used. The deleted configuration might be used by a profile or a deidentification process, and will result in errors during the next transfer. Please ensure that the configuration is not used anywhere before deleting it.
+> [!INFO]
+> Deleting a configuration in use may cause errors in your workflows. Karnak does not verify whether a configuration is referenced by profiles or de-identification processes before deletion. Ensure the configuration is not in use before deleting it, or transfers will fail.

@@ -4,47 +4,75 @@ weight: 50
 description: Definition of the masks applied to Pixel Data
 ---
 
+This page describes the profile elements available in Karnak for modifying DICOM image data to remove identifying information.
+
+## Overview
+
+Karnak provides two main approaches to protect patient identity in DICOM images:
+
+1. **Defacing**: Automated removal of facial features from CT images
+2. **Pixel Data Cleaning**: User-defined masks to remove burned-in annotations and identifying information
+
+Both methods ensure that visual identifying information is removed from images while preserving the diagnostic value of the data.
+
+---
 
 ## Defacing
 
-This profile applies defacing to the image data of the DICOM instance.
+Defacing automatically removes facial features from CT images to protect patient identity.
 
-This profile can only be applied to images in the **Axial orientation** of the following SOP:
+### Supported Images
 
-* 1.2.840.10008.5.1.4.1.1.2 - CT Image Storage
-* 1.2.840.10008.5.1.4.1.1.2 - Enhanced CT Image Storage
+This profile can only be applied to images with **Axial orientation** in the following SOP Classes:
+
+* `1.2.840.10008.5.1.4.1.1.2` - CT Image Storage
+* `1.2.840.10008.5.1.4.1.1.2.1` - Enhanced CT Image Storage
+
+> [!INFO]
+> Images with non-axial orientation will be skipped.
+> Currently, the CT images that do not represent the head are not automatically excluded. It is recommended to use [conditions](../conditions) to restrict defacing to head CT images only.
+
+### Configuration
 
 This profile element requires the following parameters:
 
-* `name`: description of the action applied
-* `codename`: `clean.recognizable.visual.features`
-* `condition`: optional, defines a condition to evaluate if this profile element should be applied to this DICOM instance
+| Parameter | Description | Required |
+|-----------|-------------|----------|
+| `name` | Description of the action applied | Yes |
+| `codename` | Must be `clean.recognizable.visual.features` | Yes |
+| `condition` | Condition to evaluate if this profile element should be applied | No |
 
 ## Pixel Data Cleaning
 
-This profile applies a mask defined by the user on the DICOM instance pixel data to remove identifying information burned in the image.
+Pixel data cleaning applies user-defined masks to DICOM images to remove identifying information burned into the pixels, such as patient or institution information.
 
-The details on the masks definition can be found below.
+### Condition for Automatic Application
 
-This profile is applied only on the following SOP:
+This profile is automatically applied to the following SOP Classes:
 
-* 1.2.840.10008.5.1.4.1.1.6.1 - Ultrasound Image Storage
-* 1.2.840.10008.5.1.4.1.1.7.1 - Multiframe Single Bit Secondary Capture Image Storage
-* 1.2.840.10008.5.1.4.1.1.7.2 - Multiframe Grayscale Byte Secondary Capture Image Storage
-* 1.2.840.10008.5.1.4.1.1.7.3 - Multiframe Grayscale Word Secondary Capture Image Storage
-* 1.2.840.10008.5.1.4.1.1.7.4 - Multiframe True Color Secondary Capture Image Storage
-* 1.2.840.10008.5.1.4.1.1.3.1 - Ultrasound Multiframe Image Storage
-* 1.2.840.10008.5.1.4.1.1.77.1.1 - VL Endoscopic Image Storage
+* `1.2.840.10008.5.1.4.1.1.6.1` - Ultrasound Image Storage
+* `1.2.840.10008.5.1.4.1.1.7.1` - Multiframe Single Bit Secondary Capture Image Storage
+* `1.2.840.10008.5.1.4.1.1.7.2` - Multiframe Grayscale Byte Secondary Capture Image Storage
+* `1.2.840.10008.5.1.4.1.1.7.3` - Multiframe Grayscale Word Secondary Capture Image Storage
+* `1.2.840.10008.5.1.4.1.1.7.4` - Multiframe True Color Secondary Capture Image Storage
+* `1.2.840.10008.5.1.4.1.1.3.1` - Ultrasound Multiframe Image Storage
+* `1.2.840.10008.5.1.4.1.1.77.1.1` - VL Endoscopic Image Storage
 
-**Or** if the tag value Burned In Annotation (0028,0301) is "YES"
+**Or** if the tag **Burned In Annotation (0028,0301)** is set to `"YES"`
+
+### Configuration
 
 This profile element requires the following parameters:
 
-* `name`: description of the action applied
-* `codename`: `clean.pixel.data`
-* `condition`: optional, defines a condition to evaluate if this profile element should be applied to this DICOM instance
+| Parameter | Description | Required |
+|-----------|-------------|----------|
+| `name` | Description of the action applied | Yes |
+| `codename` | Must be `clean.pixel.data` | Yes |
+| `condition` | Condition to evaluate if this profile element should be applied | No |
 
-The `condition` parameter can be used to exclude the images coming from a specific machine for example.
+### Using Conditions
+
+The `condition` parameter allows you to apply cleaning selectively. For example, to exclude images from a specific machine that does not add burned-in annotations, you can use the following configuration:
 
 ```yaml
 profileElements:
@@ -55,40 +83,54 @@ profileElements:
 
 ## Masks Definition
 
-The mask definition requires the following parameters:
+Masks define rectangular regions to be filled with a solid color, removing any identifying information in those areas.
 
-* `stationName`: source station name that is matched against the attribute Station Name in the DICOM instance. It allows the mask to be specific depending on the station that generated the image. The value can also be set to `*` to match any station.
-* `color`: color of the mask in hexadecimal
-* `rectangles`: defines the list of rectangles to apply to mask identifying information
+### Mask Parameters
 
-The mask definition can have these optional parameters:
+| Parameter | Description | Required |
+|-----------|-------------|----------|
+| `stationName` | Station name to match against DICOM tag (0008,1010). Use `*` to match any station | Yes |
+| `color` | Fill color in hexadecimal format (e.g., `ffff00` for yellow) | Yes |
+| `rectangles` | List of rectangles defining the areas to mask | Yes |
 
-* `imageWidth`: mask specific to an image of a given width in pixels, this value will be matched against the value of the Columns attribute in the DICOM instance
-* `imageHeight`: mask specific to an image of a given height in pixels, this value will be matched against the value of the Rows attribute in the DICOM instance.
+### Optional Parameters
 
-The selection of the mask based on the image size requires both attributes to be set, height and width. The definition of the width or height solely is not supported.
+| Parameter | Description |
+|-----------|-------------|
+| `imageWidth` | Apply mask only to images with this width in pixels (matches Columns tag 0028,0011) |
+| `imageHeight` | Apply mask only to images with this height in pixels (matches Rows tag 0028,0010) |
 
-A rectangle is defined by the following required parameters:
+> [!INFO]
+> When specifying image dimensions, **both** `imageWidth` and `imageHeight` must be set. Defining only one parameter is not supported.
 
-* `x`: x coordinate of the upper left corner of the rectangle
-* `y`: y coordinate of the upper left corner of the rectangle
-* `width`: width of the rectangle
-* `height`: height of the rectangle
+### Rectangle Definition
 
-The upper left corner of the image corresponds to the coordinates (0,0).
+Each rectangle is defined by four values:
 
-The schema below illustrate the definition of a rectangle having the following parameters (25, 75, 150, 50).
+| Parameter | Description |
+|-----------|-------------|
+| `x` | X coordinate of the upper-left corner |
+| `y` | Y coordinate of the upper-left corner |
+| `width` | Width of the rectangle in pixels |
+| `height` | Height of the rectangle in pixels |
 
-![Rectangles example](/profiles/CleanPixel_rectangle.png)
+The coordinate system starts at `(0, 0)` in the **upper-left corner** of the image.
 
-The example below shows how to define a default mask (`stationName: *`), a mask specific to the R2D2 station and a more specific mask applied only depending on the image size.
+The diagram below illustrates a rectangle with parameters `(25, 75, 150, 50)`:
 
-Depending on the instance image size and station name, the following actions will be performed:
+![Rectangle definition example](/profiles/CleanPixel_rectangle.png)
 
-- The instance Rows, Columns and Station Name attributes are retrieved.
-- These values are matched against the masks defined in the masks list. If an exact match is found using the imageWidth, imageHeight and stationName values, this mask is used for the cleaning pixel action. In this example, if the instance contains the value 1024 in the Rows and Columns attribute and "R2D2" in the station name attribute, the third mask will be selected.
-- If no match is found, the image size attributes are removed and a match is performed only on the station name attribute. In this example, if the instance contains "R2D2" in the Station Name attribute, the second mask will be selected without any regards for the image size of the instance.
-- If no match is found, the default mask will be selected, here the first one.
+## Mask Selection Process
+
+When processing a DICOM instance, Karnak selects the appropriate mask using the following algorithm:
+
+1. **Extract image attributes**: Retrieve the Rows (0028,0010), Columns (0028,0011), and Station Name (0008,1010) values from the instance
+2. **Exact match**: Search for a mask matching all three values (width, height, and station name)
+3. **Station match**: If no exact match is found, ignore image dimensions and match only on station name
+4. **Default mask**: If no station match is found, use the mask with `stationName: "*"`
+
+### Example Configuration
+
 
 ```yaml
 masks:
@@ -109,9 +151,15 @@ masks:
       - "50 25 100 100"
 ```
 
-## Pixel Data Cleaning Exceptions
+## Complete Example: Equipment-Specific Cleaning
 
-In some cases, often based on the manufacturer and equipment, pixel data can contain embedded identifying information. Below is an exhaustive example illustrating how to apply cleaning pixel profile element depending on the station that produced the image, applicable to any DICOM modality.
+This example demonstrates a profile that handles specific pixel data cleaning for equipment that burns patient information into the images and does not match the conditions for automatic application.
+
+This profile below performs the following actions for images from a machine with Station Name containing "ICT256":
+
+1. Ensures the Burned In Annotation tag is present and set to "YES"
+2. Applies pixel data cleaning with a station-specific mask
+3. Applies the basic DICOM de-identification profile
 
 ```yaml
 name: "Clean pixel data"

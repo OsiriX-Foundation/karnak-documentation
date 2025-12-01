@@ -6,37 +6,46 @@ description: Send DICOM data to a Kheops album
 
 ## Create a destination album
 
-To create a Kheops album as a destination, the following values must be set:
+To create a Kheops album as a destination, configure the following values:
 
-* Protocol: STOW
-* DICOM endpoint: /api/studies
+* **Protocol**: STOW
+* **DICOM endpoint**: /api/studies
 
-To create the album destination, please refer to the [official documentation](https://docs.kheops.online/docs/albums/new_album). of Kheops.
+For detailed instructions on creating an album, refer to the [official Kheops documentation](https://docs.kheops.online/docs/albums/new_album).
 
-Once the album is created, please follow these steps to configure the album as a destination in Karnak.
+Once the album is created, follow these steps to configure it as a destination in Karnak:
 
-1. Create a new token
+##### 1. Create a new token
+
 ![New token](/userguide/kheops_newtoken.png)
 
-2. Give **WRITE** permission to the token and set the expiration date
-![New token](/userguide/kheops_newtoken_1.png)
+##### 2. Configure token permissions
 
-3. Copy the authentication token value to be used in the header of your Karnak destination
-![New token](/userguide/kheops_newtoken_2.png)
+Give **WRITE** permission to the token and set the expiration date.
 
-The creation and configuration of a STOW Destination in Karnak is detailed [here](../gateway/destinations/#stow-destination).
+![Token permissions](/userguide/kheops_newtoken_1.png)
 
-## Switching in different Kheops albums
+##### 3. Copy the authentication token
 
-When a destination points to a Kheops album, the data can be propagated to underlying albums.
+Copy the authentication token value to use in the header of your Karnak destination.
 
-This is useful when a cohort of studies is sent to a research group for example, without sharing all the album studies.
+![Copy token](/userguide/kheops_newtoken_2.png)
 
-Studies cannot be shared between different Kheops instances, one destination must be configured in Karnak per Kheops instance.
+For complete instructions on creating and configuring a STOW destination in Karnak, see [Destinations](../gateway/destinations/#stow-destination).
 
-The purpose of this functionality is to take advantage of the Kheops API to propagate the data to different places without having to create new destinations in Karnak. At the same time, the data is split according to rules defined in Kheops to prevent data leakage and allow the authorized persons to access only the relevant data and not all the main album.
+## Switching to different Kheops albums
 
-The following diagram illustrates the behavior of data being processed through Karnak and sent to multiple Kheops albums.
+When a destination points to a Kheops album, data can be propagated to underlying albums within the same Kheops instance.
+
+This feature is useful for sharing specific studies with research groups without exposing the entire album. For example, you can send a cohort of studies to collaborators while maintaining data isolation.
+
+> [!INFO]
+> Studies cannot be shared between different Kheops instances. You must configure a separate destination in Karnak for each Kheops instance.
+
+This functionality leverages the Kheops API to distribute data to multiple locations without creating additional destinations in Karnak. Data is automatically split according to rules defined in Kheops, ensuring that authorized users access only relevant data.
+
+The following diagram illustrates how data flows through Karnak and is distributed to multiple Kheops albums:
+
 
 ```mermaid {align="center" zoom="true"}
 graph LR;

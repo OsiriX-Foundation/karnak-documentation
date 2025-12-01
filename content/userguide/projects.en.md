@@ -4,15 +4,14 @@ weight: 30
 description: Manage projects
 ---
 
-This page lists all projects configured in Karnak and lets you create, edit, and delete them.  
-A project is linked to a profile and contains a secret used for de-identification.
+This page lists all projects configured in Karnak and lets you create, edit, and delete them. A project is linked to a profile and contains a secret used for de-identification.
 
 ![Project page](/userguide/project_main.png)
 
 ##### 1. Create a project
 
 To create a new project:
-   1. Enter a project name.  
+   1. Enter a name.  
    2. Select a profile.  
    3. Click **Add**.
 
@@ -47,15 +46,15 @@ You can generate a new secret by clicking **Generate Secret**. When you do this:
 
 ![Project secret history](/userguide/project_secret_history.png)
 
-{{% notice note %}}
-Changing the project secret can cause data consistency issues between old and new de-identified DICOM instances. Use this feature with caution and only when necessary.
-{{% /notice %}}
+> [!WARNING]
+> Changing the project secret can cause data consistency issues between old and new de-identified DICOM instances. Use this feature with caution and only when necessary.
+
 
 A destination is associated with a project for de-identification, as described in the [Destination configuration](../gateway/destinations/#6-de-identification).
 
-To generate new values and pseudonymize some patient information, Karnak uses a hash function seeded with the project secret. This makes the generated values unique per project and deterministic as long as the secret does not change.
+To generate new values like UIDs and pseudonymize some patient information, Karnak uses a hash function seeded with the project secret. This makes the generated values unique per project and deterministic as long as the secret does not change.
 
-Implications:
+Implications of changing the secret:
 
 - If a DICOM instance is de-identified twice using the same project, secret, and profile, the resulting de-identified instances are identical.  
 - If the secret changes, de-identifying the same DICOM instance again with the same project and profile but the new secret will produce different de-identified instances.

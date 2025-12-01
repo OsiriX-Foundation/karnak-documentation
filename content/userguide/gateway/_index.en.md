@@ -4,64 +4,95 @@ weight: 10
 description: Gateway management in Karnak
 ---
 
+The Gateway page allows you to configure Forward Nodes in Karnak. A Forward Node represents a DICOM Application Entity (AE) that receives DICOM instances and routes them to one or more destinations.
+
 ## Forward Node
 
-This page lists all the forward nodes configured in Karnak and allows to edit, create and delete nodes. The forward node contains the configuration of the DICOM node's Application Entity.
+This page lists all the forward nodes configured in Karnak and allows you to create, edit, and delete them.
 
 ![gateway_page](/userguide/gateway_forwardnode.png)
 
-##### 1. Creation of a forward node
+##### 1. Create a Forward Node
 
-After clicking on the New Forward Node button, a form will appear as illustrated below.
+Click the **New forward node** button. A form will appear:
+  1. Enter a unique value in the **Forward AETitle** field. AE Titles must not exceed 16 characters.
+  2. Click the **Add** button
 
 ![New Forward Node](/userguide/gateway_new_forwardnode.gif)
 
-To create a new forward node, the "Forward AETitle" input must be filled, then click on the "Add" button. Once added, it will appear in the list of forward nodes and will be selected. The Forward AETitle must be unique.
+The new forward node appears in the list and is automatically selected. Optionally, add a description and save your changes.
 
-##### 2. Forward node list
+> [!INFO]
+> The Forward AETitle must be unique across all forward nodes in the Karnak instance.
 
-This list displays all the forward nodes created in the Karnak instance. A forward node can be selected to view and manage its details on the right panel.
 
-##### 3. Forward node parameters
+##### 2. Forward Node List
 
-The value of the forward AETitle and its description can be modified after creation on the detailed view of the forward node. To save your changes, click on the "Save" button.
+All configured forward nodes are displayed in the left panel. 
 
-##### 4. Forward node sources or destinations
+Select a forward node from the list to view and manage its configuration in the right panel.
 
-In the forward node's details, source control can be configured, checking if the received DICOM is provided from a known source. Destinations can also be created and configured to distribute received DICOM instances. These destinations can communicate with the DICOM or DICOM WEB protocol.
+> [!INFO]
+> The copy icon {{< svg-inline "static/userguide/copy.svg" >}} next to each forward node allows you to quickly copy its DICOM configuration in the clipboard for use in DICOM clients.
+
+
+
+
+##### 3. Forward Node Parameters
+
+In the details view, you can modify:
+
+- **Forward AETitle**: The Application Entity Title of the forward node
+- **Description**: An optional description to help identify the node's purpose
+
+Click the **Save** button to apply your changes.
+
+##### 4. Sources and Destinations
+
+Each forward node can be configured with:
+
+- [**Sources**](sources): Control which DICOM nodes are authorized to send data to this forward node
+- [**Destinations**](destinations): Define where received DICOM instances should be forwarded
 
 ![gateway destinations](/userguide/gateway_destinationspage.png)
 
 ###### 4.1 Navigation
 
-Depending on the selected tab, the list of destinations or sources associated to this forward node will be displayed.
+Use the tabs to switch between the [**Destinations**](destinations) and [**Sources**](sources) views for the selected forward node.
 
 ###### 4.2 Filtering
 
-The destination's list filter is applied to the destination description.
+**Destinations tab**: Filter by destination description
 
-The source's list filter is applied to the AE title, hostname and description source.
+**Sources tab**: Filter by AE Title and hostname
 
 ###### 4.3 List
 
-All the destinations or sources associated to the forward node are displayed here.
+All destinations or sources associated with the forward node are displayed here.
 
-Click on an element of the list will open its detailed view, also allowing its edition.
+Click any item in the list to open its detailed view and edit its configuration.
 
 ###### 4.4 Actions
 
-The action buttons depend on the current tab selected.
+The available action buttons depend on the active tab.
 
-In the Destinations view, two actions are displayed, corresponding to the protocol associated to the destination being created. The available protocols are either DICOM or DICOM WEB. The Destination creation is detailed in the section [Destinations](destinations).
+**Destinations tab**: 
 
-In the Sources view, a button for creating a new Source is displayed. The Source creation is detailed in the [Sources](sources) page.
+Create a new destination using either the DICOM or DICOM WEB (STOW) protocol. See the [Destinations](destinations) page for detailed configuration instructions.
 
-![Sources button](/userguide/gateway_sourcesbutton.png)
+**Sources tab**: 
 
-##### 5. Forward node actions
+Create a new source to control which DICOM nodes can send data to this forward node. See the [Sources](sources) page for detailed configuration instructions.
 
-Three actions are available:
+##### 5. Forward Node Actions
 
-* Save: saves the changes made on the forward node parameters
-* Delete: deletes the selected forward node
-* Cancel: reverts the changes made on the forward node parameters
+Three action buttons are available:
+
+| Action | Description |
+|--------|-------------|
+| **Save** | Saves changes made to the forward node parameters |
+| **Delete** | Deletes the selected forward node and all associated configurations |
+| **Cancel** | Reverts unsaved changes to the forward node parameters |
+
+> [!WARNING]
+> Deleting a forward node will also remove all associated sources and destinations. This action cannot be undone.

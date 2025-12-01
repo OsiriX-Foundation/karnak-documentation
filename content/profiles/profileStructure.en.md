@@ -1,87 +1,106 @@
 ---
 title: Profile Structure
 weight: 10
-description: Presentation of the Profile Structure
+description: Understanding the Profile Structure and YAML format
 ---
 
-In the Karnak user interface, the Profiles page can be accessed using the menu bar on the left. It displays the list of existing profiles and offers to import new profiles.
+The [Profiles](../../userguide/profiles/) page allows you to manage de-identification profiles for your projects in the Karnak interface. This page explains the structure of these profiles and how to create or modify them using YAML files.
 
-A profile file is one or a list of profile elements that are defined for a group of DICOM attributes and with a particular action. During de-identification or tag morphing, Karnak will apply the profile elements to the applicable DICOM attributes. Only one profile element can be applied to a DICOM attribute. **The profile elements are applied in the order defined in the yaml file** and, therefore, the first applicable profile element will modify the value of a DICOM attribute. If other profile elements were applicable to that specific tag, they won't be applied since it has already been modified.
+## Overview
 
-Currently, the profile must be a yaml file (MIME-TYPE: **application/x-yaml**) and respect the definition as below.
+A **profile** defines how DICOM attributes should be modified during de-identification or tag morphing. It consists of one or more **profile elements**, each specifying:
 
-## Profile metadata
+- Which DICOM attributes to target
+- What action to apply (e.g., remove, replace, keep)
+- Optional conditions for applying the action
 
-All these metadata are optional, but for a better user experience we recommend defining at least the name and the version. They will be used to identify and select your profile in a Project.
+**Important behavior:**
 
-* `name` - The name of your profile
+- Profile elements are **applied sequentially** in the order they appear in the YAML file
+- Only the **first applicable** profile element modifies each DICOM attribute
+- Once modified, subsequent profile elements won't affect that attribute
 
-* `version` - The version of your profile
+> [!INFO]
+> Profiles must be YAML files that conform to the YAML specification and follow Karnak's profile structure defined here.
 
-* `minimumKarnakVersion` - The version of Karnak when the profile has been imported
+## Profile Metadata
 
-* `defaultIssuerOfPatientID` - Default value in case the IssuerOfPatientID value is not available in DICOM file, it is used to build the patient's pseudonym when applying de-identification
+Metadata fields help identify and manage your profiles. While optional, we recommend defining at least `name` and `version` for clarity.
 
-* `profileElements` - The list of profile elements, the elements are applied accordingly to their position in the list
+| Field | Description | Required |
+|-------|-------------|----------|
+| **name** | Profile name displayed in the UI | Optional (recommended) |
+| **version** | Profile version number | Optional (recommended) |
+| **minimumKarnakVersion** | Minimum Karnak version required | Optional |
+| **defaultIssuerOfPatientID** | Default value when IssuerOfPatientID is missing in DICOM files. Used for building patient pseudonyms during de-identification | Optional |
+| **profileElements** | List of profile elements to apply | Required |
 
-## Profile element
+## Profile Element Structure
 
-A profile element is defined as below in the yaml file.
+Each profile element defines a specific de-identification rule.
 
-* `name` - The name of your profile element
+### Required Fields
 
-* `codename` - The codename represents the type of profile element. The available types of profiles elements and their codename are described in details in this documentation
+| Field | Description |
+|-------|-------------|
+| **name** | Descriptive name for this profile element |
+| **codename** | Type identifier (see available types in this documentation) |
 
-* `condition` - A boolean condition that defines some requirements to apply this profile element
+### Optional Fields
 
-* `action` - The type of action that will be applied
+| Field | Description | When Required |
+|-------|-------------|---------------|
+| **condition** | Boolean expression to conditionally apply this element | Optional |
+| **action** | Action type to perform (e.g., K, X, D, U, Z) | For certain codenames |
+| **option** | Single configuration value | For certain codenames |
+| **arguments** | Key-value pairs for advanced configuration | For certain codenames |
+| **tags** | DICOM attributes this element should target | For certain codenames |
+| **excludedTags** | DICOM attributes to skip (can be modified by later elements) | Optional |
 
-* `option` - Required for certain types of profile elements, contains a single value
+### DICOM Tag Formats
 
-* `arguments` - Required for certain types of profile elements, contains a list of key-value pairs
+Tags can be specified in multiple formats:
 
-* `tags` - List of tags or pattern that identifies the DICOM attributes this profile should be applied to
+| Format | Example | Description |
+|--------|---------|-------------|
+| Parentheses | `(0010,0010)` | Standard DICOM notation |
+| Comma-separated | `0010,0010` | Without parentheses |
+| Concatenated | `00100010` | No separators |
+| Pattern | `(0010,XXXX)` | All tags in group 0010 |
+| Wildcard | `(XXXX,XXXX)` | All DICOM attributes |
 
-* `excludedTags` - List of tags or pattern that identifies the DICOM attributes this profile should not be applied to. These attributes can then be modified by another profile element if applicable
+### Conditions
 
-### Tag
+Add optional conditions to control when a profile element applies. The expression is evaluated for each matching tag.
 
-DICOM Tags can be defined in different formats: `(0010,0010)`; `0010,0010`; `00100010`;
+For complete syntax and examples, see the [Conditions](../conditions) page.
 
-A tag pattern represent a group of tags and can be defined as follows: e.g. `(0010,XXXX)` represent all the tags of group 0010.
-The pattern `(XXXX,XXXX)` targets all the DICOM attributes.
+## Basic DICOM Profile
 
-### Condition
+The [Basic DICOM Profile](http://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html) is the DICOM standard's reference profile for removing Personally Identifying Information (PII) from DICOM files. 
+The conditions to apply rules for a specific tag depend on its attribute type (Type 1, Type 2, etc.) based on the Information Object Definition (IOD). Karnak automatically determines the attribute type for each tag during de-identification.
 
-A condition can be added to any type of profile element. It contains an expression that will be evaluated for each tag the profile element is applied to.
+> [!IMPORTANT]
+> We strongly recommend including this profile as the foundation for de-identification.
 
-The syntax and usage of these conditions is detailed in the [Conditions](../conditions) page.
+### Why Use It?
 
-## Validation
+- Removes all attributes containing identifiable patient information
+- Maintains DICOM conformance
+- Industry-standard approach to de-identification
 
-The content of the yaml file is validated upon import. If the structure or parameters are not defined correctly, detailed errors will be displayed to the user. 
+### How to Include
 
-Please refer to the [Profiles](../../userguide/profiles#3-profile-details) page for more information.
-
-## Basic Dicom Profile
-
-The [Basic DICOM Profile](http://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html) is defined by DICOM to remove all the attributes that could contain Individually Identifying Information (III) about the patient or other individuals or organizations associated with the data.
-The details of this profile element can be found in the DICOM Standard. 
-
-Further details on this profile element and its implementation in Karnak can be found in the [How does de-identification work?](../rules) page. 
-
-**We strongly recommend including this profile as basis for de-identification.**
-
-This profile element can be included in the profile definition by referencing its codename:
+Reference it by codename in your profile:
 
 ```yaml
 - name: "DICOM basic profile"
   codename: "basic.dicom.profile"
 ```
 
----
+### Complete Example
 
-Example of a complete and valid profile yaml file that applies only the Basic DICOM Profile:
+Below is a minimal but complete profile that applies only the Basic DICOM Profile:
 
 ```yaml
 name: "Dicom Basic Profile"
@@ -92,4 +111,6 @@ profileElements:
   - name: "DICOM basic profile"
     codename: "basic.dicom.profile"
 ```
----
+
+> [!INFO]
+> This profile should be placed at the end of your profile elements to ensure all other rules are applied first.

@@ -5,96 +5,130 @@ weight: 70
 description: Technical explanations about the de-identification process
 ---
 
-Karnak is a gateway for sending DICOM files to one or multiple Application Entity Title (AET). Karnak offers the possibility to configure multiple destinations for an AET.
-These destinations can communicate using the DICOM or DICOM WEB protocol.
+This page provides technical details about how Karnak performs DICOM de-identification, including the algorithms used for UID generation, date shifting, and pseudonymization.
 
-A destination contains several configurations for the DICOM endpoint, the credentials, and is also linked to a project.
+## Overview
 
-A project defines the de-idenfication or tag morphing method and a secret that will be used to generate deterministic random values like UIDs or shift date arguments.
+Karnak is a gateway that receives DICOM files and forwards them to one or multiple destinations using DICOM or DICOMWeb protocols. Each destination can be linked to a project that defines the de-identification method and a secret used to generate deterministic values.
 
 ## Basic Profile
 
-The reference profile for de-identifying DICOM objects is provided by the [DICOM standard](http://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html). This profile defines an exhaustive list of DICOM tags and their related action to allow the de-identification of the instance.
+The [Basic Profile](../profilestructure/#basic-dicom-profile) for de-identifying DICOM objects is provided by the [DICOM standard](http://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html). This profile defines an exhaustive list of DICOM tags and their related actions for proper de-identification.
 
-In order to properly de-identify the sensitive data, five different actions are defined in the standard:
+### De-identification Actions
 
-* D – Replace with a dummy value
-* Z – Set to null
-* X – Remove
-* K – Keep
-* U – Replace with a new UID
+Five different actions are defined in the DICOM standard:
 
-The Basic Profile defines one or more actions to be applied to a list of tags. 
+| Action | Description |
+|--------|-------------|
+| **D** | Replace with a dummy value |
+| **Z** | Set to null |
+| **X** | Remove |
+| **K** | Keep |
+| **U** | Replace with a new UID |
 
-The [DICOM's type](http://dicom.nema.org/dicom/2013/output/chtml/part05/sect_7.4.html) is often dependent on the [Information Object Definition (IOD)](http://dicom.nema.org/medical/dicom/current/output/chtml/part04/chapter_6.html) of the instance. To avoid DICOM corruption, multiple actions can be defined for a tag, ensuring that a destructive action like REMOVE won't be applied on a Type 1 or Type 2 attribute.
+### Multiple Actions for IOD Conformance
 
-* Z/D – Z unless D is required to maintain IOD conformance (Type 2 versus Type 1)
-* X/Z – X unless Z is required to maintain IOD conformance (Type 3 versus Type 2)
-* X/D – X unless Z is required to maintain IOD conformance (Type 3 versus Type 1)
-* X/Z/D – X unless Z or D is required to maintain IOD conformance (Type 3 versus Type 2 versus Type 1)
-* X/Z/U* – X unless Z or replacement of contained instance UIDs (U) is required to maintain IOD conformance (Type 3 versus Type 2 versus Type 1 sequences containing UID references)
+The [DICOM type](http://dicom.nema.org/dicom/2013/output/chtml/part05/sect_7.4.html) is often dependent on the [Information Object Definition (IOD)](http://dicom.nema.org/medical/dicom/current/output/chtml/part04/chapter_6.html) of the instance. To avoid DICOM corruption, multiple actions can be defined for a tag, ensuring that destructive actions like REMOVE won't be applied on Type 1 or Type 2 attributes.
 
-Karnak loads the SOPs and attributes as specified in the DICOM Standard. Based on the tag's type in the current instance, the proper action is set and applied. If the tag cannot be identified in the SOP or its type cannot be inferred, the strictest action will be applied (U/D > Z > X). 
+**Combined actions:**
 
-Below is a concrete illustration of the action applied in case of multiple actions defined in the Basic Profile:
+| Action | Behavior                                                                                           |
+|--------|----------------------------------------------------------------------------------------------------|
+| **Z/D** | Z unless D is required to maintain IOD conformance (Type 2 versus Type 1)                          |
+| **X/Z** | X unless Z is required to maintain IOD conformance (Type 3 versus Type 2)                          |
+| **X/D** | X unless D is required to maintain IOD conformance (Type 3 versus Type 1)                          |
+| **X/Z/D** | X unless Z or D is required to maintain IOD conformance (Type 3 versus Type 2 versus Type 1)       |
+| **X/Z/U*** | X unless Z or replacement of contained instance UIDs (U) is required to maintain IOD conformance. (Type 3 versus Type 2 versus Type 1 sequences containing UID references) |
 
-* Z/D, X/D, X/Z/D → apply action D
-* X/Z → apply action Z
-* X/Z/U, X/Z/U* → apply action U
+**Action Selection:**
 
-## Action D, without a dummy value
+Karnak loads the SOPs and attributes as specified in the DICOM Standard. Based on the tag's type in the current instance, the proper action is set and applied. 
 
-The action D replaces the tag value with a dummy one. This value must be consistent with the [Value Representation](http://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_6.2.html) (VR) of the tag.
+> [!INFO]
+> If the tag cannot be identified in the SOP or its type cannot be inferred, the strictest action will be applied (U/D > Z > X).
 
-Karnak will use a default value based on the VR in this case, as defined below:
+**Examples of action resolution:**
 
-* AE, CS, LO, LT, PN, SH, ST, UN, UT, UC, UR → “UNKNOWN”
-* DS, IS → “0”
-* AS, DA, DT, TM → a date is generated using shiftRange(), as explained in the [Shift Date](#shift-date-generate-a-random-date) section
-* UI → a new UID is generated using the [Action U](#action-u-generate-a-new-uid)
+- **Z/D, X/D, X/Z/D** → apply action **D**
+- **X/Z** → apply action **Z**
+- **X/Z/U, X/Z/U*** → apply action **U**
 
-The *shiftRange()* action will return a random value between a given maximum days and seconds. By default, maximum days is set to **365** and maximum seconds is set to **86400**.
+---
 
-The following VRs FL, FD, SL, SS, UL, US are of type Binary. By default, Karnak will set to null the value of this VR.
+## Action D: Replace with Dummy Value
 
-## Action U, Generate a new UID
+The action D replaces the tag value with a dummy one that is consistent with the [Value Representation](http://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_6.2.html) (VR) of the tag.
 
-For each U action, Karnak will hash the input value. A one-way function is created to ensure that it is not possible to revert to the original UID. This function will hash the input UID and generate a new UID from the hashed input.
+### Default Values by VR
 
-### Context
+Karnak uses these default values based on the VR when no specific dummy value is defined:
 
-It’s possible for a DICOM study to be de-identified several times and in different ways, potentially implying the use of multiple hashing and one-way functions. Karnak ensures deterministic generation of UIDs in order to maintain the quality and usability of the data.
+| Value Representation | Default Value | Notes |
+|----------------------|---------------|-------|
+| AE, CS, LO, LT, PN, SH, ST, UN, UT, UC, UR | `"UNKNOWN"` | Text-based values |
+| DS, IS | `"0"` | Numeric strings |
+| AS, DA, DT, TM | Generated date/time | Uses [Shift Date](#shift-date-generate-a-random-date) |
+| UI | Generated UID | Uses [Action U](#action-u-generate-a-new-uid) |
+| FL, FD, SL, SS, UL, US | Null | Binary values set to null |
 
-To achieve that behavior, a project must be created and associated to the destination that requires de-identification. A project defines a de-idenfication method and a secret, either generated randomly or imported by the user. **The project's secret will be used as key for the HMAC.**
+### Date Generation
 
-#### Project secret
+For date and time VRs (AS, DA, DT, TM), the **shiftRange()** function generates a random value within configurable limits:
 
-**The secret is 16 bytes long** and randomly defined when the project is created.
+- **Default maximum days:** 365
+- **Default maximum seconds:** 86400
 
-A user can upload his own secret, but it must be 16 bytes long. It can be uploaded as a String in hexadecimal format.
+---
 
-### Hash function
+## Action U: Generate a New UID
 
-The algorithm used for hashing is the “Message Authentication Code” (MAC). Karnak uses the MAC, not as message authentication, but as a one-way function. Below is a definition from the [JAVA Mac class](https://docs.oracle.com/en/java/javase/14/docs/api/java.base/javax/crypto/Mac.html) used in Karnak:
+For each U action, Karnak hashes the input value using a one-way function to ensure it's not possible to revert to the original UID. The function hashes the input UID and generates a new deterministic UID from the result.
 
-« *A MAC provides a way to check the integrity of information transmitted over or stored in an unreliable medium, based on a secret key. Typically, message authentication codes are used between two parties that share a secret key in order to validate information transmitted between these parties.*
+### Context and Project Secrets
 
-*A MAC mechanism that is based on cryptographic hash functions is referred to as HMAC. HMAC can be used with any cryptographic hash function, e.g., SHA256 or SHA384, in combination with a secret shared key. HMAC is specified in RFC 2104.* »
+A DICOM study may be de-identified multiple times using different methods. Karnak ensures deterministic UID generation to maintain data quality and usability.
 
-For each use of the HMAC, it uses the **SHA256** hash function **combined with the project's secret**.
+**Requirements:**
 
-### Generate UID
+1. A project must be created and associated with the destination
+2. The project defines a de-identification method and a secret
+3. The project's secret is used as the key for the HMAC algorithm
 
-« *What DICOM calls a "UID" is referred to in the ISO OSI world as an Object Identifier (OID)* » [[1]] 
+#### Project Secret Format
 
-To generate a new DICOM UID, Karnak will create an OID beginning with “2.25”, that is an OID encoded UUID. 
+> [!INFO]
+> The secret is 16 bytes long and randomly generated when the project is created.
 
-« *The value after "2.25." is the straight decimal encoding of the UUID as an integer. It MUST be a direct decimal encoding of the single integer, all 128 bits.* » [[2]]
+Users can upload their own secret, but it must be exactly 16 bytes long in hexadecimal format.
 
-[1]: <https://www.dclunie.com/medical-image-faq/html/part2.html>
-[2]: https://wiki.ihe.net/index.php/Creating_Unique_IDs_-_OID_and_UUID "How do you create an OID ?"
+### Hash Function
 
-The generated UUID will use the first 16 bytes (128 bits) from the hash value. The UUID is a type 4 with a variant 1. See the pseudocode below to ensure the type and the variant are correct in the UUID:
+The algorithm used is "Message Authentication Code" (MAC). Karnak uses MAC as a one-way function rather than for message authentication.
+
+According to the [Java Mac class documentation](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/javax/crypto/Mac.html):
+
+> *A MAC provides a way to check the integrity of information transmitted over or stored in an unreliable medium, based on a secret key. Typically, message authentication codes are used between two parties that share a secret key in order to validate information transmitted between these parties.*
+>
+> *A MAC mechanism that is based on cryptographic hash functions is referred to as HMAC. HMAC can be used with any cryptographic hash function, e.g., SHA256 or SHA384, in combination with a secret shared key. HMAC is specified in RFC 2104.*
+
+**Karnak's HMAC Configuration:**
+
+- **Hash function:** SHA256
+- **Secret key:** Project's secret (16 bytes)
+
+### UID Generation Process
+
+Karnak generates a new [DICOM UID](https://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_B.2.html) that starts with the OID root `"2.25"` followed by a decimal representation of a UUID derived from the HMAC hash.
+
+The value after "2.25." is the straight decimal encoding of the UUID as an integer. It must be a direct decimal encoding of the single integer, all 128 bits. See [How do you create an OID?](https://wiki.ihe.net/index.php/Creating_Unique_IDs_-_OID_and_UUID)
+
+
+#### UUID Generation Algorithm
+
+The generated UUID uses the first 16 bytes (128 bits) from the hash value as a UUID type 4 with variant 1.
+
+**Pseudocode to ensure correct UUID type and variant:**
 
 ```
 // Version
@@ -106,22 +140,31 @@ uuid[8] &= 0x3F
 uuid[8] != 0x80
 ```
 
-The hashed value will be converted in a positive decimal number and appended to the OID root separated by a dot. See the example below:
+**Final UID format:**
 
 ```
-OID_ROOT = “2.25”
-uuid = OID_ROOT + “.” + HashedValue[0:16].toPositiveDecimal()
+uuid = “2.25.” + HashedValue[0:16].toPositiveDecimal()
 ```
 
-## Shift Date, Generate a random date
+## Shift Date: Generate a Random Date
 
-Karnak implements a randomized date shifting action. This shift must be identical based on the project and **the patient** for data consistency. For example, if a random shift is made for the birthdate of the patient "José Santos", it must be the same for each instance associated to "José Santos", even if the instance is loaded later.
+Karnak implements randomized date shifting that is consistent per patient and project, ensuring data consistency across all instances for the same patient.
 
-The random shift date action will use the HMAC defined above and a range of days or seconds defined by the user. If the minimum isn't specified, it defaults to 0.
+### Algorithm
 
-The patientID, along with the project's secret, will be passed to the HMAC, ensuring data consistency by patient.
+The random shift uses the HMAC function (defined above) with a configurable range of days or seconds. 
 
-The code below illustrates how a random value is generated within a given minimum (inclusive) and maximum (exclusive) range.
+**Default values:**
+- Minimum: 0 (if not specified)
+- Maximum: User-defined
+
+**Process:**
+
+1. The Patient ID is hashed using the project's secret
+2. The hash is converted to a numeric value within the specified range
+3. The same shift is applied to all date fields for that patient
+
+**Pseudocode:**
 
 ```
 scaleHash(PatientID, scaledMin, scaledMax):
@@ -131,76 +174,98 @@ scaleHash(PatientID, scaledMin, scaledMax):
     shift = (patientHashed[0:6].toPositiveDecimal() * scale) + scaledMin
 ```
 
-## Pseudonym
+> [!INFO]
+> The Patient ID combined with the project's secret ensures that date shifts are deterministic per patient while remaining unpredictable across different patients.
 
-This chapter details the problems linked to the PatientID generation for different de-identification methods. 
+## Pseudonymization
 
-A patient can participate in several studies using different de-identification methods. Depending on the project or the clinical research, the de-identification profile can keep some of the patient's metadata. A pseudonym and a patientID are generated and affected to the patient in order to identify him in the context of the project.
+This section explains how Karnak handles Patient ID generation to prevent data leakage across different de-identification methods.
 
-Most of the patient's identifying information is contained in the [Patient Module](http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.2.html). 
+### The Problem
 
-Below is illustrated a case where some patient's data could be leaked. During the de-identification, the patient is associated with a pseudonym provided by an external service or mapping table.
-In this example, a patient's study falls in the scope of two different projects in Karnak. The first de-identification removes the patient birthdate (*3. Apply Project 1*) and the second keeps it (*5. Apply Project 2*). If the patient pseudonym is used as patient identification in the Patient Module, and the data is reconciled between the two study, the birthdate will be leaked. 
+A patient participating in multiple research projects may encounter different de-identification methods. Most patient identifying information is contained in the [Patient Module](http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.2.html).
+
+**Risk scenario:**
+
+If the same pseudonym is used across projects with different de-identification profiles, data can be leaked when studies are reconciled.
+
+#### Example: Data Leakage Risk
+
+In this example, a patient's study falls within the scope of two different projects:
+- **Project 1**: Removes the patient birthdate
+- **Project 2**: Keeps the patient birthdate
+
+If the patient pseudonym is used as patient identification and the data is reconciled, the birthdate will be leaked.
 
 ![Pseudonymization](/profiles/pseudonymization_karnak.png)
 
-Below is illustrated an alternative way of handling pseudonyms during the de-identification.
+### The Solution: Project-Specific Patient IDs
 
-In this example, the patient is still associated with a pseudonym provided by an external service or mapping table. But Karnak will generate a PatientID based on this pseudonym and other characteristics linked to the project specifically. This ID will be used to identify the patient in the context of the project. In case of different de-identification methods in different projects, the patients cannot be reconciled and data won't be leaked.  
+Karnak generates a unique Patient ID based on the pseudonym and project-specific characteristics. This prevents reconciliation across projects and eliminates data leakage.
 
 ![Generate PatientID](/profiles/pseudonymization_patientIDGenerated_karnak.png)
 
-### PatientID generation
+### PatientID Generation
 
-Karnak generates a PatientID to solve the problem explained previously. The PatientID is generated using the HMAC function defined in the project, see chapter [Action U, Generate a new UID](#action-u-generate-a-new-uid) for more details.
+The de-identified Patient ID is generated as follows:
 
-The de-identified patientID is generated as follows :
+1. The patient's pseudonym is retrieved from an external service or mapping table
+2. The pseudonym is hashed using the HMAC function and the project's secret
+3. The Patient ID is set to the first 16 bytes of the hashed pseudonym (in hexadecimal format)
 
-* the patient's pseudonym is retrieved from an external service or a mapping table 
-* the pseudonym is hashed using the hmac function and the project's secret, making it unique and deterministic in the context of the project
-* the patientID is set to the first 16 bytes of the hashed pseudonym
+> [!INFO]
+> This makes the Patient ID unique and deterministic within the context of the project, preventing cross-project reconciliation.
 
-The pseudonym will be used as the patient's name if no other action has been defined during de-identification. 
+**Patient Name:**
 
-### Keep the correspondence between pseudonym and patient
+The pseudonym is used as the Patient's Name if no other action has been defined during de-identification.
 
-It is possible to retrieve the patient information once de-identified.
 
-The patientID is generated from the pseudonym and the project's secret using the hmac function, making it irreversible. The pseudonym is stored in the attribute **Clinical Trial Subject ID** **(0012,0040)**. Using the mapping table or the service that provided the pseudonym, it is possible to retrieve the original patient identity.
+## Attributes Added by Karnak
 
-« *The Clinical Trial Subject ID (0012,0040) identifies the subject within the investigational protocol specified by Clinical Trial Protocol ID (0012,0020).* » [[3]]
+Karnak automatically sets certain attributes during de-identification to maintain compliance and traceability.
 
-[3]: http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.7.html#sect_C.7.1.3.1.6
-## Attributes added by Karnak
+### SOP Common Module
 
-Some attributes are automatically set by Karnak during de-identification in the following modules.
+The following attributes are set in the [SOP Common Module](http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.12.html#sect_C.12.1):
 
-### SOP Common
-
-The following attributes are set in the [*SOP Common module*](http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.12.html#sect_C.12.1) during de-identification:
-
-* **Instance Creation Time (0008,0013)**, is set to the time the SOP instance was created. The value representation used is TM (HHMMSS.FFFFFF).
-* **Instance Creation Date (0008,0012)**, is set to the date the SOP instance was created. The value representation used is DA (YYYYMMDD).
+| Tag | Attribute Name | Value | Format |
+|-----|----------------|-------|--------|
+| **(0008,0013)** | Instance Creation Time | Time the SOP instance was created | TM (HHMMSS.FFFFFF) |
+| **(0008,0012)** | Instance Creation Date | Date the SOP instance was created | DA (YYYYMMDD) |
 
 ### Patient Module
 
-The following attributes are set in the [*SOP Common module*](http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.12.html#sect_C.12.1) during de-identification:
+The following attributes are set in the [Patient Module](http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.7.html#sect_C.7.1.1):
 
-* **Patient ID (0010,0020)**, is set to the hashed pseudonym, see [PatientID Generation](#patientid-generation) for more details
-* **Patient Name (0010,0010)** is set to the pseudonym if no other action is applied to that tag during de-identification
-* **Patient Identity Removed (0012,0062)** is set to **YES**
-* **De-identification Method (0012,0063)** is set to the concatenated profile element codenames applied to the instance in order of application
+| Tag | Attribute Name | Value | Notes |
+|-----|----------------|-------|-------|
+| **(0010,0020)** | Patient ID | Hashed pseudonym | See [PatientID Generation](#patientid-generation) |
+| **(0010,0010)** | Patient Name | Pseudonym | If no other action is applied |
+| **(0012,0062)** | Patient Identity Removed | `YES` | Indicates de-identification |
+| **(0012,0063)** | De-identification Method | Concatenated profile codenames | See format below |
 
-The profile element codenames are concatenated and separated by **-**. 
-For example, a profile composed of the profile elements *action.on.specific.tags* and *basic.dicom.profile* will appear as *action.on.specific.tags-basic.dicom.profile*.
+#### De-identification Method Format
+
+Profile element codenames are concatenated and separated by `-`.
+
+**Example:**
+
+A profile composed of:
+- `action.on.specific.tags`
+- `basic.dicom.profile`
+
+Will appear as: `action.on.specific.tags-basic.dicom.profile`
 
 ### Clinical Trial Subject Module
 
-The following attributes are set in the [*Clinical Trial Subject Module*](http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.7.html#sect_C.7.1.3) during de-identification:
+The following attributes are set in the [Clinical Trial Subject Module](http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.7.html#sect_C.7.1.3):
 
-* **Clinical Trial Sponsor Name (0012,0010)** is set to the project name
-* **Clinical Trial Protocol ID (0012,0020)** is set to the profile codename (concatenated profile elements' codename)
-* **Clinical Trial Protocol Name (0012,0021** is set to null
-* **Clinical Trial Site ID (0012,0030)** is set to null
-* **Clinical Trial Site Name (0012,0031)** is set to null
-* **Clinical Trial Subject ID (0012,0040)** is set to the patient's pseudonym
+| Tag | Attribute Name | Value |
+|-----|----------------|-------|
+| **(0012,0010)** | Clinical Trial Sponsor Name | Project name |
+| **(0012,0020)** | Clinical Trial Protocol ID | Profile codename (concatenated) |
+| **(0012,0021)** | Clinical Trial Protocol Name | Null |
+| **(0012,0030)** | Clinical Trial Site ID | Null |
+| **(0012,0031)** | Clinical Trial Site Name | Null |
+| **(0012,0040)** | Clinical Trial Subject ID | Pseudonym |

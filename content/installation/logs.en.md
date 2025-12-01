@@ -4,35 +4,42 @@ weight: 10
 description: Configure the logging system in Karnak
 ---
 
-Karnak offers the possibility of injecting your own log configuration.
+Karnak offers the possibility of injecting your own log configuration to customize how logs are generated and stored.
 
-The logging system used by Karnak is [logback](http://logback.qos.ch/). For more details on logback, it provides a [manual](http://logback.qos.ch/manual/index.html)
+The logging system used by Karnak is [Logback](http://logback.qos.ch/). For detailed information about Logback configuration, see the [official manual](http://logback.qos.ch/manual/index.html).
 
-## Variables
+## Available Variables
 
-Some variables are available and can be used in the logback file.
+The following variables can be used in your custom Logback configuration file to capture specific de-identification context:
 
-* `issuerOfPatientID` are the issuer of patient ID **before** the deidentification
-* `PatientID` are the patient ID **before** the deidentification
-* `SOPInstanceUID` are the SOPInstanceUID **before** the deidentification
-* `DeidentifySOPInstanceUID` are the SOPInstanceUID **after** the deidentification
-* `SeriesInstanceUID` are the SeriesInstanceUID **before** the deidentification
-* `DeidentifySeriesInstanceUID` are the SeriesInstanceUID **after** the deidentification
-* `ProjectName` are the project name used for the deidentification
-* `ProfileName` are the profile name used for the deidentification
-* `ProfileCodenames` are a list of concatenated profile items that has been used for the deidentification
+| Variable | Description |
+|----------|-------------|
+| **issuerOfPatientID** | Issuer of patient ID **before** de-identification |
+| **PatientID** | Patient ID **before** de-identification |
+| **SOPInstanceUID** | SOP Instance UID **before** de-identification |
+| **DeidentifySOPInstanceUID** | SOP Instance UID **after** de-identification |
+| **SeriesInstanceUID** | Series Instance UID **before** de-identification |
+| **DeidentifySeriesInstanceUID** | Series Instance UID **after** de-identification |
+| **ProjectName** | Project name used for de-identification |
+| **ProfileName** | Profile name used for de-identification |
+| **ProfileCodenames** | Concatenated list of profile items applied during de-identification |
 
-## Inject the logback configuration file
+For usage examples, see the [default Logback configuration](https://github.com/OsiriX-Foundation/karnak/blob/master/src/main/resources/logback.xml#L112-L114).
 
-### By using docker
+## Inject the Logback Configuration File
 
-You must set the environment variable `LOGBACK_CONFIGURATION_FILE` with the path of Logback file configuration, it will override the default log file.
+### Using Docker
 
-For example, if you create your own configuration with the file name `my-logback.xml` at the root of the docker-compose.yml.
+Set the environment variable `LOGBACK_CONFIGURATION_FILE` with the path to your Logback configuration file. This will override the default log configuration.
 
-You must create a volume that will copy the file in the Karnak docker and define the environment variable `LOGBACK_CONFIGURATION_FILE` with the path of the file in the docker container.
+**Example:**
 
-```
+If you create a custom configuration file named `my-logback.xml` in the same directory as your `docker-compose.yml`:
+
+1. Create a volume to mount the file inside the Karnak container
+2. Define the `LOGBACK_CONFIGURATION_FILE` environment variable with the container path
+
+```yaml
 services:
   karnak:
     container_name: karnak
@@ -43,158 +50,42 @@ services:
       LOGBACK_CONFIGURATION_FILE: /logs/my-logback.xml
 ```
 
-### By using JAVA
+### Using Java
 
-If you use directly the Karnak jar, you must add the following parameter at the startup:
+If you run Karnak directly from the JAR file, add the following parameter at startup: `-Dlogging.config=my-logback.xml`
 
-`-Dlogging.config=my-logback.xml`
+## Default Logback Configuration
 
-## Default logback file
+The default [logback configuration file](https://github.com/OsiriX-Foundation/karnak/blob/master/src/main/resources/logback.xml) supports two operating modes:
 
-The default [logback file](https://github.com/OsiriX-Foundation/karnak/blob/master/src/main/resources/logback.xml) (see below) has two modes.
+### Development Mode
 
-### Dev Mode
+* Set the `ENVIRONMENT` variable to `DEV` to activate this mode
+* Logs everything at the `INFO` level by default
+* Packages `org.karnak` and `org.weasis` are logged at the `DEBUG` level for detailed troubleshooting
 
-* The variable `ENVIRONMENT` must be set to `DEV` to be activate.
-* Log everything at the `INFO` level except for the package `org.karnak` and `org.weasis`, they are at the `DEBUG` level.
 
 ### Production Mode
 
-* Always activate, except if the variable `ENVIRONMENT` is set to `DEV`.
-* Logs everything at the `WARN` level
-* Writes all.log file, it contains:
-  * Every `WARN` level log
-  * `org.weasis` `INFO` level log
-  * `org.karnak` `INFO` level log, excepted clinical log
-* Writes clinical.log, it contains:
-  * Every log with the marker `CLINICAL` which concerns the deidentification
+* Active by default (when `ENVIRONMENT` is not set to `DEV`)
+* Logs everything at the `WARN` level or higher
+* Creates two log files:
 
-```xml
+#### all.log
 
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-    <property name="LOGS" value="logs" />
-    <!--
-    DEV LOGS
-    Condition to verify if "ENVIRONMENT" is "DEV"
-    -->
-    <if condition='property("ENVIRONMENT").contains("DEV")'>
-        <then>
-            <!--
-            How the logs will be displayed in the standard output (console)
-            SOPInstanceUID, issuerOfPatientID and PatientID are variables to associate the current DICOM with the log
-            -->
-            <appender name="DEV_OUT" class="ch.qos.logback.core.ConsoleAppender">
-                <encoder>
-                    <Pattern>%black(%d{ISO8601})  %highlight(%-5level) %marker %highlight(%X{SOPInstanceUID}) %highlight(%X{issuerOfPatientID}) %highlight(%X{PatientID}) [%yellow(%t)] %yellow(%C{1.}): %msg%n%throwable</Pattern>
-                </encoder>
-            </appender>
-            <!--
-            Log everything at the INFO level except for the package org.karnak and org.weasis, they are at the DEBUG level.
-            -->
-            <root level="info">
-                <appender-ref ref="DEV_OUT" />
-            </root>
-            <logger name="org.weasis" level="debug" />
-            <logger name="org.karnak" level="debug" />
-        </then>
-        <!--
-        PRODUCTION LOGS
-        -->
-        <else>
-            <!--
-            How the warning logs will be displayed in the standard output (console)
-            SOPInstanceUID, issuerOfPatientID and PatientID are variables to associate the current DICOM with the log
-            -->
-            <appender name="WARNING_OUT" class="ch.qos.logback.core.ConsoleAppender">
-                <!--
-                Log only at WARN level
-                -->
-                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-                    <level>WARN</level>
-                </filter>
-                <encoder>
-                    <Pattern>%black(%d{ISO8601})  %highlight(%-5level) %marker %highlight(%X{SOPInstanceUID}) %highlight(%X{issuerOfPatientID}) %highlight(%X{PatientID}) [%yellow(%t)] %yellow(%C{1.}): %msg%n%throwable </Pattern>
-                </encoder>
-            </appender>
-            <!--
-            Write all.log file in the file system.
-            -->
-            <appender name="ALL_LOGS" class="ch.qos.logback.core.rolling.RollingFileAppender">
-                <file>${LOGS}/all/all.log</file>
-                <!--
-                Window rolling policy defined by the variable KARNAK_LOGS_MIN_INDEX or KARNAK_LOGS_MAX_INDEX
-                By default the min is 1 and the max is 10
-                -->
-                <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-                    <fileNamePattern>${LOGS}/all/all_%i.log</fileNamePattern>
-                    <minIndex>${KARNAK_LOGS_MIN_INDEX:-1}</minIndex>
-                    <maxIndex>${KARNAK_LOGS_MAX_INDEX:-10}</maxIndex>
-                </rollingPolicy>
-                <!--
-                Size rolling policy defined by the variable KARNAK_LOGS_MAX_FILE_SIZE
-                By default the max file size is 50MB
-                -->
-                <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-                    <maxFileSize>${KARNAK_LOGS_MAX_FILE_SIZE:-50MB}</maxFileSize>
-                </triggeringPolicy>
-                <!--
-                Filter not to write logs with the clinical marker
-                -->
-                <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-                    <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
-                        <marker>CLINICAL</marker>
-                    </evaluator>
-                    <onMismatch>NEUTRAL</onMismatch>
-                    <onMatch>DENY</onMatch>
-                </filter>
-                <encoder>
-                    <pattern>%d %-5level %m%n</pattern>
-                </encoder>
-            </appender>
-            <!--
-            Write clinical.log file in the file system.
-            Will contains only the logs with the CLINICAL marker. The logs with CLINICAL marker concerns the information about the deidentification.
-            Variables used for the CLINICAL log:
-            SOPInstanceUID, DeidentifySOPInstanceUID, SeriesInstanceUID, DeidentifySeriesInstanceUID, ProjectName, ProfileName, ProfileCodenames
-			-->
-            <appender name="CLINICAL_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-                <file>${LOGS}/Clinical/clinical.log</file>
-                <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-                    <fileNamePattern>${LOGS}/Clinical/clinical_%i.log</fileNamePattern>
-                    <minIndex>${KARNAK_CLINICAL_LOGS_MIN_INDEX:-1}</minIndex>
-                    <maxIndex>${KARNAK_CLINICAL_LOGS_MAX_INDEX:-10}</maxIndex>
-                </rollingPolicy>
+Contains:
+* All `WARN` level logs and above
+* `org.weasis` logs at `INFO` level
+* `org.karnak` logs at `INFO` level (excluding clinical logs)
 
-                <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-                    <maxFileSize>${KARNAK_CLINICAL_LOGS_MAX_FILE_SIZE:-50MB}</maxFileSize>
-                </triggeringPolicy>
+#### clinical.log
 
-                <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-                    <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
-                        <marker>CLINICAL</marker>
-                    </evaluator>
-                    <onMismatch>DENY</onMismatch>
-                    <onMatch>NEUTRAL</onMatch>
-                </filter>
-                <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-                    <Pattern>%d SOPInstanceUID_OLD=%X{SOPInstanceUID} SOPInstanceUID_NEW=%X{DeidentifySOPInstanceUID} SeriesInstanceUID_OLD=%X{SeriesInstanceUID} SeriesInstanceUID_NEW=%X{DeidentifySeriesInstanceUID} ProjectName=%X{ProjectName} ProfileName=%X{ProfileName} ProfileCodenames=%X{ProfileCodenames}</Pattern>
-                </encoder>
-            </appender>
+Contains:
+* All logs marked with the `CLINICAL` marker
+* Specifically tracks de-identification operations and clinical data processing
 
-            <!--
-            Log everything at the WARN level except for the package org.karnak and org.weasis, they are at the INFO level.
-            The INFO logs won't appear in the standard output, because they will be filtered by the WARNING_OUT appender
-            -->
-            <root level="warn">
-                <appender-ref ref="ALL_LOGS" />
-                <appender-ref ref="CLINICAL_FILE" />
-                <appender-ref ref="WARNING_OUT" />
-            </root>
-            <logger name="org.weasis" level="info" />
-            <logger name="org.karnak" level="info" />
-        </else>
-    </if>
-</configuration>
-```
+> [!INFO]
+> Clinical logs provide detailed tracking of the de-identification process, including which profiles were applied and how patient data was transformed. This is useful for auditing and compliance purposes.
+
+
 

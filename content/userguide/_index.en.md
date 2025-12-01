@@ -4,7 +4,7 @@ weight: 5
 description: User guide for the Karnak web interface
 ---
 
-This user guide provides a detailed overview of each page available in the Karnak web interface, focusing on the sections listed in the left-hand menu.
+This user guide provides a comprehensive overview of the Karnak web interface, covering configuration, management, and operational features. Most of the sections below correspond to specific functionalities accessible from the left-hand menu in the main Karnak interface.
 
 {{% children description="true" %}}
 

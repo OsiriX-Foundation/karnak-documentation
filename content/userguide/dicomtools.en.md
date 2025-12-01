@@ -1,95 +1,148 @@
 ---
-title: DICOM tools
+title: DICOM Tools
 weight: 70
-description: DICOM tools for checking the connection to a DICOM server
+description: DICOM tools for testing connectivity and querying DICOM servers
 ---
 
-This page provides an overview of the utility tools available in the DICOM Tools module, designed to assist with connectivity, query, and status checks for DICOM servers. These tools enable users to:
-- Test the availability of a DICOM node using _DICOM Echo_
-- Query a _DICOM Worklist_ and display the DICOM result
-- Group and _monitor_ DICOM nodes using DICOM Echo and WADO protocols
+This page provides an overview of utility tools available in the DICOM Tools module, designed to assist with connectivity testing, querying, and status monitoring of DICOM servers. These tools enable users to:
 
-The different modules are accessed through the tabs at the top of the page.
+- Test DICOM node availability using **DICOM Echo**
+- Query a **DICOM Worklist** and display results
+- **Monitor** multiple DICOM nodes using DICOM Echo and WADO protocols
+
+The different modules are accessed through tabs at the top of the page.
+
+> [!INFO]
+> Currently, the persistence of DICOM nodes and worklists is not supported. Configured nodes and worklists come from [CSV files](https://github.com/OsiriX-Foundation/karnak/tree/master/src/main/resources/config) that are loaded when the Karnak server starts.
+
+## DICOM Echo
+
+This tool tests DICOM communication between two Application Entity Titles (AETs).
 
 ![DICOM Tools main page](/userguide/dicomtools_mainpage.png)
 
-Those functionalities will be presented in details below.
+### Configuration Fields
 
-### DICOM Echo tab
+The following fields must be configured to execute an Echo test:
 
-This tool tests the DICOM communication between 2 AETs.
+| Field | Description | Required |
+|-------|-------------|----------|
+| **Calling AETitle** | Identity of the calling DICOM entity | Yes |
+| **Called AETitle** | Identity of the DICOM entity to test | Yes |
+| **Called Hostname** | Hostname or IP address of the DICOM node | Yes |
+| **Called Port** | Port number of the DICOM node | Yes |
 
-The field "Calling AETitle" defines the identity of the calling DICOM entity. The field "Called AETitle" defines the identity of the DICOM entity to test. The field "Called Hostname" and "Called Port" define the hostname and port of the DICOM node to test.
+All fields are mandatory to execute the Echo test.
 
-All the fields are mandatory to execute the ECHO test. 
+### Running the Test
 
-Clicking on the button "Echo" will launch the connectivity test and DICOM Echo command. Below is an example of a successful test.
+Click the **Echo** button to launch the connectivity test and DICOM Echo command.
+
+#### Successful Test
+
+Below is an example of a successful DICOM Echo test:
 
 ![DICOM Tools Echo success](/userguide/dicomtools_successecho.png)
 
-In this example, the "Called AETitle" value is purposely wrong, we can see that the network connectivity test is successful but not the DICOM Echo, displaying the reason of the failure.
+#### Failed Test
+
+In this example, the "Called AETitle" value is intentionally incorrect. The network connectivity test succeeds, but the DICOM Echo fails, displaying the reason for the failure:
 
 ![DICOM Tools Echo error](/userguide/dicomtools_echoerror.png)
 
-#### Select Node Utility
+### Select Node Utility
 
-The Select Node popup can be displayed by clicking on the "Select Node" button. 
+The **Select Node** popup simplifies configuration by allowing you to choose from pre-configured DICOM nodes.
+
+Click the **Select Node** button to open the popup:
 
 ![DICOM Tools Select Node](/userguide/dicomtools_selectnode.png)
 
-The type of DICOM Node is set in the "Dicom Nodes Type" field. The list of values in the "Dicom Node" field is then updated according to the selected node type. The values can be filtered in this field by typing directly a string that will be matched against the AET, hostname, port or description.
+**Configuration:**
 
-Clicking on the "Select" button will automatically fill the Called AETitle, Called Hostname and Called Port fields with the values of the selected DICOM node.
+1. Choose the node type in the **DICOM Nodes Type** field
+2. The **DICOM Node** dropdown updates automatically based on the selected type
+3. Filter nodes by typing in the field (searches AET, hostname, port, or description)
+4. Click **Select** to auto-fill the Called AETitle, Called Hostname, and Called Port fields
 
-![DICOM Tools Select Node](/userguide/dicomtools_selectnode_result.png)
+![DICOM Tools Select Node result](/userguide/dicomtools_selectnode_result.png)
 
-### DICOM Worklist tab
+## DICOM Worklist
 
-This tool retrieves the content of a DICOM Worklist and tests their behavior and connectivity.
+This tool retrieves and displays the content of a DICOM Worklist to test connectivity and data retrieval.
 
 ![DICOM Tools Worklist main page](/userguide/dicomtools_worklist.png)
 
-###### Worklist Configuration
-The field "Calling AETitle" defines the identity of the calling DICOM entity. The field "Worklist AET" defines the identity of the worklist to test. The field "Worklist Hostname" and "Worklist Port" define the hostname and port of the worklist to test.
+### Worklist Configuration
 
-All the fields are mandatory to retrieve the worklist content.
+Configure the following fields to connect to a worklist:
 
-###### Worklist Query
+| Field | Description | Required |
+|-------|-------------|----------|
+| **Calling AETitle** | Identity of the calling DICOM entity | Yes |
+| **Worklist AET** | Identity of the worklist to query | Yes |
+| **Worklist Hostname** | Hostname or IP address of the worklist | Yes |
+| **Worklist Port** | Port number of the worklist | Yes |
 
-Additionally, some fields are defined to filter the results returned by the worklist. These fields are optional. If none are filled, no filters are applied and all the elements of the worklist are retrieved.
+All fields are mandatory to retrieve worklist content.
 
-###### Query Results
+### Worklist Query Filters
 
-Clicking on the button "Select Worklist" will launch the test and data retrieval. The retrieved worklist data is displayed in a table, that can be sorted by column, by clicking on its header.
+Additional optional fields are available to filter the results returned by the worklist:
+
+- If no filters are specified, all worklist entries are retrieved
+- Multiple filters can be combined to narrow results
+
+### Query Results
+
+Click the **Query Worklist** button to execute the test and retrieve data.
+
+Retrieved worklist data is displayed in a sortable table. Click any column header to sort by that column:
 
 ![Worklist success](/userguide/dicomtools_worklistsuccess.png)
 
-#### Select Worklist Utility
+### Select Worklist Utility
 
-The Select Worklist popup can be displayed by clicking on the "Select Worklist" button. 
+The **Select Worklist** popup allows you to choose from pre-configured worklists.
+
+Click the **Select Worklist** button to open the popup:
 
 ![DICOM Tools Select worklist](/userguide/dicomtools_worklistpopup.png)
 
-A list of available worklist will be displayed and a node can be selected. The worklists can be filtered in this field by typing directly a string that will be matched against the AET, hostname, port or description.
+**Configuration:**
 
-Clicking on the "Select" button will automatically fill the Worklist AET, Worklist Hostname and Worklist Port fields with the values of the selected DICOM worklist.
+1. Browse the list of available worklists
+2. Filter by typing in the search field (searches AET, hostname, port, or description)
+3. Click **Select** to auto-fill the Worklist AET, Worklist Hostname, and Worklist Port fields
 
 ![DICOM Tools Select worklist result](/userguide/dicomtools_worklist_result.png)
 
-### Monitor tab
+## Monitor
 
-This tool checks the status of DICOM nodes using both DICOM and WADO protocols.
+This tool monitors the status of DICOM nodes using both DICOM and WADO protocols, allowing you to verify connectivity and service availability.
 
-![DICOM Tools Monitor](/userguide/dicomtools_monitor.png)
+### DICOM Echo Monitoring
 
-#### DICOM ECHO
+**To test a DICOM node:**
 
-A DICOM node must be selected in the list, and the button "Check" can be clicked to launch the DICOM Echo test for that node. Below is an example of a successful DICOM Echo test.
+1. Select a DICOM node from the list
+2. Click the **Check** button to launch the DICOM Echo test
+
+Below is an example of a successful DICOM Echo monitoring test:
 
 ![Monitor DICOM Echo](/userguide/dicomtools_monitorecho.png)
 
-#### WADO
+### WADO Monitoring
 
-A DICOM node must be selected in the list, and the button "Check" can be clicked to launch the WADO test for that node. Below is an example of a successful WADO test.
+**To test WADO connectivity:**
+
+1. Select a DICOM node from the list
+2. Navigate to the **WADO** tab
+3. Click the **Check** button to launch the WADO test
+
+Below is an example of a successful WADO test:
 
 ![Monitor DICOM WADO](/userguide/dicomtools_monitorwado.png)
+
+> [!INFO]
+> The Monitor tool is useful for regular health checks of your DICOM infrastructure and can help identify connectivity issues before they impact production workflows.
